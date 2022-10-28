@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Home, Assessment, Scale } from "@mui/icons-material";
+import { Home, Poll, Dataset } from "@mui/icons-material";
 
 import "./Sidebar.css";
 
@@ -44,25 +44,25 @@ const Sidebar = () => {
               }}
             >
               <span className="nav-icon">
-                <Assessment />
+                <Poll />
               </span>
               <span className="nav-name">ML Measure</span>
             </li>
             <li
               className={
-                history.location.pathname === "/counter"
+                history.location.pathname === "/contribute"
                   ? "current-navigation"
                   : "navigation"
               }
               onClick={() => {
-                redirectTo("/counter");
+                redirectTo("/contribute");
                 window.scrollTo(0, 0);
               }}
             >
               <span className="nav-icon">
-                <Scale />
+                <Dataset />
               </span>
-              <span className="nav-name">ML Counter</span>
+              <span className="nav-name">ML Contribute</span>
             </li>
           </ul>
         </div>

@@ -8,7 +8,7 @@ import {
 
 import Home from "./pages/home/Home";
 import Measure from "./pages/measure/Measure";
-import Counter from "./pages/counter/Counter";
+import Contribute from "./pages/contribute/Contribute";
 
 const App = () => {
   return (
@@ -17,7 +17,10 @@ const App = () => {
         <Switch>
           <Route path="/home" render={(props) => <Home {...props} />} />
           <Route path="/measure" render={(props) => <Measure {...props} />} />
-          <Route path="/counter" render={(props) => <Counter {...props} />} />
+          <Route
+            path="/contribute"
+            render={(props) => <Contribute {...props} />}
+          />
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>
