@@ -5,4 +5,12 @@
 
 .work-in-progress {
   flex: 8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.work-in-progress-gif {
+  height: 500px;
+  width: 500px;
 }
