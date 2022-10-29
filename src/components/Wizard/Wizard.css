@@ -1,3 +1,17 @@
 .wizard-wrapper {
   flex: 8;
 }
+
+.wizard-container {
+  margin: 0.75rem;
+  padding: 0.75rem;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-group {
+  display: flex;
+}
