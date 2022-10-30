@@ -3,8 +3,7 @@
   background-color: #f3f3fe;
   border-radius: 0.375rem;
   box-shadow: 0px 1px 2px 0px #1018280f, 0px 1px 3px 0px #1018281a;
-  margin-right: 2rem; /* 32px */
-  margin-bottom: 0.75rem; /* 12px */
+  margin: 2rem;
   padding: 1.5rem; /* 24px */
   min-width: 12rem; /* 192px */
   cursor: pointer;
