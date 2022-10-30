@@ -28,14 +28,25 @@
   background-color: #0a1551;
 }
 
+.metadata {
+  background-color: #37c768;
+}
+
+.version {
+  background-color: #f87171;
+}
+
 .icon {
   color: white;
-  font-size: 32px;
+  font-size: 30px;
+  display: flex;
+  
 }
 
 .text-area {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .heading {

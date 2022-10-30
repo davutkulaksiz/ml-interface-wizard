@@ -19,7 +19,7 @@ const Card = ({ type, heading, text }) => {
       )}
       {type === "metadata" && (
         <>
-          <div className="icon-area">
+          <div className="icon-area metadata">
             <span className="icon">
               <Folder fontSize="large" />
             </span>
@@ -31,7 +31,7 @@ const Card = ({ type, heading, text }) => {
       )}
       {type === "version" && (
         <>
-          <div className="icon-area">
+          <div className="icon-area version">
             <span className="icon">
               <Update fontSize="large" />
             </span>
