@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "../Card/Card";
+import Form from "../Form/Form";
 import "./Wizard.css";
 
 const Wizard = () => {
@@ -16,6 +17,7 @@ const Wizard = () => {
             <Card type="date" heading="Created at" text="22.10.2022" />
           </div>
         </div>
+        <Form />
       </div>
     </div>
   );
