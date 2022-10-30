@@ -17,7 +17,7 @@ const Wizard = () => {
             <Card type="date" heading="Created at" text="22.10.2022" />
           </div>
         </div>
-        <Form />
+        <Form name="Nikola's Magnum Opus -Graduate Model-"/>
       </div>
     </div>
   );

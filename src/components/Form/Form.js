@@ -1,11 +1,13 @@
 import React from "react";
 import "./Form.css";
 
-const Form = () => {
+const Form = (props) => {
   return (
     <div className="form">
       <div className="form-body">
-        <div className="upper-form-area"></div>
+        <div className="upper-form-area">
+          <span className="model-name">{props.name}</span>
+        </div>
         <div className="form-divider"></div>
         <div className="lower-form-area"></div>
       </div>
