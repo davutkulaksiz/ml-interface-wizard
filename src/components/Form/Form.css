@@ -38,4 +38,7 @@
 
 .lower-form-area {
   flex: 3;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 2rem;
 }
