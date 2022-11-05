@@ -9,15 +9,15 @@ const Wizard = () => {
       <div className="wizard-container">
         <div className="info-container">
           <div className="info-group">
-            <Card type="model" heading="Regression" text="" />
-            <Card type="metadata" heading="JSON" text="" />
+            <Card type="model" heading="Regression" />
+            <Card type="metadata" heading="JSON" />
           </div>
           <div className="info-group">
             <Card type="version" heading="Version" text="1.0.2" />
             <Card type="date" heading="Created at" text="22.10.2022" />
           </div>
         </div>
-        <Form name="Nikola's Magnum Opus -Graduate Model-"/>
+        <Form name="Nikola's Magnum Opus -Graduate Model-" />
       </div>
     </div>
   );

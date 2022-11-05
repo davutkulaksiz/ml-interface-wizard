@@ -1,5 +1,5 @@
 import React from "react";
-import { ModelTraining, Folder, Update, Mode } from "@mui/icons-material";
+import { ModelTraining, Folder, Update } from "@mui/icons-material";
 import "./Card.css";
 
 const Card = ({ type, heading, text }) => {
