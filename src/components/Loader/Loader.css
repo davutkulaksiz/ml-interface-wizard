@@ -1,0 +1,27 @@
+.loader {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9998px;
+  border-width: 0.25rem;
+  border-color: #c8ceed;
+  border-top-color: #37c768;
+  border-style: solid;
+  animation: animate 0.7s ease infinite;
+}
+.loader::before {
+  transform: translate(-50%, -50%);
+}
+
+.tiny-loader {
+  width: 1rem !important;
+  height: 1rem !important;
+}
+
+@keyframes animate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
