@@ -1,4 +1,5 @@
 import React from "react";
+import Loader from "../Loader/Loader";
 import "./Form.css";
 
 const Form = (props) => {
@@ -9,7 +10,10 @@ const Form = (props) => {
           <span className="model-name">{props.name}</span>
         </div>
         <div className="form-divider"></div>
-        <div className="lower-form-area"></div>
+        <div className="lower-form-area">
+          <div className="form-components"> {/* FORM COMPONENTS */}</div>
+          <div className="output-area">{/* TOAST */}</div>
+        </div>
       </div>
     </div>
   );
