@@ -9,6 +9,7 @@ import {
 import Home from "./pages/home/Home";
 import Measure from "./pages/measure/Measure";
 import Contribute from "./pages/contribute/Contribute";
+import ImageClassification from "./pages/image-classification/ImageClassification";
 
 const App = () => {
   return (
@@ -20,6 +21,10 @@ const App = () => {
           <Route
             path="/contribute"
             render={(props) => <Contribute {...props} />}
+          />
+          <Route
+            path="/image-classification"
+            render={(props) => <ImageClassification {...props} />}
           />
           <Route exact path="/">
             <Redirect to="/home" />

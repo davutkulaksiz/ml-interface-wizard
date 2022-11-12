@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Home, Poll, Dataset } from "@mui/icons-material";
+import { Home, Poll, Dataset, ImageSearch } from "@mui/icons-material";
 
 import "./Sidebar.css";
 
@@ -63,6 +63,22 @@ const Sidebar = () => {
                 <Dataset />
               </span>
               <span className="nav-name">ML Contribute</span>
+            </li>
+            <li
+              className={
+                history.location.pathname === "/image-classification"
+                  ? "current-navigation"
+                  : "navigation"
+              }
+              onClick={() => {
+                redirectTo("/image-classification");
+                window.scrollTo(0, 0);
+              }}
+            >
+              <span className="nav-icon">
+                <ImageSearch />
+              </span>
+              <span className="nav-name">Image Classification</span>
             </li>
           </ul>
         </div>

@@ -1,0 +1,17 @@
+.model-wrapper {
+  flex: 8;
+}
+
+.model-container {
+  margin: 0.75rem;
+  padding: 0.75rem;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-group {
+  display: flex;
+}

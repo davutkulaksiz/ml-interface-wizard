@@ -6,6 +6,7 @@ import "./Wizard.css";
 
 const Wizard = () => {
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {

@@ -1,0 +1,18 @@
+.image-container {
+  display: flex;
+}
+
+.upload-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-file {
+  margin-bottom: 1rem;
+}
+
+.uploaded-image {
+  max-height: 500px;
+  max-width: 500px;
+  object-fit: cover;
+}
