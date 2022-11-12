@@ -12,7 +12,17 @@
 }
 
 .uploaded-image {
-  max-height: 500px;
-  max-width: 500px;
-  object-fit: cover;
+  height: 480px;
+  width: 640px;
+  object-fit: contain;
+}
+
+.predictions-area {
+  display: flex;
+  flex-direction: column;
+}
+
+.prediction {
+  display: flex;
+  flex-direction: column;
 }

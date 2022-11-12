@@ -3,6 +3,7 @@ import "./ClassificationForm.css";
 
 const ClassificationForm = (props) => {
   const [imageURL, setImageURL] = useState(null);
+  const [predictions, setPredictions] = useState([]);
 
   const imageRef = useRef();
 
@@ -22,7 +23,7 @@ const ClassificationForm = (props) => {
 
   const runModel = async () => {
     const predictions = await props.model.classify(imageRef.current);
-    console.log(predictions);
+    setPredictions(predictions);
   };
 
   return (
@@ -53,7 +54,23 @@ const ClassificationForm = (props) => {
               />
             </div>
           </div>
-          <div className="output-area">{/* TOAST */}</div>
+          <div className="output-area">
+            {predictions.length > 0 && (
+              <div className="predictions-area">
+                {predictions.map((prediction) => {
+                  return (
+                    <div className="prediction" key={prediction.className}>
+                      <span>{prediction.className}</span>
+                      <span>
+                        Probability: {(prediction.probability * 100).toFixed(2)}
+                        %
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
