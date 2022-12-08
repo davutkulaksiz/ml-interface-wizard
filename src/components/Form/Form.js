@@ -1,5 +1,6 @@
 import React from "react";
 import Loader from "../Loader/Loader";
+import Dropdown from "../Dropdown/Dropdown";
 import "./Form.css";
 
 const Form = (props) => {
@@ -11,7 +12,10 @@ const Form = (props) => {
         </div>
         <div className="form-divider"></div>
         <div className="lower-form-area">
-          <div className="form-components"> {/* FORM COMPONENTS */}</div>
+          <div className="form-components">
+            {" "}
+            <Dropdown />
+          </div>
           <div className="output-area">{/* TOAST */}</div>
         </div>
       </div>
