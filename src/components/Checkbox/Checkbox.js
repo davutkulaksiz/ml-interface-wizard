@@ -4,13 +4,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { pink } from "@mui/material/colors";
 import { default as MUICheckbox } from "@mui/material/Checkbox";
 
-const Checkbox = () => {
+const Checkbox = ({ checked, label, onChange }) => {
   return (
     <FormGroup>
       <FormControlLabel
         control={
           <MUICheckbox
-            defaultChecked
+            checked={checked}
+            onChange={onChange}
             sx={{
               color: pink[800],
               "&.Mui-checked": {
@@ -19,7 +20,7 @@ const Checkbox = () => {
             }}
           />
         }
-        label="Label"
+        label={label}
       />
     </FormGroup>
   );
