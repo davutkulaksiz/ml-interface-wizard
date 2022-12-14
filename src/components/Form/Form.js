@@ -3,6 +3,7 @@ import { useState } from "react";
 import Loader from "../Loader/Loader";
 import Dropdown from "../Dropdown/Dropdown";
 import Checkbox from "../Checkbox/Checkbox";
+import RadioButtons from "../RadioButtons/RadioButtons";
 
 import { top100Films } from "../mockData";
 
@@ -11,6 +12,7 @@ import "./Form.css";
 const Form = (props) => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
+  const [radioValue, setRadioValue] = useState("Cat");
 
   const handleCheckboxChange = (event) => {
     setCheckboxChecked(event.target.checked);
@@ -18,6 +20,10 @@ const Form = (props) => {
 
   const handleDropdownChange = (event, newValue) => {
     setDropdownValue(newValue);
+  };
+
+  const handleRadioChange = (event) => {
+    setRadioValue(event.target.value);
   };
 
   return (
@@ -34,6 +40,12 @@ const Form = (props) => {
               checked={checkboxChecked}
               label="Label"
               onChange={handleCheckboxChange}
+            />
+            <RadioButtons
+              value={radioValue}
+              label="Favorite Pet"
+              handleChange={handleRadioChange}
+              options={["Cat", "Dog"]}
             />
           </div>
           <div className="output-area">{/* TOAST */}</div>
