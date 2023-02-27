@@ -1,6 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Home, Poll, Dataset } from "@mui/icons-material";
+import {
+  Home,
+  IntegrationInstructions,
+  Add,
+  SquareFoot,
+} from "@mui/icons-material";
 
 import "./Sidebar.css";
 
@@ -34,6 +39,22 @@ const Sidebar = () => {
             </li>
             <li
               className={
+                history.location.pathname === "/interface-wizard"
+                  ? "current-navigation"
+                  : "navigation"
+              }
+              onClick={() => {
+                redirectTo("/interface-wizard");
+                window.scrollTo(0, 0);
+              }}
+            >
+              <span className="nav-icon">
+                <IntegrationInstructions />
+              </span>
+              <span className="nav-name">Interface</span>
+            </li>
+            <li
+              className={
                 history.location.pathname === "/measure"
                   ? "current-navigation"
                   : "navigation"
@@ -44,7 +65,7 @@ const Sidebar = () => {
               }}
             >
               <span className="nav-icon">
-                <Poll />
+                <SquareFoot />
               </span>
               <span className="nav-name">ML Measure</span>
             </li>
@@ -60,7 +81,7 @@ const Sidebar = () => {
               }}
             >
               <span className="nav-icon">
-                <Dataset />
+                <Add />
               </span>
               <span className="nav-name">ML Contribute</span>
             </li>
