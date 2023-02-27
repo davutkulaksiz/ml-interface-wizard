@@ -9,6 +9,7 @@ import {
 import Home from "./pages/home/Home";
 import Measure from "./pages/measure/Measure";
 import Contribute from "./pages/contribute/Contribute";
+import Interface from "./pages/interface/Interface";
 
 const App = () => {
   return (
@@ -20,6 +21,10 @@ const App = () => {
           <Route
             path="/contribute"
             render={(props) => <Contribute {...props} />}
+          />
+          <Route
+            path="/interface-wizard"
+            render={(props) => <Interface {...props} />}
           />
           <Route exact path="/">
             <Redirect to="/home" />
