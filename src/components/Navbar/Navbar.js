@@ -1,13 +1,25 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+
 import "./Navbar.css";
 
 const Navbar = () => {
+  const history = useHistory();
+
   return (
     <div className="navbar-wrapper">
       <div className="navbar-left">
         <span className="logo-container">
           <img className="navbar-logo" src="./logo.svg" alt="Hacettepe Logo" />
-          <span className="project-name">ML Interface Wizard</span>
+          <span className="project-name">
+            {history.location.pathname === "/home"
+              ? "Home"
+              : history.location.pathname === "/interface-wizard"
+              ? "ML Interface Wizard"
+              : history.location.pathname === "/measure"
+              ? "ML Measure"
+              : "ML Contribute"}
+          </span>
         </span>
       </div>
       <div className="navbar-center"></div>
