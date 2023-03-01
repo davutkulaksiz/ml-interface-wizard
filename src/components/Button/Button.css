@@ -1,0 +1,30 @@
+.btn {
+  min-width: 3rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0px 14px 9px -15px rgba(0, 0, 0, 0.25);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  font-weight: 500;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.success {
+  background-color: #37c768;
+}
+
+.success:hover {
+  background-color: #007b2a;
+}
+
+.danger {
+  background-color: #f87171;
+}
+
+.danger:hover {
+  background-color: #c90909;
+}
