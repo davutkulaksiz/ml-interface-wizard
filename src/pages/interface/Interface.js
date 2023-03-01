@@ -8,7 +8,7 @@ const Interface = () => {
   return (
     <>
       <Navbar />
-      <div className="home-container">
+      <div className="interface-container">
         <Sidebar />
         <Wizard />
       </div>
