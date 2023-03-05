@@ -1,0 +1,98 @@
+.guide-wrapper {
+  flex: 8;
+}
+
+.guide-container {
+  margin-top: 12rem;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.guide-body {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  min-height: 600px; /* this is only for the demo purposes*/
+  box-shadow: 0px 2px 4px -2px #1018280f, 0px 4px 8px -2px #1018281a;
+  border-radius: 0.5rem;
+}
+
+.guide-upper-area {
+  background-color: #f3f3fe;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.guide-header {
+  font-weight: 700;
+  font-size: 48px;
+  text-align: center;
+  max-width: 80%;
+}
+
+.guide-divider {
+  width: 80%;
+  border-top: 3px solid #979dc6;
+  align-self: center;
+}
+
+.guide-lower-area {
+  flex: 3;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.guide-step-list {
+  font-weight: bold;
+  color: #6f76a7;
+}
+
+.guide-step-list li {
+  margin: 1rem;
+}
+
+.upload-container {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.upload-model-area {
+  border-radius: 8px;
+  display: flex;
+  padding: 1rem;
+  background-color: #e8f5e9;
+  color: #153816;
+  font-weight: 500;
+}
+
+.upload-model-area:hover {
+  cursor: pointer;
+  background-color: #8cb88e;
+}
+
+.upload-model-text {
+  margin-right: 1rem;
+  align-self: center;
+}
+
+
+.existing-model-area {
+  color: #2a0909;
+  font-weight: 500;
+}
+
+.existing-model-area:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
