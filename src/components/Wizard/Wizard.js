@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import Form from "../Form/Form";
+import Guide from "../Guide/Guide";
 import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 import "./Wizard.css";
 
 const Wizard = () => {
+  const [isGuideOpen, setIsGuideOpen] = useState(true);
+
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
@@ -15,7 +18,9 @@ const Wizard = () => {
 
   return (
     <>
-      {loading ? (
+      {isGuideOpen ? (
+        <Guide project="interface-wizard" />
+      ) : loading ? (
         <SkeletonLoader />
       ) : (
         <div className="wizard-wrapper">
