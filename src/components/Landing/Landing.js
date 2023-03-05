@@ -14,7 +14,7 @@ const Landing = () => {
       <div className="landing-container">
         <div className="landing-body">
           <div className="landing-upper-area">
-            <span className="landing-header">Welcome Page</span>
+            <p className="landing-header">Welcome Page</p>
           </div>
           <div className="landing-divider"></div>
           <div className="landing-lower-area">
