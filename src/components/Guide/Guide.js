@@ -1,5 +1,5 @@
 import React from "react";
-import { Cloud, CloudUpload } from "@mui/icons-material";
+import FileUploadArea from "../FileUploadArea/FileUploadArea";
 
 import "./Guide.css";
 
@@ -52,14 +52,7 @@ const Guide = ({
             </ol>
             {project === "interface-wizard" && (
               <div className="upload-container">
-                <div className="upload-model-area">
-                  <p className="upload-model-text">
-                    Upload Model and Config Files
-                  </p>
-                  <span>
-                    <CloudUpload fontSize="large" />
-                  </span>
-                </div>
+                <FileUploadArea />
                 <div className="existing-model-area">Use an existing one.</div>
                 {/* TODO */}
               </div>

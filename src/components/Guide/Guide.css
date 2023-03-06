@@ -67,25 +67,6 @@
   align-items: center;
 }
 
-.upload-model-area {
-  border-radius: 8px;
-  display: flex;
-  padding: 1rem;
-  background-color: #e8f5e9;
-  color: #153816;
-  font-weight: 500;
-}
-
-.upload-model-area:hover {
-  cursor: pointer;
-  background-color: #8cb88e;
-}
-
-.upload-model-text {
-  margin-right: 1rem;
-  align-self: center;
-}
-
 
 .existing-model-area {
   color: #2a0909;
