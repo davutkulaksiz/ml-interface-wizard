@@ -3,7 +3,13 @@ import { Cloud, CloudUpload } from "@mui/icons-material";
 
 import "./Guide.css";
 
-const Guide = ({ project }) => {
+const Guide = ({
+  project,
+  existingModels,
+  setExistingModels,
+  currentModel,
+  setCurrentModel,
+}) => {
   return (
     <div className="guide-wrapper">
       <div className="guide-container">

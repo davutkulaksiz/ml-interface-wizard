@@ -6,9 +6,12 @@ import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 import "./Wizard.css";
 
 const Wizard = () => {
-  const [isGuideOpen, setIsGuideOpen] = useState(true);
+  const [currentModel, setCurrentModel] = useState("");
+  const [existingModels, setExistingModels] = useState([]);
 
+  const [isGuideOpen, setIsGuideOpen] = useState(true);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
@@ -19,7 +22,13 @@ const Wizard = () => {
   return (
     <>
       {isGuideOpen ? (
-        <Guide project="interface-wizard" />
+        <Guide
+          project="interface-wizard"
+          existingModels={existingModels}
+          setExistingModels={setExistingModels}
+          currentModel={currentModel}
+          setCurrentModel={setCurrentModel}
+        />
       ) : loading ? (
         <SkeletonLoader />
       ) : (
