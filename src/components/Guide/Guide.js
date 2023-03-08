@@ -22,11 +22,12 @@ const Guide = ({
             <ol className="guide-step-list">
               {project === "interface-wizard" && (
                 <>
-                  <li>uno</li>
-                  <li>due</li>
-                  <li>tre</li>
-                  <li>quattro</li>
-                  <li>cinque</li>
+                  <li>
+                    Upload your model and configuration files or select from
+                    your existing models.
+                  </li>
+                  <li>Fill out the generated form.</li>
+                  <li>Make a prediction by clicking on the Predict button.</li>
                 </>
               )}
               {project === "measure" && (
