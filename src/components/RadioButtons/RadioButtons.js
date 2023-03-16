@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { pink } from "@mui/material/colors";
 
-const RadioButtons = ({ value, handleChange, label, options }) => {
+const RadioButtons = ({ value, handleChange, label, options, disabled = false, row=false }) => {
   return (
     <FormControl>
       <FormLabel id="demo-controlled-radio-buttons-group">{label}</FormLabel>
@@ -15,9 +15,11 @@ const RadioButtons = ({ value, handleChange, label, options }) => {
         name="controlled-radio-buttons-group"
         value={value}
         onChange={handleChange}
+        row={row}
       >
         <FormControlLabel
           value={options[0]}
+          disabled={disabled}
           control={
             <Radio
               sx={{
