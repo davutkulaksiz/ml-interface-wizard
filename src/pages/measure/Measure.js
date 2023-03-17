@@ -1,9 +1,9 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import WIPmeasure from "../../assets/WIPmeasure.gif";
-
+import FormAlternative from '../../components/FormAlternative/FormAlternative';
 import "./Measure.css";
+import Button from "../../components/Button/Button";
 
 const Measure = () => {
   return (
@@ -11,12 +11,8 @@ const Measure = () => {
       <Navbar />
       <div className="measure-container">
         <Sidebar />
-        <div className="work-in-progress">
-          <img
-            className="work-in-progress-gif"
-            src={WIPmeasure}
-            alt="Work-in-progress"
-          ></img>
+        <div className="main-wrapper" > 
+        <FormAlternative isTrue={true} formName="Malignant Detection Model" movie="Es Bestas" animals={["Cat", "Dog"]}  />
         </div>
       </div>
     </>
