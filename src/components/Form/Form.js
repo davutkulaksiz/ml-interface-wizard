@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Loader from "../Loader/Loader";
+import Button from "../Button/Button";
 import Dropdown from "../Dropdown/Dropdown";
 import Checkbox from "../Checkbox/Checkbox";
 import RadioButtons from "../RadioButtons/RadioButtons";
@@ -16,6 +17,7 @@ const Form = ({ modelData }) => {
   const [radioValue, setRadioValue] = useState("Cat");
 
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log(modelData);
@@ -44,7 +46,7 @@ const Form = ({ modelData }) => {
         </div>
         <div className="form-divider"></div>
         <div className="lower-form-area">
-          <div className="form-components">
+          <form className="form-components">
             <Dropdown options={top100Films} onChange={handleDropdownChange} />
             <Dropdown options={top100Films} onChange={handleDropdownChange} />
             <Dropdown options={top100Films} onChange={handleDropdownChange} />
@@ -80,6 +82,20 @@ const Form = ({ modelData }) => {
               label="Favorite Pet"
               handleChange={handleRadioChange}
               options={["Cat", "Dog"]}
+            />
+          </form>
+          <div className="form-submit-button">
+            <Button
+              type="submit"
+              onClick={() => {
+                console.log("kedy");
+                setLoading(true);
+                setTimeout(() => {
+                  setLoading(false);
+                }, 2000);
+              }}
+              buttonType="success lg"
+              text={loading ? <Loader type="tiny" /> : "Predict"}
             />
           </div>
           <div className="output-area">{/* TOAST */}</div>
