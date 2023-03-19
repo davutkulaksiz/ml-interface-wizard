@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FileUploadArea from "../FileUploadArea/FileUploadArea";
 
 import "./Guide.css";
@@ -53,7 +53,10 @@ const Guide = ({
             </ol>
             {project === "interface-wizard" && (
               <div className="upload-container">
-                <FileUploadArea />
+                <FileUploadArea
+                  currentModel={currentModel}
+                  setCurrentModel={setCurrentModel}
+                />
                 <div className="existing-model-area">Use an existing one.</div>
                 {/* TODO */}
               </div>
