@@ -16,17 +16,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   background-color: #f3f3fe;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
   padding: 4rem;
 }
 
-.model-name {
+.model-title {
   font-weight: 700;
   font-size: 48px;
   text-align: center;
   max-width: 80%;
+}
+
+.model-subtitle {
+  padding-top: 1rem;
+  font-weight: bold;
+  color: #6f76a7;
 }
 
 .form-divider {
