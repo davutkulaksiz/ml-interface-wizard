@@ -12,6 +12,8 @@ const Wizard = () => {
   const [isGuideOpen, setIsGuideOpen] = useState(true);
   const [loading, setLoading] = useState(false);
 
+  const [modelData, setModelData] = useState({});
+
   useEffect(() => {
     if (currentModel) {
       setLoading(true);
@@ -24,7 +26,7 @@ const Wizard = () => {
     const reader = new FileReader();
 
     reader.onload = () => {
-      generateUI(JSON.parse(reader.result));
+      setModelData(JSON.parse(reader.result));
     };
 
     reader.readAsText(currentModel[0]);
@@ -32,10 +34,6 @@ const Wizard = () => {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
-  };
-
-  const generateUI = (data) => {
-    console.log(data);
   };
 
   return (
@@ -63,7 +61,7 @@ const Wizard = () => {
                 <Card type="date" heading="Created at" text="22.10.2022" />
               </div>
             </div>
-            <Form name="Nikola's Magnum Opus -Graduate Model-" />
+            <Form modelData={modelData} />
           </div>
         </div>
       )}

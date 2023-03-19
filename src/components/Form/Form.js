@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import Dropdown from "../Dropdown/Dropdown";
 import Checkbox from "../Checkbox/Checkbox";
@@ -9,10 +9,16 @@ import { top100Films } from "../mockData";
 
 import "./Form.css";
 
-const Form = (props) => {
+const Form = ({ modelData }) => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [radioValue, setRadioValue] = useState("Cat");
+
+  const [formData, setFormData] = useState({});
+
+  useEffect(() => {
+    console.log(modelData);
+  }, []);
 
   const handleCheckboxChange = (event) => {
     setCheckboxChecked(event.target.checked);
@@ -30,7 +36,8 @@ const Form = (props) => {
     <div className="form">
       <div className="form-body">
         <div className="upper-form-area">
-          <span className="model-name">{props.name}</span>
+          <h1 className="model-title">{modelData.presentation.title}</h1>
+          <p className="model-subtitle">{modelData.presentation.subtitle}</p>
         </div>
         <div className="form-divider"></div>
         <div className="lower-form-area">
