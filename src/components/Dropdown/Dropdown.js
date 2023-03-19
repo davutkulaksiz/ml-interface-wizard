@@ -1,10 +1,17 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-import { alpha, styled } from "@mui/material/styles";
-import { pink } from "@mui/material/colors";
+import { styled } from "@mui/material/styles";
 
-const Dropdown = ({ options, onChange, value, disabled = false }) => {
+const Dropdown = ({
+  options,
+  onChange,
+  value,
+  label,
+  defaultValue,
+  multiple,
+  disabled = false,
+}) => {
   const StyledTextField = styled(TextField)({
     "& label.Mui-focused": {
       color: "#ad1457",
@@ -36,7 +43,9 @@ const Dropdown = ({ options, onChange, value, disabled = false }) => {
       sx={{
         width: 300,
       }}
-      renderInput={(params) => <StyledTextField {...params} label="Movie" />}
+      renderInput={(params) => <StyledTextField {...params} label={label} />}
+      defaultValue={defaultValue}
+      multiple={multiple}
     />
   );
 };

@@ -6,7 +6,7 @@ import Dropdown from "../Dropdown/Dropdown";
 import Checkbox from "../Checkbox/Checkbox";
 import RadioButtons from "../RadioButtons/RadioButtons";
 import Tooltip from "@mui/material/Tooltip";
-
+import TextField from "../MUITextField/MUITextField";
 import { top100Films } from "../mockData";
 
 import "./Form.css";
@@ -14,7 +14,7 @@ import "./Form.css";
 const Form = ({ modelData }) => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
-  const [radioValue, setRadioValue] = useState("Cat");
+  const [radioValue, setRadioValue] = useState(null);
 
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -47,42 +47,60 @@ const Form = ({ modelData }) => {
         <div className="form-divider"></div>
         <div className="lower-form-area">
           <form className="form-components">
-            <Dropdown options={top100Films} onChange={handleDropdownChange} />
-            <Dropdown options={top100Films} onChange={handleDropdownChange} />
-            <Dropdown options={top100Films} onChange={handleDropdownChange} />
-            <Checkbox
-              checked={checkboxChecked}
-              label="Label"
-              onChange={handleCheckboxChange}
-            />
-            <Checkbox
-              checked={checkboxChecked}
-              label="Label"
-              onChange={handleCheckboxChange}
-            />
-            <Checkbox
-              checked={checkboxChecked}
-              label="Label"
-              onChange={handleCheckboxChange}
-            />
-            <RadioButtons
-              value={radioValue}
-              label="Favorite Pet"
-              handleChange={handleRadioChange}
-              options={["Cat", "Dog"]}
-            />
-            <RadioButtons
-              value={radioValue}
-              label="Favorite Pet"
-              handleChange={handleRadioChange}
-              options={["Cat", "Dog"]}
-            />
-            <RadioButtons
-              value={radioValue}
-              label="Favorite Pet"
-              handleChange={handleRadioChange}
-              options={["Cat", "Dog"]}
-            />
+            {modelData.features.map((feature) => (
+              <form className="form-components">
+                {feature.type === "text" && (
+                  <TextField
+                    label={feature.name}
+                    helperText={feature.description}
+                    defaultValue={feature.default_value}
+                    name={feature.name}
+                    onChange={() => {
+                      console.log("kedy");
+                    }}
+                  />
+                )}
+                {feature.type === "numeric" && (
+                  <TextField
+                    label={feature.name}
+                    helperText={feature.description}
+                    defaultValue={feature.default_value}
+                    type="number"
+                    name={feature.name}
+                    onChange={() => {
+                      console.log("kedy");
+                    }}
+                    inputProps={{ min: feature.from, max: feature.to }}
+                  />
+                )}
+                {feature.type === "single-select" &&
+                  (feature.values.length > 2 ? (
+                    <Dropdown
+                      options={feature.values}
+                      label={feature.name}
+                      onChange={handleDropdownChange}
+                      defaultValue={feature.default_value}
+                      multiple={false}
+                    />
+                  ) : (
+                    <RadioButtons
+                      value={feature.default_value}
+                      label={feature.name}
+                      handleChange={handleRadioChange}
+                      options={feature.values}
+                    />
+                  ))}
+                {feature.type === "multi-select" && (
+                  <Dropdown
+                    options={feature.values}
+                    label={feature.name}
+                    onChange={handleDropdownChange}
+                    defaultValue={feature.default_value}
+                    multiple={true}
+                  />
+                )}
+              </form>
+            ))}
           </form>
           <div className="form-submit-button">
             <Button
