@@ -36,10 +36,34 @@ const Form = (props) => {
         <div className="lower-form-area">
           <div className="form-components">
             <Dropdown options={top100Films} onChange={handleDropdownChange} />
+            <Dropdown options={top100Films} onChange={handleDropdownChange} />
+            <Dropdown options={top100Films} onChange={handleDropdownChange} />
             <Checkbox
               checked={checkboxChecked}
               label="Label"
               onChange={handleCheckboxChange}
+            />
+            <Checkbox
+              checked={checkboxChecked}
+              label="Label"
+              onChange={handleCheckboxChange}
+            />
+            <Checkbox
+              checked={checkboxChecked}
+              label="Label"
+              onChange={handleCheckboxChange}
+            />
+            <RadioButtons
+              value={radioValue}
+              label="Favorite Pet"
+              handleChange={handleRadioChange}
+              options={["Cat", "Dog"]}
+            />
+            <RadioButtons
+              value={radioValue}
+              label="Favorite Pet"
+              handleChange={handleRadioChange}
+              options={["Cat", "Dog"]}
             />
             <RadioButtons
               value={radioValue}
