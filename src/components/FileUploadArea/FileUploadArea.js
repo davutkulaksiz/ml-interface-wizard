@@ -3,7 +3,7 @@ import { useState } from "react";
 import { CloudUpload } from "@mui/icons-material";
 import "./FileUploadArea.css";
 
-const FileUploadArea = () => {
+const FileUploadArea = ({ currentModel, setCurrentModel }) => {
   const [dragActive, setDragActive] = useState(false);
 
   const handleChange = (e) => {
@@ -13,6 +13,7 @@ const FileUploadArea = () => {
     }
   };
 
+  // TODO: Drag Option
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -33,7 +34,7 @@ const FileUploadArea = () => {
   };
 
   const handleUpload = (selectedFiles) => {
-    console.log(selectedFiles);
+    setCurrentModel(selectedFiles);
   };
 
   return (
