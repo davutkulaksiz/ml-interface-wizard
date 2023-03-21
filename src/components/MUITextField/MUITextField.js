@@ -1,16 +1,14 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import { styled } from "@mui/material/styles";
 
-const Dropdown = ({
-  options,
-  onChange,
-  value,
+const MUITextField = ({
   label,
+  helperText,
   defaultValue,
-  multiple,
-  disabled = false,
+  name,
+  onChange,
+  inputProps,
 }) => {
   const StyledTextField = styled(TextField)({
     "& label.Mui-focused": {
@@ -31,23 +29,17 @@ const Dropdown = ({
       },
     },
   });
-
   return (
-    <Autocomplete
-      disablePortal
-      disabled={disabled}
-      onChange={onChange}
-      id="combo-box-demo"
-      options={options}
-      value={value}
-      sx={{
-        width: 300,
-      }}
-      renderInput={(params) => <StyledTextField {...params} label={label} />}
+    <StyledTextField
+      label={label}
+      helperText={helperText}
       defaultValue={defaultValue}
-      multiple={multiple}
-    />
+      type="number"
+      name={name}
+      onChange={onChange}
+      inputProps={inputProps}
+    ></StyledTextField>
   );
 };
 
-export default Dropdown;
+export default MUITextField;

@@ -1,6 +1,6 @@
 .btn {
   min-width: 3rem;
-  height: 2.5rem;
+  min-height: 2.5rem;
   border: none;
   border-radius: 0.5rem;
   box-shadow: 0px 14px 9px -15px rgba(0, 0, 0, 0.25);
@@ -27,4 +27,11 @@
 
 .danger:hover {
   background-color: #c90909;
+}
+
+.lg {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  min-width: 64px;
+  padding: 12px 26px;
 }
