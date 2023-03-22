@@ -1,5 +1,9 @@
-import React, { useEffect } from "react";
+import { useState } from "react";
 import FileUploadArea from "../FileUploadArea/FileUploadArea";
+import { Button } from "@mui/material";
+import { ArrowForward, ArrowBack } from "@mui/icons-material";
+import FileUploadButton from "../FileUploadButton/FileUploadButton";
+import ModelUploadForm from "../ModelUploadForm/ModelUploadForm"
 
 import "./Guide.css";
 
@@ -10,6 +14,19 @@ const Guide = ({
   currentModel,
   setCurrentModel,
 }) => {
+  const [uploadAreaVisible, setUploadAreaVisible] = useState(false);
+
+  function onOpenFormClicked(e) {
+    // e.preventDefault();
+    // e.stopPropagation();
+    setUploadAreaVisible(!uploadAreaVisible);
+  }
+
+  let arrowIcon = <ArrowForward />;
+  if (uploadAreaVisible) {
+    arrowIcon = <ArrowBack />;
+  }
+
   return (
     <div className="guide-wrapper">
       <div className="guide-container">
@@ -23,11 +40,16 @@ const Guide = ({
               {project === "interface-wizard" && (
                 <>
                   <li>
-                    Upload your model and configuration files or select from
-                    your existing models.
+                    Use the buttons to the right to upload your model and
+                    configuration. These files are mandatory.
+                  </li>
+                  <li>
+                    If your model comes with transformers, you can use the
+                    appropriate buttons on the right. These are optional.
                   </li>
                   <li>Fill out the generated form.</li>
                   <li>Make a prediction by clicking on the Predict button.</li>
+                  <li className="">Alternatively, click the Use An Existing One button to connect to an existing model.</li>
                 </>
               )}
               {project === "measure" && (
@@ -53,12 +75,18 @@ const Guide = ({
             </ol>
             {project === "interface-wizard" && (
               <div className="upload-container">
-                <FileUploadArea
-                  currentModel={currentModel}
-                  setCurrentModel={setCurrentModel}
-                />
-                <div className="existing-model-area">Use an existing one.</div>
-                {/* TODO */}
+                <Button
+                  variant="contained"
+                  size="large"
+                  endIcon={arrowIcon}
+                  onClick={(e) => onOpenFormClicked(e)}
+                >
+                  Open Upload Form
+                </Button>
+                <Button variant="outlined" size="large">
+                  {" "}
+                  Use an existing one{" "}
+                </Button>
               </div>
             )}
             {project === "measure" && <>{/* TODO */}</>}
@@ -66,6 +94,9 @@ const Guide = ({
           </div>
         </div>
       </div>
+      {uploadAreaVisible && (
+        <ModelUploadForm />
+      )}
     </div>
   );
 };

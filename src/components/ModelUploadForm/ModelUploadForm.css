@@ -1,0 +1,50 @@
+.upload-area {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  padding: 0.25rem;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.file-upload-header {
+
+}
+
+.file-upload-text {
+  font-weight: 600;
+  font-size: 32px;
+  text-align: center;
+  max-width: 80%;
+}
+
+.mandatory-area {
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: #f3f3fe;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 1rem;
+}
+
+.optional-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  gap: 2rem;
+  border-radius: 0.5rem;
+  border-style: solid;
+  border-color: #f3f3fe;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 1rem;
+}
