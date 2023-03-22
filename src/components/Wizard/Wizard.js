@@ -7,6 +7,9 @@ import "./Wizard.css";
 
 const Wizard = () => {
   const [currentModel, setCurrentModel] = useState("");
+  const [currentConfigFile, setCurrentConfigFile] = useState("");
+  const [currentInputTSF, setCurrentInputTSF] = useState("");
+  const [currentOutputTSF, setCurrentOutputTSF] = useState("");
   const [existingModels, setExistingModels] = useState([]);
 
   const [isGuideOpen, setIsGuideOpen] = useState(true);
@@ -45,6 +48,10 @@ const Wizard = () => {
           setExistingModels={setExistingModels}
           currentModel={currentModel}
           setCurrentModel={setCurrentModel}
+          setIsGuideOpen={setIsGuideOpen}
+          setCurrentConfigFile={setCurrentConfigFile}
+          setCurrentInputTSF={setCurrentInputTSF}
+          setCurrentOutputTSF={setCurrentOutputTSF}
         />
       ) : loading ? (
         <SkeletonLoader />
