@@ -18,21 +18,21 @@ const Wizard = () => {
   const [modelData, setModelData] = useState({});
 
   useEffect(() => {
-    if (currentModel) {
+    if (currentConfigFile) {
       setLoading(true);
-      handleModelChange(currentModel);
+      handleConfigFileChange(currentConfigFile);
       setIsGuideOpen(false);
     }
-  }, [currentModel]);
+  }, [currentConfigFile]);
 
-  const handleModelChange = () => {
+  const handleConfigFileChange = () => {
     const reader = new FileReader();
 
     reader.onload = () => {
       setModelData(JSON.parse(reader.result));
     };
 
-    reader.readAsText(currentModel[0]);
+    reader.readAsText(currentConfigFile[0]);
 
     setTimeout(() => {
       setLoading(false);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import FileUploadArea from "../FileUploadArea/FileUploadArea";
-import { Button } from "@mui/material";
+import { Alert, Button, Snackbar } from "@mui/material";
 import { ArrowForward, ArrowBack } from "@mui/icons-material";
 import FileUploadButton from "../FileUploadButton/FileUploadButton";
 import ModelUploadForm from "../ModelUploadForm/ModelUploadForm";
@@ -23,19 +23,57 @@ const Guide = ({
   const [uploadedOutputTSF, setUploadedOutputTSF] = useState(null);
   const [showInterfaceUploadArea, setShowInterfaceUploadArea] = useState(false);
 
-  const handleGenerateForm = () => {
-    if (uploadedModel) {
-      setCurrentModel(uploadedModel);
-      setCurrentConfigFile(uploadedConfig);
-      setCurrentInputTSF(uploadedInputTSF);
-      setCurrentOutputTSF(uploadedOutputTSF);
-    } else {
-      console.log("Please Upload Mandatory Files");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const checkForm = () => {
+    if (!uploadedModel) {
+      setOpenSnackbar(true);
+      return false;
     }
+    if (!uploadedConfig) {
+      setOpenSnackbar(true);
+      return false;
+    }
+    return true;
   };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const handleGenerateForm = () => {
+    if (!checkForm()) {
+      return;
+    }
+    setCurrentModel(uploadedModel);
+    setCurrentConfigFile(uploadedConfig);
+    setCurrentInputTSF(uploadedInputTSF);
+    setCurrentOutputTSF(uploadedOutputTSF);
+  };
+
+  const SnackbarError = (
+    <Snackbar
+      open={openSnackbar}
+      autoHideDuration={3000}
+      onClose={handleSnackbarClose}
+      anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
+    >
+      <Alert
+        onClose={handleSnackbarClose}
+        severity="error"
+        sx={{ width: "100%" }}
+      >
+        Provide both mandatory files!
+      </Alert>
+    </Snackbar>
+  );
 
   return (
     <div className="guide-wrapper">
+      {SnackbarError}
       <div className="guide-container">
         <div className="guide-body">
           <div className="guide-upper-area">
@@ -50,16 +88,16 @@ const Guide = ({
             {project === "interface-wizard" && !showInterfaceUploadArea ? (
               <ol className="guide-step-list">
                 <li>
-                  Use the buttons to the right to upload your model and
-                  configuration. These files are mandatory.
+                  Open the Upload Form and provide the necessary files. Model
+                  and configuration files are mandatory.
                 </li>
                 <li>
                   If your model comes with transformers, you can use the
-                  appropriate buttons on the right. These are optional.
+                  appropriate buttons indicated on the form. These are optional.
                 </li>
                 <li>Fill out the generated form.</li>
                 <li>Make a prediction by clicking on the Predict button.</li>
-                <li className="">
+                <li>
                   Alternatively, click the Use An Existing One button to connect
                   to an existing model.
                 </li>
@@ -139,6 +177,7 @@ const Guide = ({
                     </Button>
                   </>
                 )}
+                
               </div>
             )}
             {project === "measure" && <>{/* TODO */}</>}
