@@ -1,78 +1,116 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Card from "../Card/Card";
+import {
+  FilesUploadContext,
+  FilesUploadDispatchContext,
+} from "../FilesUploadForm/filesUploadContext";
+import {
+  filesStateReducer,
+  initialState,
+} from "../FilesUploadForm/filesUploadState";
 import Form from "../Form/Form";
 import Guide from "../Guide/Guide";
 import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
+import { Snackbar, Alert } from "@mui/material";
 import "./Wizard.css";
 
 const Wizard = () => {
-  const [currentModel, setCurrentModel] = useState("");
-  const [currentConfigFile, setCurrentConfigFile] = useState("");
-  const [currentInputTSF, setCurrentInputTSF] = useState("");
-  const [currentOutputTSF, setCurrentOutputTSF] = useState("");
-  const [existingModels, setExistingModels] = useState([]);
-
   const [isGuideOpen, setIsGuideOpen] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const [modelData, setModelData] = useState({});
+  const [parsedConfig, setParsedConfig] = useState({});
 
-  useEffect(() => {
-    if (currentConfigFile) {
-      setLoading(true);
-      handleConfigFileChange(currentConfigFile);
-      setIsGuideOpen(false);
+  const [filesState, dispatch] = useReducer(filesStateReducer, initialState);
+
+  const onGenerateFormClick = () => {
+    if(!filesState.config && !filesState.model) {
+      dispatch({
+        type: 'setMessage',
+        message: 'Provide both mandatory files!'
+      })
+      return
     }
-  }, [currentConfigFile]);
+    setLoading(true)
+    handleConfigFileChange(filesState.config)
+    setIsGuideOpen(false)
+  }
 
-  const handleConfigFileChange = () => {
+  const handleConfigFileChange = (configFile) => {
     const reader = new FileReader();
 
     reader.onload = () => {
-      setModelData(JSON.parse(reader.result));
+      setParsedConfig(JSON.parse(reader.result));
     };
 
-    reader.readAsText(currentConfigFile[0]);
+    reader.readAsText(configFile[0]);
 
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   };
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    
+    dispatch({type: 'clearMessage'})
+  };
+
+  const SnackbarError = (
+    <Snackbar
+      open={filesState.message !== null}
+      autoHideDuration={6000}
+      onClose={handleSnackbarClose}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+    >
+      <Alert
+        onClose={handleSnackbarClose}
+        severity="error"
+        sx={{ width: "100%" }}
+      >
+        {filesState.message}
+      </Alert>
+    </Snackbar>
+  );
+
   return (
-    <>
-      {isGuideOpen ? (
-        <Guide
-          project="interface-wizard"
-          existingModels={existingModels}
-          setExistingModels={setExistingModels}
-          currentModel={currentModel}
-          setCurrentModel={setCurrentModel}
-          setIsGuideOpen={setIsGuideOpen}
-          setCurrentConfigFile={setCurrentConfigFile}
-          setCurrentInputTSF={setCurrentInputTSF}
-          setCurrentOutputTSF={setCurrentOutputTSF}
-        />
-      ) : loading ? (
-        <SkeletonLoader />
-      ) : (
-        <div className="wizard-wrapper">
-          <div className="wizard-container">
-            <div className="info-container">
-              <div className="info-group">
-                <Card type="model" heading="Regression" />
-                <Card type="metadata" heading="JSON" />
-              </div>
-              <div className="info-group">
-                <Card type="version" heading="Version" text="1.0.2" />
-                <Card type="date" heading="Created at" text="22.10.2022" />
+    <FilesUploadContext.Provider value={filesState}>
+      <FilesUploadDispatchContext.Provider value={dispatch}>
+        <>
+          {isGuideOpen ? (
+            <>
+            {SnackbarError}
+             <Guide
+              project="interface-wizard"
+              onGenerateFormClick={() => {
+                console.log("generate form clicked");
+                onGenerateFormClick()
+              }}
+            />
+            </>
+          ) : loading ? (
+            <SkeletonLoader />
+          ) : (
+            <div className="wizard-wrapper">
+              <div className="wizard-container">
+                <div className="info-container">
+                  <div className="info-group">
+                    <Card type="model" heading="Regression" />
+                    <Card type="metadata" heading="JSON" />
+                  </div>
+                  <div className="info-group">
+                    <Card type="version" heading="Version" text="1.0.2" />
+                    <Card type="date" heading="Created at" text="22.10.2022" />
+                  </div>
+                </div>
+                <Form parsedConfig={parsedConfig} />
               </div>
             </div>
-            <Form modelData={modelData} />
-          </div>
-        </div>
-      )}
-    </>
+          )}
+        </>
+      </FilesUploadDispatchContext.Provider>
+    </FilesUploadContext.Provider>
   );
 };
 

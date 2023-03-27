@@ -11,7 +11,7 @@ import { top100Films } from "../mockData";
 
 import "./Form.css";
 
-const Form = ({ modelData }) => {
+const Form = ({ parsedConfig }) => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [radioValue, setRadioValue] = useState(null);
@@ -20,7 +20,7 @@ const Form = ({ modelData }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log(modelData);
+    console.log(parsedConfig);
   }, []);
 
   const handleCheckboxChange = (event) => {
@@ -39,15 +39,15 @@ const Form = ({ modelData }) => {
     <div className="form">
       <div className="form-body">
         <div className="upper-form-area">
-          <h1 className="model-title">{modelData.presentation.title}</h1>
-          <Tooltip title={modelData.presentation.help_text}>
-            <p className="model-subtitle">{modelData.presentation.subtitle}</p>
+          <h1 className="model-title">{parsedConfig.presentation.title}</h1>
+          <Tooltip title={parsedConfig.presentation.help_text}>
+            <p className="model-subtitle">{parsedConfig.presentation.subtitle}</p>
           </Tooltip>
         </div>
         <div className="form-divider"></div>
         <div className="lower-form-area">
           <form className="form-components">
-            {modelData.features.map((feature) => (
+            {parsedConfig.features.map((feature) => (
               <form className="form-components">
                 {feature.type === "text" && (
                   <TextField

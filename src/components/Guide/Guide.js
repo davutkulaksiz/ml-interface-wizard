@@ -1,82 +1,18 @@
 import { useState } from "react";
-import FileUploadArea from "../FileUploadArea/FileUploadArea";
-import { Alert, Button, Snackbar } from "@mui/material";
+import { Button } from "@mui/material";
 import { ArrowForward, ArrowBack } from "@mui/icons-material";
-import FileUploadButton from "../FileUploadButton/FileUploadButton";
-import ModelUploadForm from "../ModelUploadForm/ModelUploadForm";
-
+import FilesUploadForm from "../FilesUploadForm/FilesUploadForm";
 import "./Guide.css";
 
-const Guide = ({
-  project,
-  existingModels,
-  setExistingModels,
-  setIsGuideOpen,
-  setCurrentModel,
-  setCurrentConfigFile,
-  setCurrentInputTSF,
-  setCurrentOutputTSF,
-}) => {
-  const [uploadedModel, setUploadedModel] = useState(null);
-  const [uploadedConfig, setUploadedConfig] = useState(null);
-  const [uploadedInputTSF, setUploadedInputTSF] = useState(null);
-  const [uploadedOutputTSF, setUploadedOutputTSF] = useState(null);
+const Guide = ({ project, onGenerateFormClick }) => {
   const [showInterfaceUploadArea, setShowInterfaceUploadArea] = useState(false);
-
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  const checkForm = () => {
-    if (!uploadedModel) {
-      setOpenSnackbar(true);
-      return false;
-    }
-    if (!uploadedConfig) {
-      setOpenSnackbar(true);
-      return false;
-    }
-    return true;
-  };
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpenSnackbar(false);
-  };
-
-  const handleGenerateForm = () => {
-    if (!checkForm()) {
-      return;
-    }
-    setCurrentModel(uploadedModel);
-    setCurrentConfigFile(uploadedConfig);
-    setCurrentInputTSF(uploadedInputTSF);
-    setCurrentOutputTSF(uploadedOutputTSF);
-  };
-
-  const SnackbarError = (
-    <Snackbar
-      open={openSnackbar}
-      autoHideDuration={3000}
-      onClose={handleSnackbarClose}
-      anchorOrigin={{vertical: 'bottom', horizontal: 'right'}}
-    >
-      <Alert
-        onClose={handleSnackbarClose}
-        severity="error"
-        sx={{ width: "100%" }}
-      >
-        Provide both mandatory files!
-      </Alert>
-    </Snackbar>
-  );
 
   return (
     <div className="guide-wrapper">
-      {SnackbarError}
       <div className="guide-container">
         <div className="guide-body">
           <div className="guide-upper-area">
+            {/**Head component */}
             <p className="guide-header">
               {project === "interface-wizard" && showInterfaceUploadArea
                 ? "File Upload Area"
@@ -85,6 +21,7 @@ const Guide = ({
           </div>
           <div className="guide-divider"></div>
           <div className="guide-lower-area">
+            {/**Body */}
             {project === "interface-wizard" && !showInterfaceUploadArea ? (
               <ol className="guide-step-list">
                 <li>
@@ -103,12 +40,7 @@ const Guide = ({
                 </li>
               </ol>
             ) : (
-              <ModelUploadForm
-                setCurrentModel={setUploadedModel}
-                setCurrentConfigFile={setUploadedConfig}
-                setCurrentInputTSF={setUploadedInputTSF}
-                setCurrentOutputTSF={setUploadedOutputTSF}
-              />
+              <FilesUploadForm />
             )}
             {project === "measure" && (
               <ol className="guide-step-list">
@@ -149,7 +81,7 @@ const Guide = ({
                       size="large"
                       color="success"
                       onClick={() => {
-                        handleGenerateForm();
+                        onGenerateFormClick();
                       }}
                     >
                       Generate the Form
@@ -177,7 +109,6 @@ const Guide = ({
                     </Button>
                   </>
                 )}
-                
               </div>
             )}
             {project === "measure" && <>{/* TODO */}</>}
