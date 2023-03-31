@@ -7,11 +7,10 @@ import Checkbox from "../Checkbox/Checkbox";
 import RadioButtons from "../RadioButtons/RadioButtons";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "../MUITextField/MUITextField";
-import { top100Films } from "../mockData";
 
-import "./Form.css";
+import "./PredictionForm.css";
 
-const Form = ({ parsedConfig }) => {
+const PredictionForm = ({ parsedConfig }) => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [radioValue, setRadioValue] = useState(null);
@@ -41,7 +40,9 @@ const Form = ({ parsedConfig }) => {
         <div className="upper-form-area">
           <h1 className="model-title">{parsedConfig.presentation.title}</h1>
           <Tooltip title={parsedConfig.presentation.help_text}>
-            <p className="model-subtitle">{parsedConfig.presentation.subtitle}</p>
+            <p className="model-subtitle">
+              {parsedConfig.presentation.subtitle}
+            </p>
           </Tooltip>
         </div>
         <div className="form-divider"></div>
@@ -123,4 +124,4 @@ const Form = ({ parsedConfig }) => {
   );
 };
 
-export default Form;
+export default PredictionForm;

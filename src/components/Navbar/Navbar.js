@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-
 import "./Navbar.css";
+import { ReactComponent as Logo } from "../../assets/logo.svg";
 
 const Navbar = () => {
   const history = useHistory();
@@ -10,11 +10,11 @@ const Navbar = () => {
     <div className="navbar-wrapper">
       <div className="navbar-left">
         <span className="logo-container">
-          <img className="navbar-logo" src="./logo.svg" alt="Hacettepe Logo" />
+          <Logo style={{ width: 42, margin:6 }}/>
           <span className="project-name">
-            {history.location.pathname === "/home"
+            {history.location.pathname.includes("home")
               ? "Home"
-              : history.location.pathname === "/interface-wizard"
+              : history.location.pathname.includes("interface-wizard")
               ? "ML Interface Wizard"
               : history.location.pathname === "/measure"
               ? "ML Measure"
