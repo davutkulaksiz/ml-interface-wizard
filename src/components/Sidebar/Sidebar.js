@@ -39,7 +39,7 @@ const Sidebar = () => {
             </li>
             <li
               className={
-                history.location.pathname === "/interface-wizard"
+                history.location.pathname.includes("/interface-wizard")
                   ? "current-navigation"
                   : "navigation"
               }

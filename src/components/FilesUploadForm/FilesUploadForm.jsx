@@ -1,54 +1,35 @@
-import React, { useState } from "react";
+import { useContext } from "react";
 import FileUploadButton from "../FileUploadButton/FileUploadButton";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import "./ModelUploadForm.css";
+import "./FilesUploadForm.css";
+import {
+  FilesUploadContext,
+  FilesUploadDispatchContext,
+} from "./filesUploadContext";
 
-const ModelUploadForm = ({
-  setCurrentModel,
-  setCurrentConfigFile,
-  setCurrentInputTSF,
-  setCurrentOutputTSF,
-}) => {
-  const [modelName, setModelName] = useState(null);
-  const [configName, setConfigName] = useState(null);
-  const [inputTSFName, setInputTSFName] = useState(null);
-  const [outputTSFName, setOutputTSFName] = useState(null);
+const FilesUploadForm = () => {
+  const fileState = useContext(FilesUploadContext);
+  const dispatch = useContext(FilesUploadDispatchContext);
 
-  const handleModelUpload = (e) => {
+  const handleFileChange = (e, type) => {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      setModelName(e.target.files[0].name);
-      setCurrentModel(e.target.files);
-      console.log(e.target.files);
+      const action = {
+        type: type,
+        file: e.target.files,
+      };
+      dispatch(action);
+      console.log(`action invoked with ${action}`);
     }
   };
 
-  const handleConfigUpload = (e) => {
-    e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      setConfigName(e.target.files[0].name);
-      setCurrentConfigFile(e.target.files);
-      console.log(e.target.files);
-    }
-  };
-
-  const handleInputTSFUpload = (e) => {
-    e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      setInputTSFName(e.target.files[0].name);
-      setCurrentInputTSF(e.target.files);
-      console.log(e.target.files);
-    }
-  };
-
-  const handleOutputTSFUpload = (e) => {
-    e.preventDefault();
-    if (e.target.files && e.target.files[0]) {
-      setOutputTSFName(e.target.files[0].name);
-      setCurrentOutputTSF(e.target.files);
-      console.log(e.target.files);
-    }
+  const onClearFile = (type) => {
+    const action = {
+      type: type,
+      file: null,
+    };
+    dispatch(action);
   };
 
   return (
@@ -59,18 +40,19 @@ const ModelUploadForm = ({
             headerText={"Model file (as .pkl)"}
             buttonText={"Model File"}
             onClick={() => {}}
-            onChange={handleModelUpload}
+            onChange={(e) => {
+              handleFileChange(e, "model");
+            }}
           />
-          {modelName && (
+          {fileState.model && (
             <div className="uploaded-file-area">
-              <p>{modelName}</p>
+              <p>{fileState.model[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
                 color="secondary"
                 onClick={() => {
-                  setModelName("");
-                  setCurrentModel(null);
+                  onClearFile("model");
                 }}
               >
                 <DeleteIcon fontSize="inherit" />
@@ -80,19 +62,20 @@ const ModelUploadForm = ({
           <FileUploadButton
             headerText={"Provide a configuration file (as .json)"}
             buttonText={"Configuration File"}
-            onClick={() => setCurrentConfigFile}
-            onChange={handleConfigUpload}
+            onClick={() => {}}
+            onChange={(e) => {
+              handleFileChange(e, "config");
+            }}
           />
-          {configName && (
+          {fileState.config && (
             <div className="uploaded-file-area">
-              <p>{configName}</p>
+              <p>{fileState.config[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
                 color="secondary"
                 onClick={() => {
-                  setConfigName("");
-                  setCurrentConfigFile(null);
+                  onClearFile("config");
                 }}
               >
                 <DeleteIcon fontSize="inherit" />
@@ -106,18 +89,19 @@ const ModelUploadForm = ({
             buttonText={"Input TSF file"}
             variant={"outlined"}
             onClick={() => {}}
-            onChange={handleInputTSFUpload}
+            onChange={(e) => {
+              handleFileChange(e, "intsf");
+            }}
           />
-          {inputTSFName && (
+          {fileState.intsf && (
             <div className="uploaded-file-area">
-              <p>{inputTSFName}</p>
+              <p>{fileState.intsf[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
                 color="secondary"
                 onClick={() => {
-                  setInputTSFName("");
-                  setCurrentInputTSF(null);
+                  onClearFile("intsf");
                 }}
               >
                 <DeleteIcon fontSize="inherit" />
@@ -129,18 +113,19 @@ const ModelUploadForm = ({
             buttonText={"Output TSF file"}
             variant={"outlined"}
             onClick={() => {}}
-            onChange={handleOutputTSFUpload}
+            onChange={(e) => {
+              handleFileChange(e, "outtsf");
+            }}
           />
-          {outputTSFName && (
+          {fileState.outtsf && (
             <div className="uploaded-file-area">
-              <p>{outputTSFName}</p>
+              <p>{fileState.outtsf[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
                 color="secondary"
                 onClick={() => {
-                  setOutputTSFName("");
-                  setCurrentOutputTSF(null);
+                  onClearFile("outtsf");
                 }}
               >
                 <DeleteIcon fontSize="inherit" />
@@ -153,4 +138,4 @@ const ModelUploadForm = ({
   );
 };
 
-export default ModelUploadForm;
+export default FilesUploadForm;
