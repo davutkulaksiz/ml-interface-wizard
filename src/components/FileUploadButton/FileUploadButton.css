@@ -1,0 +1,11 @@
+.file-upload-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.file-upload-buton-text {
+  font-weight: bold;
+  color: #6f76a7;
+  font-size: large;
+}
