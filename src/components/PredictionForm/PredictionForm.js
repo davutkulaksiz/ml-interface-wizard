@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
@@ -8,9 +8,15 @@ import RadioButtons from "../RadioButtons/RadioButtons";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "../MUITextField/MUITextField";
 
+import { uploadModelWrapper as uploadModel } from "../../api/predictionsApi";
+import { useAsync } from "../../hooks/useAsync";
+
 import "./PredictionForm.css";
+import { FilesUploadContext } from "../FilesUploadForm/filesUploadContext";
 
 const PredictionForm = ({ parsedConfig }) => {
+  const filesState = useContext(FilesUploadContext);
+
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [radioValue, setRadioValue] = useState(null);
@@ -18,9 +24,23 @@ const PredictionForm = ({ parsedConfig }) => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
 
+  const args = {
+    model: filesState.model[0],
+    config: parsedConfig,
+    intsf: filesState.intsf[0],
+    outtsf: filesState.outtsf[0],
+  };
+  const { execute, status, value, error } = useAsync(uploadModel, args, false);
+
   useEffect(() => {
-    console.log(parsedConfig);
-  }, []);
+    console.log(status)
+  }, [status]);
+
+  const onSubmitClicked = () => {
+    console.log(args)
+    execute();
+    console.log(status, value, error)
+  }
 
   const handleCheckboxChange = (event) => {
     setCheckboxChecked(event.target.checked);
@@ -106,13 +126,7 @@ const PredictionForm = ({ parsedConfig }) => {
           <div className="form-submit-button">
             <Button
               type="submit"
-              onClick={() => {
-                console.log("kedy");
-                setLoading(true);
-                setTimeout(() => {
-                  setLoading(false);
-                }, 2000);
-              }}
+              onClick={onSubmitClicked}
               buttonType="success lg"
               text={loading ? <Loader type="tiny" /> : "Predict"}
             />
