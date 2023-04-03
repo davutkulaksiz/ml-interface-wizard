@@ -16,7 +16,7 @@ const Wizard = () => {
   const [parsedConfig, setParsedConfig] = useState(null);
 
   useEffect(() => {
-    if(!parsedConfig) {
+    if (!parsedConfig) {
       setLoading(true);
       handleConfigFileChange(filesState.config);
     }
@@ -35,6 +35,7 @@ const Wizard = () => {
           outtsf: filesState.outtsf?.[0],
         };
         const result = await uploadModelWrapper(args);
+        console.log(result);
         setModelId(result.model_id);
       } catch (e) {
         setError(e);
@@ -77,7 +78,7 @@ const Wizard = () => {
               </div>
             </div>
             {parsedConfig && (
-              <PredictionForm parsedConfig={parsedConfig} modelId={0} />
+              <PredictionForm parsedConfig={parsedConfig} modelId={modelId} />
             )}
           </div>
         </div>

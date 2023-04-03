@@ -1,3 +1,4 @@
+export const predictionsWsUrl = "ws://localhost:8000/api/v1/predict/ws"
 const baseUrl = "http://localhost:8000";
 
 function createMetadata(config) {
@@ -43,37 +44,4 @@ async function uploadModel(modelFile, config, inTsf, outTsf) {
   } catch {
     throw "network-error-try-again";
   }
-}
-
-/* Example usage:
-const socket = predictionSocket(
-  (event) => {console.log(event)},
-  (event) => {console.log(event)}
-)
-
-const sampleData = {
-  features: [0, 94, 124, 21, 25]
-}
-
-socket.send(JSON.stringify(sampleData))
-socket.close()
-*/
-function predictionSocket(
-  onMessage,
-  onError,
-  onOpen = (event) => {
-    console.log(`[onopen]WebSocket event: ${event}`);
-  },
-  onClose = (event) => {
-    console.log(`[onclose]WebSocket event: ${event}`);
-  }
-) {
-  const socket = new WebSocket(`ws://${baseUrl}/api/v1/predict/ws`);
-  socket.onopen = onOpen;
-  socket.onclose = onClose;
-  socket.onmessage = onMessage;
-  socket.onerror = onError;
-
-  // use .send(data) and .close()
-  return socket;
 }

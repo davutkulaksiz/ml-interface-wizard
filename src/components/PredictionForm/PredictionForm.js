@@ -8,29 +8,73 @@ import Tooltip from "@mui/material/Tooltip";
 import TextField from "../MUITextField/MUITextField";
 import "./PredictionForm.css";
 import { Alert, Snackbar } from "@mui/material";
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import { predictionsWsUrl } from "../../api/predictionsApi";
+import { ReadyState } from "react-use-websocket";
 
+//TODO: We don't have `createdAt` info in the config, so what to do with createdAt chip?
+//TODO: JSON.stringify() can throw, that should be handled.
+//TODO: Testing form with other models.
+//TODO: Implement output area as permanent toast
+//TODO: Show toast when connection is made -> onOpen..
+//TODO: Wire up the other comopnents to use stateful values, dropdown checkbox etc
 const PredictionForm = ({ parsedConfig, modelId }) => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [radioValue, setRadioValue] = useState(null);
 
-  const [formData, setFormData] = useState({});
+  const [formDataMap, setFormDataMap] = useState(new Map());
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {}, []);
+  const { sendMessage, lastMessage, readyState } = useWebSocket(
+    `${predictionsWsUrl}?model_id=${modelId}`,
+    {
+      onOpen: () => {
+        //loading states etc..
+      },
+    }
+  );
 
-  const onSubmitClicked = () => {};
+  useEffect(() => {
+    //NOTE: Initialize values in map since the order of things is important
+    parsedConfig.features.forEach((feature) => {
+      formDataMap.set(feature.name, feature.default_value);
+    });
+  }, []);
 
-  const handleCheckboxChange = (event) => {
+  const onSubmitClicked = () => {
+    const values = Array.from(formDataMap.values());
+    if (readyState === ReadyState.OPEN) {
+      const payload = JSON.stringify({
+        features: values,
+      });
+      sendMessage(payload);
+    }
+  };
+
+  const onNumericTextFieldChange = (event, featureName) => {
+    const value = +event.target.value; //JS is so cool
+    formDataMap.set(featureName, value);
+  };
+
+  const onTextFieldChange = (event, featureName) => {
+    const value = event.target.value;
+    formDataMap.set(featureName, value);
+  };
+
+  const handleCheckboxChange = (event, featureName) => {
     setCheckboxChecked(event.target.checked);
+    formDataMap.set(featureName, event.target.checked);
   };
 
-  const handleDropdownChange = (event, newValue) => {
+  const handleDropdownChange = (event, newValue, featureName) => {
     setDropdownValue(newValue);
+    formDataMap.set(featureName, newValue);
   };
 
-  const handleRadioChange = (event) => {
+  const handleRadioChange = (event, featureName) => {
     setRadioValue(event.target.value);
+    formDataMap.set(featureName, event.target.value);
   };
 
   const SnackbarNotify = (
@@ -63,8 +107,8 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                     defaultValue={feature.default_value}
                     name={feature.name}
                     key={feature.name}
-                    onChange={() => {
-                      console.log("kedy");
+                    onChange={(event) => {
+                      onTextFieldChange(event, feature.name);
                     }}
                   />
                 )}
@@ -76,8 +120,8 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                     type="number"
                     key={feature.name}
                     name={feature.name}
-                    onChange={() => {
-                      console.log("kedy");
+                    onChange={(event) => {
+                      onNumericTextFieldChange(event, feature.name);
                     }}
                     inputProps={{ min: feature.from, max: feature.to }}
                   />
@@ -88,7 +132,9 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                       key={feature.name}
                       options={feature.values}
                       label={feature.name}
-                      onChange={handleDropdownChange}
+                      onChange={(event, newValue) => {
+                        handleDropdownChange(event, newValue, feature.name);
+                      }}
                       defaultValue={feature.default_value}
                       multiple={false}
                     />
@@ -97,7 +143,9 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                       value={feature.default_value}
                       label={feature.name}
                       key={feature.name}
-                      handleChange={handleRadioChange}
+                      handleChange={(event) => {
+                        handleRadioChange(event, feature.name);
+                      }}
                       options={feature.values}
                     />
                   ))}
@@ -105,7 +153,9 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                   <Dropdown
                     options={feature.values}
                     label={feature.name}
-                    onChange={handleDropdownChange}
+                    onChange={(event, newValue) => {
+                      handleDropdownChange(event, newValue, feature.name);
+                    }}
                     defaultValue={feature.default_value}
                     multiple={true}
                     key={feature.name}
@@ -120,9 +170,10 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
               onClick={onSubmitClicked}
               buttonType="success lg"
               text={loading ? <Loader type="tiny" /> : "Predict"}
+              disabled={readyState !== ReadyState.OPEN}
             />
           </div>
-          <div className="output-area">{/* TOAST */}</div>
+          {lastMessage && <div className="output-area">{lastMessage.data}</div>}
         </div>
       </div>
     </div>
