@@ -1,4 +1,3 @@
-import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
@@ -7,16 +6,10 @@ import Checkbox from "../Checkbox/Checkbox";
 import RadioButtons from "../RadioButtons/RadioButtons";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "../MUITextField/MUITextField";
-
-import { uploadModelWrapper as uploadModel } from "../../api/predictionsApi";
-import { useAsync } from "../../hooks/useAsync";
-
 import "./PredictionForm.css";
-import { FilesUploadContext } from "../FilesUploadForm/filesUploadContext";
+import { Alert, Snackbar } from "@mui/material";
 
-const PredictionForm = ({ parsedConfig }) => {
-  const filesState = useContext(FilesUploadContext);
-
+const PredictionForm = ({ parsedConfig, modelId }) => {
   const [dropdownValue, setDropdownValue] = useState("");
   const [checkboxChecked, setCheckboxChecked] = useState(true);
   const [radioValue, setRadioValue] = useState(null);
@@ -24,23 +17,9 @@ const PredictionForm = ({ parsedConfig }) => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const args = {
-    model: filesState.model[0],
-    config: parsedConfig,
-    intsf: filesState.intsf[0],
-    outtsf: filesState.outtsf[0],
-  };
-  const { execute, status, value, error } = useAsync(uploadModel, args, false);
+  useEffect(() => {}, []);
 
-  useEffect(() => {
-    console.log(status)
-  }, [status]);
-
-  const onSubmitClicked = () => {
-    console.log(args)
-    execute();
-    console.log(status, value, error)
-  }
+  const onSubmitClicked = () => {};
 
   const handleCheckboxChange = (event) => {
     setCheckboxChecked(event.target.checked);
@@ -54,8 +33,15 @@ const PredictionForm = ({ parsedConfig }) => {
     setRadioValue(event.target.value);
   };
 
+  const SnackbarNotify = (
+    <Snackbar>
+      <Alert></Alert>
+    </Snackbar>
+  );
+
   return (
     <div className="form">
+      {/* {SnackbarNotify} */}
       <div className="form-body">
         <div className="upper-form-area">
           <h1 className="model-title">{parsedConfig.presentation.title}</h1>
@@ -76,6 +62,7 @@ const PredictionForm = ({ parsedConfig }) => {
                     helperText={feature.description}
                     defaultValue={feature.default_value}
                     name={feature.name}
+                    key={feature.name}
                     onChange={() => {
                       console.log("kedy");
                     }}
@@ -87,6 +74,7 @@ const PredictionForm = ({ parsedConfig }) => {
                     helperText={feature.description}
                     defaultValue={feature.default_value}
                     type="number"
+                    key={feature.name}
                     name={feature.name}
                     onChange={() => {
                       console.log("kedy");
@@ -97,6 +85,7 @@ const PredictionForm = ({ parsedConfig }) => {
                 {feature.type === "single-select" &&
                   (feature.values.length > 2 ? (
                     <Dropdown
+                      key={feature.name}
                       options={feature.values}
                       label={feature.name}
                       onChange={handleDropdownChange}
@@ -107,6 +96,7 @@ const PredictionForm = ({ parsedConfig }) => {
                     <RadioButtons
                       value={feature.default_value}
                       label={feature.name}
+                      key={feature.name}
                       handleChange={handleRadioChange}
                       options={feature.values}
                     />
@@ -118,6 +108,7 @@ const PredictionForm = ({ parsedConfig }) => {
                     onChange={handleDropdownChange}
                     defaultValue={feature.default_value}
                     multiple={true}
+                    key={feature.name}
                   />
                 )}
               </form>

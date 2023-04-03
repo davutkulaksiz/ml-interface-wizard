@@ -4,38 +4,65 @@ import { FilesUploadContext } from "../FilesUploadForm/filesUploadContext";
 import PredictionForm from "../PredictionForm/PredictionForm";
 import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 import "./Wizard.css";
+import { uploadModelWrapper } from "../../api/predictionsApi";
 
+//TODO: Use a way to persist the parsedConfig, so that on page refresh the form can stay.
 const Wizard = () => {
   const filesState = useContext(FilesUploadContext);
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState(null);
+  const [modelId, setModelId] = useState(0);
   const [parsedConfig, setParsedConfig] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    handleConfigFileChange(filesState.config);
-    console.log(filesState);
+    if(!parsedConfig) {
+      setLoading(true);
+      handleConfigFileChange(filesState.config);
+    }
   }, []);
 
+  useEffect(() => {
+    if (!parsedConfig) {
+      return;
+    }
+    async function upload() {
+      try {
+        const args = {
+          model: filesState.model[0],
+          config: parsedConfig,
+          intsf: filesState.intsf?.[0],
+          outtsf: filesState.outtsf?.[0],
+        };
+        const result = await uploadModelWrapper(args);
+        setModelId(result.model_id);
+      } catch (e) {
+        setError(e);
+      }
+    }
+    upload();
+    setLoading(false);
+  }, [parsedConfig]);
+
   const handleConfigFileChange = (configFile) => {
-    const reader = new FileReader();
+    try {
+      const reader = new FileReader();
 
-    reader.onload = () => {
-      setParsedConfig(JSON.parse(reader.result));
-    };
+      reader.onload = () => {
+        const result = JSON.parse(reader.result);
+        setParsedConfig(result);
+      };
 
-    reader.readAsText(configFile[0]);
-
-    setTimeout(() => {
+      reader.readAsText(configFile[0]);
+    } catch (e) {
+      setError(e);
       setLoading(false);
-    }, 2000);
+    }
   };
 
   return (
     <>
-      {loading ? (
-        <SkeletonLoader />
-      ) : (
+      {loading && <SkeletonLoader />}
+      {modelId && (
         <div className="wizard-wrapper">
           <div className="wizard-container">
             <div className="info-container">
@@ -48,7 +75,18 @@ const Wizard = () => {
                 <Card type="date" heading="Created at" text="22.10.2022" />
               </div>
             </div>
-            {parsedConfig && <PredictionForm parsedConfig={parsedConfig} />}
+            {parsedConfig && (
+              <PredictionForm parsedConfig={parsedConfig} modelId={0} />
+            )}
+          </div>
+        </div>
+      )}
+      {error && (
+        <div className="wizard-wrapper">
+          <div className="wizard-container">
+            <div className="info-container">
+              <p className="">Something went wrong. Try again. </p>
+            </div>
           </div>
         </div>
       )}
