@@ -34,7 +34,7 @@ async function uploadModel(modelFile, config, inTsf, outTsf) {
   }
 
   try {
-    const response = await fetch(`/api/v1/upload`, {
+    const response = await fetch(`${baseUrl}/api/v1/upload`, {
       method: "POST",
       body: formData,
     });
