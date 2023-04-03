@@ -7,6 +7,7 @@ import "./Wizard.css";
 import { uploadModelWrapper } from "../../api/predictionsApi";
 
 //TODO: Use a way to persist the parsedConfig, so that on page refresh the form can stay.
+//TODO: Create an error page when the data upload fails. Retry mechanism?
 const Wizard = () => {
   const filesState = useContext(FilesUploadContext);
   const [loading, setLoading] = useState(false);
