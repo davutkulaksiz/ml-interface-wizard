@@ -13,16 +13,11 @@ import { predictionsWsUrl } from "../../api/predictionsApi";
 import { ReadyState } from "react-use-websocket";
 
 //TODO: We don't have `createdAt` info in the config, so what to do with createdAt chip?
-//TODO: JSON.stringify() can throw, that should be handled.
 //TODO: Testing form with other models.
-//TODO: Implement output area as permanent toast
-//TODO: Show toast when connection is made -> onOpen..
 //TODO: Wire up the other comopnents to use stateful values, dropdown checkbox etc
 const PredictionForm = ({ parsedConfig, modelId }) => {
-  const [dropdownValue, setDropdownValue] = useState("");
-  const [checkboxChecked, setCheckboxChecked] = useState(true);
-  const [radioValue, setRadioValue] = useState(null);
-
+  const [snackOpen, setSnackOpen] = useState(true);
+  const [errorOpen, setErrorOpen] = useState(false);
   const [formDataMap, setFormDataMap] = useState(new Map());
   const [loading, setLoading] = useState(false);
 
@@ -30,7 +25,12 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
     `${predictionsWsUrl}?model_id=${modelId}`,
     {
       onOpen: () => {
-        //loading states etc..
+        setSnackOpen(false);
+        setErrorOpen(false);
+      },
+      onError: () => {
+        setErrorOpen(true);
+        setSnackOpen(false);
       },
     }
   );
@@ -44,12 +44,27 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
 
   const onSubmitClicked = () => {
     const values = Array.from(formDataMap.values());
+    console.log(values)
     if (readyState === ReadyState.OPEN) {
       const payload = JSON.stringify({
         features: values,
       });
+      console.log(payload)
       sendMessage(payload);
     }
+  };
+  const onSnackClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackOpen(false);
+  };
+
+  const onErrorClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setErrorOpen(false);
   };
 
   const onNumericTextFieldChange = (event, featureName) => {
@@ -63,29 +78,45 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
   };
 
   const handleCheckboxChange = (event, featureName) => {
-    setCheckboxChecked(event.target.checked);
     formDataMap.set(featureName, event.target.checked);
   };
 
   const handleDropdownChange = (event, newValue, featureName) => {
-    setDropdownValue(newValue);
     formDataMap.set(featureName, newValue);
   };
 
   const handleRadioChange = (event, featureName) => {
-    setRadioValue(event.target.value);
     formDataMap.set(featureName, event.target.value);
   };
 
   const SnackbarNotify = (
-    <Snackbar>
-      <Alert></Alert>
+    <Snackbar
+      open={snackOpen}
+      onClose={onSnackClose}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+    >
+      <Alert severity="info" onClose={onSnackClose}>
+        Establishing connection to the model. Please wait.
+      </Alert>
+    </Snackbar>
+  );
+
+  const SnackbarError = (
+    <Snackbar
+      open={errorOpen}
+      onClose={onErrorClose}
+      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+    >
+      <Alert severity="error" onClose={onErrorClose}>
+        An error has occured.
+      </Alert>
     </Snackbar>
   );
 
   return (
     <div className="form">
-      {/* {SnackbarNotify} */}
+      {SnackbarNotify}
+      {SnackbarError}
       <div className="form-body">
         <div className="upper-form-area">
           <h1 className="model-title">{parsedConfig.presentation.title}</h1>
@@ -140,10 +171,10 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                     />
                   ) : (
                     <RadioButtons
-                      value={feature.default_value}
+                      defaultValue={feature.default_value}
                       label={feature.name}
                       key={feature.name}
-                      handleChange={(event) => {
+                      handleChange={(event, newValue) => {
                         handleRadioChange(event, feature.name);
                       }}
                       options={feature.values}
@@ -170,10 +201,16 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
               onClick={onSubmitClicked}
               buttonType="success lg"
               text={loading ? <Loader type="tiny" /> : "Predict"}
-              disabled={readyState !== ReadyState.OPEN}
+              // disabled={readyState !== ReadyState.OPEN}
             />
           </div>
-          {lastMessage && <div className="output-area">{lastMessage.data}</div>}
+          {lastMessage ? (
+            <div className="output-area">
+              <Alert>{lastMessage.data}</Alert>
+            </div>
+          ) : (
+            <div className="output-area"></div>
+          )}
         </div>
       </div>
     </div>

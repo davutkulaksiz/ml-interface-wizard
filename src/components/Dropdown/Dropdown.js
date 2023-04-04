@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { styled } from "@mui/material/styles";
@@ -6,12 +6,12 @@ import { styled } from "@mui/material/styles";
 const Dropdown = ({
   options,
   onChange,
-  value,
   label,
   defaultValue,
   multiple,
   disabled = false,
 }) => {
+  const [value, setValue] = useState(defaultValue)
   const StyledTextField = styled(TextField)({
     "& label.Mui-focused": {
       color: "#ad1457",
@@ -36,9 +36,13 @@ const Dropdown = ({
     <Autocomplete
       disablePortal
       disabled={disabled}
-      onChange={onChange}
+      onChange={(event, newValue) => {
+        onChange(event, newValue);
+        setValue(newValue);
+      }}
       id="combo-box-demo"
       options={options}
+      getOptionLabel={(option) => option}
       value={value}
       sx={{
         width: 300,

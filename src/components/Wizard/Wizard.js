@@ -37,12 +37,13 @@ const Wizard = () => {
         const result = await uploadModelWrapper(args);
         console.log(result);
         setModelId(result.model_id);
+        setLoading(false);
       } catch (e) {
         setError(e);
+        setLoading(false);
       }
     }
     upload();
-    setLoading(false);
   }, [parsedConfig]);
 
   const handleConfigFileChange = (configFile) => {
