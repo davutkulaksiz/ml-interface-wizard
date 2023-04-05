@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
 import Dropdown from "../Dropdown/Dropdown";
-import Checkbox from "../Checkbox/Checkbox";
 import RadioButtons from "../RadioButtons/RadioButtons";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "../MUITextField/MUITextField";
@@ -44,12 +43,12 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
 
   const onSubmitClicked = () => {
     const values = Array.from(formDataMap.values());
-    console.log(values)
+    console.log(values);
     if (readyState === ReadyState.OPEN) {
       const payload = JSON.stringify({
         features: values,
       });
-      console.log(payload)
+      console.log(payload);
       sendMessage(payload);
     }
   };
@@ -75,10 +74,6 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
   const onTextFieldChange = (event, featureName) => {
     const value = event.target.value;
     formDataMap.set(featureName, value);
-  };
-
-  const handleCheckboxChange = (event, featureName) => {
-    formDataMap.set(featureName, event.target.checked);
   };
 
   const handleDropdownChange = (event, newValue, featureName) => {

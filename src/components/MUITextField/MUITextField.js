@@ -2,6 +2,26 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
 
+const StyledTextField = styled(TextField)({
+  "& label.Mui-focused": {
+    color: "#ad1457",
+  },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "#ad1457",
+  },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "#ad1457",
+    },
+    "&:hover fieldset": {
+      borderColor: "#ad1457",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "#ad1457",
+    },
+  },
+});
+
 const MUITextField = ({
   label,
   helperText,
@@ -11,25 +31,6 @@ const MUITextField = ({
   inputProps,
 }) => {
   const [value, setValue] = useState(defaultValue);
-  const StyledTextField = styled(TextField)({
-    "& label.Mui-focused": {
-      color: "#ad1457",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "#ad1457",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#ad1457",
-      },
-      "&:hover fieldset": {
-        borderColor: "#ad1457",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#ad1457",
-      },
-    },
-  });
   return (
     <StyledTextField
       label={label}
@@ -37,8 +38,8 @@ const MUITextField = ({
       type="number"
       name={name}
       onChange={(event) => {
-        onChange(event)
-        setValue(event.target.value)
+        onChange(event);
+        setValue(event.target.value);
       }}
       value={value}
       inputProps={inputProps}
