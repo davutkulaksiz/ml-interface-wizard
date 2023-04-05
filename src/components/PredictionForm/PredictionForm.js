@@ -43,12 +43,12 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
 
   const onSubmitClicked = () => {
     const values = Array.from(formDataMap.values());
-    console.log(values);
+    console.log(values)
     if (readyState === ReadyState.OPEN) {
       const payload = JSON.stringify({
         features: values,
       });
-      console.log(payload);
+      console.log(payload)
       sendMessage(payload);
     }
   };
@@ -196,7 +196,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
               onClick={onSubmitClicked}
               buttonType="success lg"
               text={loading ? <Loader type="tiny" /> : "Predict"}
-              // disabled={readyState !== ReadyState.OPEN}
+              disabled={readyState !== ReadyState.OPEN}
             />
           </div>
           {lastMessage ? (

@@ -68,16 +68,7 @@ const Wizard = () => {
       {modelId && (
         <div className="wizard-wrapper">
           <div className="wizard-container">
-            <div className="info-container">
-              <div className="info-group">
-                <Card type="model" heading="Regression" />
-                <Card type="metadata" heading="JSON" />
-              </div>
-              <div className="info-group">
-                <Card type="version" heading="Version" text="1.0.2" />
-                <Card type="date" heading="Created at" text="22.10.2022" />
-              </div>
-            </div>
+            <div className="info-container"></div>
             {parsedConfig && (
               <PredictionForm parsedConfig={parsedConfig} modelId={modelId} />
             )}
