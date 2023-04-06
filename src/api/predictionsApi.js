@@ -1,7 +1,10 @@
-export const predictionsWsUrl = "ws://localhost:8000/api/v1/predict/ws"
-const baseUrl = "http://localhost:8000";
+const host = process.env.REACT_APP_WIZARD_HOST;
+const port = process.env.REACT_APP_WIZARD_PORT;
+export const predictionsWsUrl = `ws://${host}:${port}/api/v1/predict/ws`;
+const baseUrl = `http://${host}:${port}`;
 
 function createMetadata(config) {
+  console.log(baseUrl)
   let metadata = {};
   metadata.name = config.model.name;
   metadata.desc = config.model.description;
