@@ -21,7 +21,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
   const [loading, setLoading] = useState(false);
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(
-    `${predictionsWsUrl}?model_id=${modelId}`,
+    `${predictionsWsUrl}/${modelId}`,
     {
       onOpen: () => {
         setSnackOpen(false);

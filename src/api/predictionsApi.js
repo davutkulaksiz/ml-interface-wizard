@@ -4,7 +4,8 @@ export const predictionsWsUrl = `ws://${host}:${port}/api/v1/predict/ws`;
 const baseUrl = `http://${host}:${port}`;
 
 function createMetadata(config) {
-  console.log(baseUrl)
+  console.log(baseUrl);
+  console.log(predictionsWsUrl);
   let metadata = {};
   metadata.name = config.model.name;
   metadata.desc = config.model.description;
