@@ -30,6 +30,7 @@ const MUITextField = ({
   name,
   onChange,
   inputProps,
+  type,
 }) => {
   const [value, setValue] = useState(defaultValue);
   return (
@@ -41,7 +42,7 @@ const MUITextField = ({
         </Tooltip>
       }
       helperText={helperText}
-      type="number"
+      type={type}
       name={name}
       onChange={(event) => {
         onChange(event);
