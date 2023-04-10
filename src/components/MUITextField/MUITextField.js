@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
+import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 
 const StyledTextField = styled(TextField)({
@@ -34,7 +35,11 @@ const MUITextField = ({
   return (
     <StyledTextField
       fullWidth
-      label={label}
+      label={
+        <Tooltip title={label} placement="bottom-start" arrow>
+          <span>{label}</span>
+        </Tooltip>
+      }
       helperText={helperText}
       type="number"
       name={name}
