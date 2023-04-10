@@ -33,6 +33,7 @@ const MUITextField = ({
   const [value, setValue] = useState(defaultValue);
   return (
     <StyledTextField
+      fullWidth
       label={label}
       helperText={helperText}
       type="number"
