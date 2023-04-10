@@ -125,7 +125,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
         <div className="lower-form-area">
           <form className="form-components">
             {parsedConfig.features.map((feature) => (
-              <form className="form-components">
+              <div className="form-components">
                 {feature.type === "text" && (
                   <TextField
                     label={feature.name}
@@ -187,7 +187,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                     key={feature.name}
                   />
                 )}
-              </form>
+              </div>
             ))}
           </form>
           <div className="form-submit-button">
