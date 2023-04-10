@@ -5,7 +5,7 @@ WORKDIR /app
 # Copy all files
 COPY . .
 # Copy .env file over
-COPY ./.container.env ./.env
+COPY ./.env ./.env
 # Install dependencies
 RUN npm ci
 # Build the app
