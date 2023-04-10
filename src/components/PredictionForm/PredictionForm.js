@@ -125,7 +125,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
         <div className="lower-form-area">
           <form className="form-components">
             {parsedConfig.features.map((feature) => (
-              <div className="form-components">
+              <div className="form-components" key={feature.name}>
                 {feature.type === "text" && (
                   <TextField
                     label={feature.name}
