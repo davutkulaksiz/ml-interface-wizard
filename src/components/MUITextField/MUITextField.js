@@ -30,8 +30,12 @@ const MUITextField = ({
   name,
   onChange,
   inputProps,
+  type,
 }) => {
   const [value, setValue] = useState(defaultValue);
+
+  console.log("Min: " + inputProps.min + " Max " + inputProps.max);
+
   return (
     <StyledTextField
       fullWidth
@@ -41,7 +45,7 @@ const MUITextField = ({
         </Tooltip>
       }
       helperText={helperText}
-      type="number"
+      type={type}
       name={name}
       onChange={(event) => {
         onChange(event);
