@@ -37,7 +37,19 @@ const MUITextField = ({
     <StyledTextField
       fullWidth
       label={
-        <Tooltip title={label} placement="bottom-start" arrow>
+        <Tooltip
+          title={
+            <div>
+              <span>{label}</span>
+              <span style={{ display: "block" }}>
+                {type === "number" &&
+                  "Min: " + inputProps.min + " Max " + inputProps.max}
+              </span>
+            </div>
+          }
+          placement="bottom-start"
+          arrow
+        >
           <span>{label}</span>
         </Tooltip>
       }
