@@ -2,15 +2,27 @@ import { Button } from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
 import "./WizardGuide.css";
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import UseExistingModelDialog from "../UseExistingModelDialog/UseExistingModelDialog";
 
 const WizardGuide = ({}) => {
   const history = useHistory();
+  const [useExistingOpen, setExistingOpen] = useState(false);
   const onOpenUploadFormClick = () => {
     console.log("navigate to /upload clicked");
     history.push("interface-wizard/upload");
   };
+  const onUseExistingClick = () => {
+    console.log("Existing clicked.");
+    setExistingOpen(true);
+  };
+
   return (
     <div className="guide-wrapper">
+      <UseExistingModelDialog
+        open={useExistingOpen}
+        onCloseClicked={() => setExistingOpen(false)}
+      />
       <div className="guide-container">
         <div className="guide-body">
           <div className="guide-upper-area">
@@ -37,7 +49,11 @@ const WizardGuide = ({}) => {
               </li>
             </ol>
             <div className="upload-container">
-              <Button variant="outlined" size="large" onClick={() => {}}>
+              <Button
+                variant="outlined"
+                size="large"
+                onClick={onUseExistingClick}
+              >
                 Use an existing one
               </Button>
               <Button

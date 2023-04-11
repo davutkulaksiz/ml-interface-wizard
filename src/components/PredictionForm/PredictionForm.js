@@ -11,9 +11,7 @@ import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { predictionsWsUrl } from "../../api/predictionsApi";
 import { ReadyState } from "react-use-websocket";
 
-//TODO: We don't have `createdAt` info in the config, so what to do with createdAt chip?
 //TODO: Testing form with other models.
-//TODO: Wire up the other comopnents to use stateful values, dropdown checkbox etc
 const PredictionForm = ({ parsedConfig, modelId }) => {
   const [snackOpen, setSnackOpen] = useState(true);
   const [errorOpen, setErrorOpen] = useState(false);
@@ -205,7 +203,9 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
           </div>
           {lastMessage ? (
             <div className="output-area">
-              <Alert>{lastMessage.data}</Alert>
+              <Alert>{`[${new Date().toLocaleString()}] \n ${
+                lastMessage.data
+              }`}</Alert>
             </div>
           ) : (
             <div className="output-area"></div>

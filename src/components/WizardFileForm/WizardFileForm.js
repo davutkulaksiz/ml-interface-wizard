@@ -5,32 +5,65 @@ import { ArrowBack } from "@mui/icons-material";
 import { Alert, Button, Snackbar } from "@mui/material";
 import FilesUploadForm from "../FilesUploadForm/FilesUploadForm";
 import { useContext } from "react";
-
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import {
   FilesUploadContext,
   FilesUploadDispatchContext,
 } from "../FilesUploadForm/filesUploadContext";
 import { useHistory } from "react-router-dom";
+import { uploadModelWrapper } from "../../api/predictionsApi";
 
 const WizardFileForm = ({}) => {
   const history = useHistory();
   const filesState = useContext(FilesUploadContext);
   const dispatch = useContext(FilesUploadDispatchContext);
+  const [parsedConfig, setParsedConfig] = useLocalStorage("config", null);
 
   const onBackClicked = () => {
     history.goBack();
   };
 
-  const onGenerateFormClick = () => {
-    if (!filesState.config && !filesState.model) {
-      dispatch({
-        type: "setMessage",
-        message: "Provide both mandatory files!",
-      });
+  const handleConfigFileChange = async (configFile) => {
+    try {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const result = JSON.parse(reader.result);
+        setParsedConfig(result);
+        upload();
+      };
+
+      reader.readAsText(configFile[0]);
+    } catch (e) {
+      console.error(e);
+      dispatchError("Invalid configuration format.");
+    }
+  };
+
+  async function upload() {
+    try {
+      const args = {
+        model: filesState.model[0],
+        config: parsedConfig,
+        intsf: filesState.intsf?.[0],
+        outtsf: filesState.outtsf?.[0],
+      };
+      const result = await uploadModelWrapper(args);
+      console.log(result);
+      history.push(`/interface-wizard/form/${result.model_id}`);
+    } catch (e) {
+      console.error(e);
+      dispatchError("Upload failed. Please try again.");
+    }
+  }
+
+  const onGenerateFormClick = async () => {
+    if (!filesState.config || !filesState.model) {
+      dispatchError("Please provide both mandatory files.");
       return;
     }
     console.log(filesState);
-    history.push("/interface-wizard/form");
+    handleConfigFileChange(filesState.config);
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -38,6 +71,13 @@ const WizardFileForm = ({}) => {
       return;
     }
     dispatch({ type: "clearMessage" });
+  };
+
+  const dispatchError = (message) => {
+    dispatch({
+      type: "setMessage",
+      message: message,
+    });
   };
 
   const SnackbarError = (

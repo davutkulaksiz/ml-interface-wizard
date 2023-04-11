@@ -31,7 +31,7 @@ const Interface = () => {
                 render={(props) => <WizardFileForm {...props} />}
               />
               <Route
-                path="/interface-wizard/form"
+                path="/interface-wizard/form/:modelId"
                 render={(props) => <Wizard {...props} />}
               />
               <Route
