@@ -1,54 +1,44 @@
 import React, { useContext, useEffect, useState } from "react";
-import Card from "../Card/Card";
-import { FilesUploadContext } from "../FilesUploadForm/filesUploadContext";
 import PredictionForm from "../PredictionForm/PredictionForm";
 import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 import "./Wizard.css";
+import { useParams } from "react-router-dom";
 
+//TODO: Create an error page when the data upload fails. Retry mechanism?
 const Wizard = () => {
-  const filesState = useContext(FilesUploadContext);
   const [loading, setLoading] = useState(false);
-
+  const [error, setError] = useState(null);
   const [parsedConfig, setParsedConfig] = useState(null);
+  const { modelId } = useParams();
 
   useEffect(() => {
     setLoading(true);
-    handleConfigFileChange(filesState.config);
-    console.log(filesState);
-  }, []);
-
-  const handleConfigFileChange = (configFile) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      setParsedConfig(JSON.parse(reader.result));
-    };
-
-    reader.readAsText(configFile[0]);
-
-    setTimeout(() => {
+    const config = localStorage.getItem("config");
+    if (config) {
+      setParsedConfig(JSON.parse(config));
       setLoading(false);
-    }, 2000);
-  };
+    }
+  }, []);
 
   return (
     <>
-      {loading ? (
-        <SkeletonLoader />
-      ) : (
+      {loading && <SkeletonLoader />}
+      {modelId && (
+        <div className="wizard-wrapper">
+          <div className="wizard-container">
+            <div className="info-container"></div>
+            {parsedConfig && (
+              <PredictionForm parsedConfig={parsedConfig} modelId={modelId} />
+            )}
+          </div>
+        </div>
+      )}
+      {error && (
         <div className="wizard-wrapper">
           <div className="wizard-container">
             <div className="info-container">
-              <div className="info-group">
-                <Card type="model" heading="Regression" />
-                <Card type="metadata" heading="JSON" />
-              </div>
-              <div className="info-group">
-                <Card type="version" heading="Version" text="1.0.2" />
-                <Card type="date" heading="Created at" text="22.10.2022" />
-              </div>
+              <p className="">Something went wrong. Try again. </p>
             </div>
-            {parsedConfig && <PredictionForm parsedConfig={parsedConfig} />}
           </div>
         </div>
       )}
