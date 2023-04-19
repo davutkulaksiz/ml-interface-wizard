@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import WizardModelIdField from "../WizardModelIdField/WizardModelIdField";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
 import Dropdown from "../Dropdown/Dropdown";
@@ -122,6 +123,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
         <div className="form-divider"></div>
         <div className="lower-form-area">
           <form className="form-components">
+            <WizardModelIdField modelId={modelId} />
             {parsedConfig.features.map((feature) => (
               <div key={feature.name}>
                 {feature.type === "text" && (
