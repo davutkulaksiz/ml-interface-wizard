@@ -43,7 +43,7 @@ const MUITextField = ({
               <span>{label}</span>
               <span style={{ display: "block" }}>
                 {type === "number" &&
-                  "Min: " + inputProps.min + " Max " + inputProps.max}
+                  "Min: " + inputProps.min + " Max: " + inputProps.max}
               </span>
             </div>
           }
