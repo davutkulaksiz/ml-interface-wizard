@@ -32,8 +32,12 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
       const reader = new FileReader();
 
       reader.onload = () => {
-        const result = JSON.parse(reader.result);
-        setParsedConfig(result);
+        try {
+          const result = JSON.parse(reader.result);
+          setParsedConfig(result);
+        } catch (e) {
+          console.log(e);
+        }
       };
 
       reader.readAsText(configFile[0]);
@@ -50,6 +54,8 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
     setConfig(null);
   };
 
+  const invalidState = config == null || modelId.length !== 24;
+
   return (
     <>
       <Dialog open={open} onClose={onCloseClicked}>
@@ -60,6 +66,18 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
             Model ID and upload the relevant configuration file. Then, you can
             generate the form.
           </DialogContentText>
+
+          <DialogContentText> </DialogContentText>
+          {invalidState && (
+            <div>
+              <DialogContentText sx={{ color: "red" }}>
+                * You need to provide a configuration file and the Model ID.
+              </DialogContentText>
+              <DialogContentText sx={{ color: "red" }}>
+                * Model ID's are exactly 24 characters long.
+              </DialogContentText>
+            </div>
+          )}
           <TextField
             autoFocus
             margin="dense"
@@ -82,7 +100,7 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
               <p>{config[0].name}</p>
               <IconButton
                 aria-label="delete"
-                size="small"
+                size="medium"
                 color="secondary"
                 onClick={onClearFile}
               >

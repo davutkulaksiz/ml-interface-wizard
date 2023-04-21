@@ -10,13 +10,13 @@ const Navbar = () => {
     <div className="navbar-wrapper">
       <div className="navbar-left">
         <span className="logo-container">
-          <Logo style={{ width: 42, margin:6 }}/>
+          <Logo style={{ width: 42, marginLeft: 10 }} />
           <span className="project-name">
             {history.location.pathname.includes("home")
               ? "Home"
               : history.location.pathname.includes("interface-wizard")
               ? "ML Interface Wizard"
-              : history.location.pathname === "/measure"
+              : history.location.pathname.includes("/measure")
               ? "ML Measure"
               : "ML Contribute"}
           </span>
