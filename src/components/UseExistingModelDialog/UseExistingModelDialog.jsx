@@ -7,42 +7,37 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FileUploadButton from "../FileUploadButton/FileUploadButton";
 import "./UseExistingModelDialog.css";
+import { Alert, Snackbar } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import {
+  WizardDispatchContext,
+  WizardStateContext,
+} from "../../stores/wizardStore/wizardContext";
 
 const UseExistingModelDialog = ({ open, onCloseClicked }) => {
   const history = useHistory();
-  const [config, setConfig] = useState(null);
-  const [parsedConfig, setParsedConfig] = useLocalStorage("config", null);
+  const state = useContext(WizardStateContext);
+  const dispatch = useContext(WizardDispatchContext);
   const [modelId, setModelId] = useState("");
+  const [snackOpen, setSnackOpen] = useState(false);
+
+  useEffect(() => {
+    if (state.message) {
+      setSnackOpen(true);
+    }
+  }, [state.message]);
 
   const onFileChange = (e) => {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      setConfig(e.target.files);
-      handleConfigFileChange(e.target.files);
-    }
-  };
-
-  const handleConfigFileChange = (configFile) => {
-    try {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        try {
-          const result = JSON.parse(reader.result);
-          setParsedConfig(result);
-        } catch (e) {
-          console.log(e);
-        }
+      const action = {
+        type: "config",
+        file: e.target.files,
       };
-
-      reader.readAsText(configFile[0]);
-    } catch (e) {
-      console.error(e);
+      dispatch(action);
     }
   };
 
@@ -51,13 +46,29 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
   };
 
   const onClearFile = () => {
-    setConfig(null);
+    const action = {
+      type: "config",
+      file: null,
+    };
+    dispatch(action);
   };
 
-  const invalidState = config == null || modelId.length !== 24;
+  const invalidState =
+    state.config == null || modelId.length !== 24 || state.message != null;
 
   return (
     <>
+      <Snackbar
+        message={state.message}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        autoHideDuration={2000}
+        onClose={() => setSnackOpen(false)}
+        open={snackOpen}
+      >
+        <Alert severity="error" onClose={() => setSnackOpen(false)}>
+          {state.message}
+        </Alert>
+      </Snackbar>
       <Dialog open={open} onClose={onCloseClicked}>
         <DialogTitle>Use an Existing Model</DialogTitle>
         <DialogContent>
@@ -67,7 +78,6 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
             generate the form.
           </DialogContentText>
 
-          <DialogContentText> </DialogContentText>
           {invalidState && (
             <div>
               <DialogContentText sx={{ color: "red" }}>
@@ -95,9 +105,9 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
             onClick={() => {}}
             onChange={onFileChange}
           />
-          {config && (
+          {state.config && (
             <div className="uploaded-file-area">
-              <p>{config[0].name}</p>
+              <p>{state.config[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="medium"
@@ -115,7 +125,7 @@ const UseExistingModelDialog = ({ open, onCloseClicked }) => {
             variant="contained"
             size="large"
             color="success"
-            disabled={config == null || modelId.length !== 24}
+            disabled={invalidState}
             onClick={onGenerateClicked}
           >
             Generate the Form

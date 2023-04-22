@@ -1,3 +1,4 @@
+import { ConfigSchema } from "./wizardSchemas";
 export const initialState = {
   model: null,
   config: null,
@@ -6,7 +7,7 @@ export const initialState = {
   message: null,
 };
 
-export function filesStateReducer(state, action) {
+export function wizardStateReducer(state, action) {
   switch (action.type) {
     case "model": {
       if (!action.file) {
@@ -31,12 +32,14 @@ export function filesStateReducer(state, action) {
       };
     }
     case "config": {
+      //NOTE: Check if it is a file object.
       if (!action.file) {
         return {
           ...state,
           config: null,
         };
       }
+      //NOTE: Check if it is a json file.
       const modelFileName = action.file[0].name;
       const fext = modelFileName.split(".").pop();
       if (fext !== "json") {
@@ -45,20 +48,6 @@ export function filesStateReducer(state, action) {
           message: "Configuration file format not supported.",
         };
       }
-
-      //TODO: this checks that the file is valid JSON. We can use ConfigSchema here.
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          JSON.parse(reader.result);
-        } catch (e) {
-          return {
-            ...state,
-            message: "Configuration file is not valid JSON.",
-          };
-        }
-      };
-      reader.readAsText(action.file[0]);
 
       return {
         ...state,
@@ -128,4 +117,39 @@ export function filesStateReducer(state, action) {
       throw Error("Unknown action: " + action.type);
     }
   }
+}
+
+//NOTE: configFile is actually a FileArray
+export function readAndParseConfig(configFile, onComplete) {
+  if (!configFile) {
+    return;
+  }
+  const reader = new FileReader();
+  reader.readAsText(configFile[0]);
+  reader.onload = () => {
+    let parsedConfig;
+    try {
+      //NOTE: Validate that the text is proper JSON
+      parsedConfig = JSON.parse(reader.result);
+    } catch (e) {
+      onComplete({
+        parsedConfig: null,
+        message: "Configuration file is not valid JSON.",
+      });
+    }
+    //NOTE: Validate that the JSON object created above fits our schema.
+    const result = ConfigSchema.safeParse(parsedConfig);
+    if (result.success) {
+      console.log("Logging after zod parsing." + JSON.stringify(result.data));
+      onComplete({
+        parsedConfig: result.data,
+        message: null,
+      });
+    } else {
+      onComplete({
+        parsedConfig: null,
+        message: "Incorrect configuration structure.",
+      });
+    }
+  };
 }

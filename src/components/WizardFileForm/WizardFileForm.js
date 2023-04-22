@@ -2,68 +2,55 @@ import "../../pages/interface/Interface.css";
 import "../WizardGuide/WizardGuide.css";
 import "./WizardFileForm.css";
 import { ArrowBack } from "@mui/icons-material";
-import { Alert, Button, Snackbar } from "@mui/material";
+import { Alert, Box, Button, LinearProgress, Snackbar } from "@mui/material";
 import FilesUploadForm from "../FilesUploadForm/FilesUploadForm";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
-import {
-  FilesUploadContext,
-  FilesUploadDispatchContext,
-} from "../FilesUploadForm/filesUploadContext";
 import { useHistory } from "react-router-dom";
 import { uploadModelWrapper } from "../../api/predictionsApi";
+import {
+  WizardStateContext,
+  WizardDispatchContext,
+} from "../../stores/wizardStore/wizardContext";
 
 const WizardFileForm = ({}) => {
   const history = useHistory();
-  const filesState = useContext(FilesUploadContext);
-  const dispatch = useContext(FilesUploadDispatchContext);
-  const [parsedConfig, setParsedConfig] = useLocalStorage("config", null);
+  const state = useContext(WizardStateContext);
+  const dispatch = useContext(WizardDispatchContext);
+  const [parsedConfig, _] = useLocalStorage("config", null);
+  const [loading, setLoading] = useState(false);
 
   const onBackClicked = () => {
     history.goBack();
   };
 
-  const handleConfigFileChange = async (configFile) => {
-    try {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const result = JSON.parse(reader.result);
-        setParsedConfig(result);
-        upload();
-      };
-
-      reader.readAsText(configFile[0]);
-    } catch (e) {
-      console.error(e);
-      dispatchError("Invalid configuration format.");
-    }
-  };
-
   async function upload() {
     try {
+      setLoading(true);
       const args = {
-        model: filesState.model[0],
+        model: state.model[0],
         config: parsedConfig,
-        intsf: filesState.intsf?.[0],
-        outtsf: filesState.outtsf?.[0],
+        intsf: state.intsf?.[0],
+        outtsf: state.outtsf?.[0],
       };
       const result = await uploadModelWrapper(args);
       console.log(result);
+      setLoading(false);
       history.push(`/interface-wizard/form/${result.model_id}`);
     } catch (e) {
       console.error(e);
+      setLoading(false);
       dispatchError("Upload failed. Please try again.");
     }
   }
 
   const onGenerateFormClick = async () => {
-    if (!filesState.config || !filesState.model) {
+    if (!state.config || !state.model) {
       dispatchError("Please provide both mandatory files.");
       return;
     }
-    console.log(filesState);
-    handleConfigFileChange(filesState.config);
+    console.log(state);
+    upload();
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -82,7 +69,7 @@ const WizardFileForm = ({}) => {
 
   const SnackbarError = (
     <Snackbar
-      open={filesState.message !== null}
+      open={state.message !== null}
       autoHideDuration={6000}
       onClose={handleSnackbarClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -92,7 +79,7 @@ const WizardFileForm = ({}) => {
         severity="error"
         sx={{ width: "100%" }}
       >
-        {filesState.message}
+        {state.message}
       </Alert>
     </Snackbar>
   );
@@ -100,6 +87,7 @@ const WizardFileForm = ({}) => {
   return (
     <>
       <div className="guide-wrapper">
+        <Box sx={{ width: "100%" }}>{loading && <LinearProgress />}</Box>
         <div className="guide-container">
           {SnackbarError}
           <div className="guide-body">
