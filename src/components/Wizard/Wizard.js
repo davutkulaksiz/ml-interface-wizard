@@ -9,38 +9,35 @@ const Wizard = () => {
   const { modelId } = useParams();
   const history = useHistory();
 
-  const invalidState = parsedConfig == null || modelId.lenght !== 24;
+  const validState = parsedConfig != null && modelId.length === 24;
 
   return (
     <>
-      {modelId && (
-        <div className="wizard-wrapper">
-          <div className="wizard-container">
-            <div className="info-container"></div>
-            {!invalidState && (
-              <PredictionForm parsedConfig={parsedConfig} modelId={modelId} />
-            )}
-            {invalidState && (
-              <div className="error-container">
-                <h1 className="error-code">404</h1>
-                <h3 className="error-text">
-                  The Model ID is malformed. Go back to our Guide page and learn
-                  how you can get started.
-                </h3>
-                <Button
-                  onClick={() => {
-                    history.push("/interface-wizard");
-                  }}
-                  size="large"
-                  variant="contained"
-                >
-                  Go to Guide
-                </Button>
-              </div>
-            )}
-          </div>
+      <div className="wizard-wrapper">
+        <div className="wizard-container">
+          <div className="info-container"></div>
+          {validState ? (
+            <PredictionForm parsedConfig={parsedConfig} modelId={modelId} />
+          ) : (
+            <div className="error-container">
+              <h1 className="error-code">404</h1>
+              <h3 className="error-text">
+                The Model ID is malformed. Go back to our Guide page and learn
+                how you can get started.
+              </h3>
+              <Button
+                onClick={() => {
+                  history.push("/interface-wizard");
+                }}
+                size="large"
+                variant="contained"
+              >
+                Go to Guide
+              </Button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };
