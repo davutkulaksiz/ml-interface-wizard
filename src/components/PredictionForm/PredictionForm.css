@@ -43,8 +43,8 @@
 }
 
 .lower-form-area {
-  padding-left: 10%;
-  padding-right: 10%;
+  /* padding-left: 10%; */
+  /* padding-right: 10%; */
   padding-top: 3rem;
   display: flex;
   flex-direction: column;

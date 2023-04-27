@@ -1,47 +1,43 @@
-import React, { useContext, useEffect, useState } from "react";
 import PredictionForm from "../PredictionForm/PredictionForm";
-import SkeletonLoader from "../SkeletonLoader/SkeletonLoader";
 import "./Wizard.css";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { Button } from "@mui/material";
 
-//TODO: Create an error page when the data upload fails. Retry mechanism?
 const Wizard = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [parsedConfig, setParsedConfig] = useState(null);
+  const [parsedConfig, _] = useLocalStorage("config", null);
   const { modelId } = useParams();
+  const history = useHistory();
 
-  useEffect(() => {
-    setLoading(true);
-    const config = localStorage.getItem("config");
-    if (config) {
-      setParsedConfig(JSON.parse(config));
-      setLoading(false);
-    }
-  }, []);
+  const validState = parsedConfig != null && modelId.length === 24;
 
   return (
     <>
-      {loading && <SkeletonLoader />}
-      {modelId && (
-        <div className="wizard-wrapper">
-          <div className="wizard-container">
-            <div className="info-container"></div>
-            {parsedConfig && (
-              <PredictionForm parsedConfig={parsedConfig} modelId={modelId} />
-            )}
-          </div>
-        </div>
-      )}
-      {error && (
-        <div className="wizard-wrapper">
-          <div className="wizard-container">
-            <div className="info-container">
-              <p className="">Something went wrong. Try again. </p>
+      <div className="wizard-wrapper">
+        <div className="wizard-container">
+          <div className="info-container"></div>
+          {validState ? (
+            <PredictionForm parsedConfig={parsedConfig} modelId={modelId} />
+          ) : (
+            <div className="error-container">
+              <h1 className="error-code">404</h1>
+              <h3 className="error-text">
+                The Model ID is malformed. Go back to our Guide page and learn
+                how you can get started.
+              </h3>
+              <Button
+                onClick={() => {
+                  history.push("/interface-wizard");
+                }}
+                size="large"
+                variant="contained"
+              >
+                Go to Guide
+              </Button>
             </div>
-          </div>
+          )}
         </div>
-      )}
+      </div>
     </>
   );
 };

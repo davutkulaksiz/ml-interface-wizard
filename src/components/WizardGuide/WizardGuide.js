@@ -1,9 +1,63 @@
-import { Button } from "@mui/material";
+import {
+  Button,
+  Step,
+  Stepper,
+  StepLabel,
+  StepContent,
+  Typography,
+} from "@mui/material";
 import { ArrowForward } from "@mui/icons-material";
 import "./WizardGuide.css";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import UseExistingModelDialog from "../UseExistingModelDialog/UseExistingModelDialog";
+import { Box } from "@mui/system";
+
+const steps = [
+  {
+    label: "Upload Form",
+    description: `Open the Upload Form and provide the necessary files. Model and
+                configuration files are mandatory.`,
+  },
+  {
+    label: "Optional - Transformers",
+    description: `If your model comes with transformers, you can use the
+                appropriate buttons indicated on the form. These are optional.`,
+  },
+  {
+    label: "Fill out the generated form.",
+    description: ``,
+  },
+  {
+    label: "Make a prediction by clicking on the Predict button.",
+    description: ``,
+  },
+  {
+    label: `Alternatively, click the Use An Existing One button to connect
+                to an existing model.`,
+    description:
+      "If you've done this before, this is a quicker option. Just use the configuration file and the Model ID.",
+  },
+];
+
+const WizardStepper = () => {
+  return (
+    <>
+      <Box>
+        <Stepper orientation="vertical">
+          {steps.map((step, index) => (
+            <Step key={step.label} active={true}>
+              <StepLabel>{step.label}</StepLabel>
+              <StepContent>
+                <Typography>{step.description}</Typography>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
+    </>
+  );
+};
 
 const WizardGuide = ({}) => {
   const history = useHistory();
@@ -31,23 +85,7 @@ const WizardGuide = ({}) => {
           </div>
           <div className="guide-divider"></div>
           <div className="guide-lower-area">
-            {/**Body */}
-            <ol className="guide-step-list">
-              <li>
-                Open the Upload Form and provide the necessary files. Model and
-                configuration files are mandatory.
-              </li>
-              <li>
-                If your model comes with transformers, you can use the
-                appropriate buttons indicated on the form. These are optional.
-              </li>
-              <li>Fill out the generated form.</li>
-              <li>Make a prediction by clicking on the Predict button.</li>
-              <li>
-                Alternatively, click the Use An Existing One button to connect
-                to an existing model.
-              </li>
-            </ol>
+            <WizardStepper />
             <div className="upload-container">
               <Button
                 variant="outlined"

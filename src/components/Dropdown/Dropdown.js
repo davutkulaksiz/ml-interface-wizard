@@ -11,7 +11,7 @@ const Dropdown = ({
   multiple,
   disabled = false,
 }) => {
-  const [value, setValue] = useState(defaultValue)
+  const [value, setValue] = useState(defaultValue);
   const StyledTextField = styled(TextField)({
     "& label.Mui-focused": {
       color: "#ad1457",
@@ -35,6 +35,7 @@ const Dropdown = ({
   return (
     <Autocomplete
       disablePortal
+      disableClearable
       disabled={disabled}
       onChange={(event, newValue) => {
         onChange(event, newValue);

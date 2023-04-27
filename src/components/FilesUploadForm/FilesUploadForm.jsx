@@ -4,13 +4,13 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "./FilesUploadForm.css";
 import {
-  FilesUploadContext,
-  FilesUploadDispatchContext,
-} from "./filesUploadContext";
+  WizardDispatchContext,
+  WizardStateContext,
+} from "../../stores/wizardStore/wizardContext";
 
 const FilesUploadForm = () => {
-  const fileState = useContext(FilesUploadContext);
-  const dispatch = useContext(FilesUploadDispatchContext);
+  const state = useContext(WizardStateContext);
+  const dispatch = useContext(WizardDispatchContext);
 
   const handleFileChange = (e, type) => {
     e.preventDefault();
@@ -44,9 +44,9 @@ const FilesUploadForm = () => {
               handleFileChange(e, "model");
             }}
           />
-          {fileState.model && (
+          {state.model && (
             <div className="uploaded-file-area">
-              <p>{fileState.model[0].name}</p>
+              <p>{state.model[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -67,9 +67,9 @@ const FilesUploadForm = () => {
               handleFileChange(e, "config");
             }}
           />
-          {fileState.config && (
+          {state.config && (
             <div className="uploaded-file-area">
-              <p>{fileState.config[0].name}</p>
+              <p>{state.config[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -93,9 +93,9 @@ const FilesUploadForm = () => {
               handleFileChange(e, "intsf");
             }}
           />
-          {fileState.intsf && (
+          {state.intsf && (
             <div className="uploaded-file-area">
-              <p>{fileState.intsf[0].name}</p>
+              <p>{state.intsf[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -117,9 +117,9 @@ const FilesUploadForm = () => {
               handleFileChange(e, "outtsf");
             }}
           />
-          {fileState.outtsf && (
+          {state.outtsf && (
             <div className="uploaded-file-area">
-              <p>{fileState.outtsf[0].name}</p>
+              <p>{state.outtsf[0].name}</p>
               <IconButton
                 aria-label="delete"
                 size="small"
