@@ -49,3 +49,28 @@ async function uploadModel(modelFile, config, inTsf, outTsf) {
     throw "network-error-try-again";
   }
 }
+
+export async function castPrediction(values, modelId) {
+  let body;
+  try {
+    body = JSON.stringify({
+      features: values,
+    });
+  } catch {
+    throw "invalid-json";
+  }
+  console.log("prediction", body);
+  try {
+    const response = await fetch(`${baseUrl}/api/v1/predict/${modelId}`, {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.json();
+  } catch {
+    throw "network-error-try-again";
+  }
+}
