@@ -11,6 +11,7 @@ const Dropdown = ({
   defaultValue,
   multiple,
   disabled = false,
+  sx = 300
 }) => {
   const StyledTextField = styled(TextField)({
     "& label.Mui-focused": {
@@ -41,7 +42,7 @@ const Dropdown = ({
       options={options}
       value={value}
       sx={{
-        width: 300,
+        width: sx,
       }}
       renderInput={(params) => <StyledTextField {...params} label={label} />}
       defaultValue={defaultValue}

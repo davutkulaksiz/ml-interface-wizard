@@ -38,6 +38,7 @@ const MUITextField = ({
       name={name}
       onChange={onChange}
       inputProps={inputProps}
+      disabled={true}
     ></StyledTextField>
   );
 };
