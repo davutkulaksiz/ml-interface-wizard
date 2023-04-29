@@ -9,8 +9,13 @@ const MUITextField = ({
   name,
   onChange,
   inputProps,
+  disabled = false,
+  width = "100%",
 }) => {
   const StyledTextField = styled(TextField)({
+    "& label.Mui-disabled": {
+      color: "rgba(0, 0, 0, 1)", // (default alpha is 0.38)
+    },
     "& label.Mui-focused": {
       color: "#ad1457",
     },
@@ -38,7 +43,8 @@ const MUITextField = ({
       name={name}
       onChange={onChange}
       inputProps={inputProps}
-      disabled={true}
+      disabled={disabled}
+      sx={{ width: width }}
     ></StyledTextField>
   );
 };

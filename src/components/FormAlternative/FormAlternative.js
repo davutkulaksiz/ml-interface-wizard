@@ -16,9 +16,11 @@ const getHtmlForFeature = (feature, value, index) => {
       return (
         <div key={index}>
           <MUITextField
-            label={feature.description}
+            label={feature.label}
+            helperText={feature.description}
             onChange={() => {}}
             defaultValue={value}
+            disabled={true}
           />
         </div>
       );
@@ -28,7 +30,7 @@ const getHtmlForFeature = (feature, value, index) => {
           <RadioButtons
             value={value}
             handleChange={() => {}}
-            label={feature.description}
+            label={feature.label}
             options={feature.values}
             disabled={true}
           />
@@ -37,7 +39,13 @@ const getHtmlForFeature = (feature, value, index) => {
     case constants.dropdown:
       return (
         <div key={index}>
-          <Dropdown value={value} disabled={true} options={feature.values} />
+          <Dropdown
+            value={value}
+            disabled={true}
+            label={feature.label}
+            options={feature.values}
+            sx={"100%"}
+          />
         </div>
       );
     case constants.label:

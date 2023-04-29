@@ -11,9 +11,12 @@ const Dropdown = ({
   defaultValue,
   multiple,
   disabled = false,
-  sx = 300
+  sx = 300,
 }) => {
   const StyledTextField = styled(TextField)({
+    "& label.Mui-disabled": {
+      color: "rgba(0, 0, 0, 1)", // (default alpha is 0.38)
+    },
     "& label.Mui-focused": {
       color: "#ad1457",
     },

@@ -6,7 +6,6 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import FormAlternative from "../../components/FormAlternative/FormAlternative";
 import "./Measure.css";
 import { componentConstants as constants } from "../../constants/component-constants";
-import Button from "../../components/Button/Button";
 
 //read config iterate over features, save names and type to an array
 //for every feature in the array, read the related field from data object
@@ -28,9 +27,7 @@ const configInitializer = (config) => {
         //pass the values to be used as options
         extractedFeature.values = feature.values;
         //check if number of options is more than 2, 3 or more
-        if (feature.values.length == 2) {
-          extractedFeature.component = constants.label;
-        } else if (feature.values.length == 3) {
+        if (feature.values.length <= 3) {
           extractedFeature.component = constants.radioButton;
         } else {
           extractedFeature.component = constants.dropdown;
@@ -57,6 +54,7 @@ const Measure = () => {
 
     const config = configInitializer(data);
     setInitializedConfig(config);
+    console.log(config);
   });
 
   useEffect(() => {

@@ -13,6 +13,14 @@
   },
   "features": [
     {
+      "name": "Sex",
+      "data_label": "Sex",
+      "description": "Gender of the subject.",
+      "type": "single-select",
+      "values": ["male", "female"],
+      "default_value": 1
+    },
+    {
       "name": "Pregnancies",
       "data_label": "Pregnancies",
       "description": "The number of pregnancies the subject has had.",
@@ -47,6 +55,14 @@
       "from": 1,
       "to": 99,
       "default_value": 1
+    },
+    {
+      "name": "General health of patient?",
+      "data_label": "GenHlth",
+      "description": "General health.",
+      "type": "single-select",
+      "values": ["Excellent", "Very Good", "Good", "Fair", "Poor"],
+      "default_value": "Good"
     },
     {
       "name": "Age",
