@@ -46,7 +46,6 @@ const configInitializer = (config) => {
 const Measure = () => {
   const [formName, setFormName] = useState("Fetching Data...");
   const [initializedConfig, setInitializedConfig] = useState(null);
-  const [useEffectCounter, setUseEffectCounter] = useState(0);
 
   const getConfig = useCallback(async () => {
     let { data } = await fetchConfig();
@@ -54,12 +53,9 @@ const Measure = () => {
 
     const config = configInitializer(data);
     setInitializedConfig(config);
-    console.log(config);
   });
 
   useEffect(() => {
-    setUseEffectCounter((useEffectCounter) => useEffectCounter + 1);
-    console.log(`UseEffect is called: ${useEffectCounter}`);
     getConfig();
   }, []);
 

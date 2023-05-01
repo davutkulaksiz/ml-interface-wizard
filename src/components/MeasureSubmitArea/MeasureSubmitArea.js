@@ -4,13 +4,14 @@ import RadioButtons from "../RadioButtons/RadioButtons";
 import { useState } from "react";
 import "./MeasureSubmitArea.css";
 import Modal from "../Modal/Modal";
+import { postSingleObservationResult } from "../../actions/observations";
 
-const MeasureSubmitArea = ({ options, type }) => {
+const MeasureSubmitArea = ({ options, type, observationId }) => {
   const [answerValue, setAnswerValue] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [isErroneous, setIsErroneous] = useState(false);
 
-  const handleSubmitClick = () => {
+  const handleSubmitClick = async () => {
     //check if an selection is made
     if (answerValue === null) {
       //show error message
@@ -20,6 +21,10 @@ const MeasureSubmitArea = ({ options, type }) => {
       //show success message
       //open pop-up ask for wanna fill another
       //fetch new sample
+      await postSingleObservationResult({
+        prediction: answerValue,
+        objectId: observationId,
+      });
       setIsErroneous(false);
       setShowModal(true);
     }

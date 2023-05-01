@@ -3,7 +3,10 @@ import Dropdown from "../Dropdown/Dropdown";
 import MeasureSubmitArea from "../MeasureSubmitArea/MeasureSubmitArea";
 import RadioButtons from "../RadioButtons/RadioButtons";
 import MUITextField from "../MUITextField/MUITextField";
-import { fetchSingleObservationTest } from "../../actions/observations";
+import {
+  fetchSingleObservationTest,
+  fetchSingleObservation,
+} from "../../actions/observations";
 import { fetchConfig } from "../../actions/observations";
 import { componentConstants as constants } from "../../constants/component-constants";
 import "./FormAlternative.css";
@@ -63,14 +66,20 @@ const getHtmlForFeature = (feature, value, index) => {
 
 const FormAlternative = ({ formName, initializedConfig }) => {
   const [observationData, setObservationData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [useEffectCounter, setUseEffectCounter] = useState(0);
 
   console.log("rendered");
   const getObservationData = useCallback(async () => {
-    const { data } = await fetchSingleObservationTest();
+    const { data } = await fetchSingleObservation();
+    console.log(data);
     setObservationData(data);
+    setIsLoading(false);
   });
 
   useEffect(() => {
+    setUseEffectCounter((useEffectCounter) => (useEffectCounter = 1));
+    console.log(`useEffect is called: ${useEffectCounter}`);
     getObservationData();
   }, []);
 
@@ -80,17 +89,22 @@ const FormAlternative = ({ formName, initializedConfig }) => {
       <div className="form-divider"></div>
       <div className="form-lower-wrapper">
         <div className="form-lower">
-          {initializedConfig?.map((element, index) => {
-            return getHtmlForFeature(
-              element,
-              observationData[element.name],
-              index
-            );
-          })}
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            initializedConfig?.map((element, index) => {
+              return getHtmlForFeature(
+                element,
+                observationData[element.name],
+                index
+              );
+            })
+          )}
         </div>
         <MeasureSubmitArea
           options={["Malignant", "Benign"]}
           type={"RadioButtons"}
+          observationId={observationData?._id}
         />
       </div>
     </div>
