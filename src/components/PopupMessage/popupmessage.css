@@ -1,0 +1,27 @@
+@keyframes throw {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100;
+  }
+}
+
+@keyframes disappear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.popup-message-throw {
+  animation-name: throw;
+  animation-duration: 1s;
+}
+
+.popup-message-disappear {
+  animation-name: disappear;
+  animation-duration: 3s;
+}

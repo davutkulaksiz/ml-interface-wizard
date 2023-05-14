@@ -46,10 +46,12 @@ const configInitializer = (config) => {
 const Measure = () => {
   const [formName, setFormName] = useState("Fetching Data...");
   const [initializedConfig, setInitializedConfig] = useState(null);
+  const [targetValues, setTargetValues] = useState([]);
 
   const getConfig = useCallback(async () => {
     let { data } = await fetchConfig();
     setFormName(data.presentation.title);
+    setTargetValues(data.model.values);
 
     const config = configInitializer(data);
     setInitializedConfig(config);
@@ -68,6 +70,7 @@ const Measure = () => {
           <FormAlternative
             initializedConfig={initializedConfig}
             formName={formName}
+            targetValues={targetValues}
           />
         </div>
       </div>
