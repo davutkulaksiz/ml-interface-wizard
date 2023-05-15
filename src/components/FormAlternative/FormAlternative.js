@@ -140,7 +140,9 @@ const FormAlternative = ({ formName, initializedConfig, targetValues }) => {
   return (
     <div className="form-wrapper">
       {popupMessages.map((element, index) => {
-        return element ? <PopupMessage messageIndex={index} /> : null;
+        return element ? (
+          <PopupMessage messageIndex={index} key={index} />
+        ) : null;
       })}
       <div className="form-upper">{formName}</div>
       <div className="form-divider"></div>
