@@ -8,30 +8,14 @@ import Tooltip from "@mui/material/Tooltip";
 import TextField from "../MUITextField/MUITextField";
 import "./PredictionForm.css";
 import { Alert, Snackbar } from "@mui/material";
-import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
-import { predictionsWsUrl } from "../../api/predictionsApi";
-import { ReadyState } from "react-use-websocket";
+import { castPrediction } from "../../api/predictionsApi";
 
 //TODO: Testing form with other models.
 const PredictionForm = ({ parsedConfig, modelId }) => {
-  const [snackOpen, setSnackOpen] = useState(true);
   const [errorOpen, setErrorOpen] = useState(false);
   const [formDataMap, setFormDataMap] = useState(new Map());
   const [loading, setLoading] = useState(false);
-
-  const { sendMessage, lastMessage, readyState } = useWebSocket(
-    `${predictionsWsUrl}/${modelId}`,
-    {
-      onOpen: () => {
-        setSnackOpen(false);
-        setErrorOpen(false);
-      },
-      onError: () => {
-        setErrorOpen(true);
-        setSnackOpen(false);
-      },
-    }
-  );
+  const [result, setResult] = useState(null);
 
   useEffect(() => {
     //NOTE: Initialize values in map since the order of things is important
@@ -40,22 +24,16 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
     });
   }, []);
 
-  const onSubmitClicked = () => {
+  const onSubmitClicked = async () => {
     const values = Array.from(formDataMap.values());
     console.log(values);
-    if (readyState === ReadyState.OPEN) {
-      const payload = JSON.stringify({
-        features: values,
-      });
-      console.log(payload);
-      sendMessage(payload);
+    try {
+      const result = await castPrediction(values, modelId);
+      console.log(result);
+      setResult(result);
+    } catch {
+      setErrorOpen(true);
     }
-  };
-  const onSnackClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackOpen(false);
   };
 
   const onErrorClose = (event, reason) => {
@@ -83,18 +61,6 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
     formDataMap.set(featureName, event.target.value);
   };
 
-  const SnackbarNotify = (
-    <Snackbar
-      open={snackOpen}
-      onClose={onSnackClose}
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-    >
-      <Alert severity="info" onClose={onSnackClose}>
-        Establishing connection to the model. Please wait.
-      </Alert>
-    </Snackbar>
-  );
-
   const SnackbarError = (
     <Snackbar
       open={errorOpen}
@@ -109,7 +75,6 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
 
   return (
     <div className="form">
-      {SnackbarNotify}
       {SnackbarError}
       <div className="form-body">
         <div className="upper-form-area">
@@ -193,20 +158,18 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
           <div className="form-submit-button">
             <Button
               type="submit"
-              onClick={
-                readyState !== ReadyState.OPEN ? () => {} : onSubmitClicked
-              }
-              buttonType={
-                readyState !== ReadyState.OPEN ? "disabled" : "success lg"
-              }
+              onClick={() => {
+                onSubmitClicked();
+              }}
+              buttonType={"success lg"}
               text={loading ? <Loader type="tiny" /> : "Predict"}
-              disabled={readyState !== ReadyState.OPEN}
+              disabled={false}
             />
           </div>
-          {lastMessage ? (
+          {result ? (
             <div className="output-area">
               <Alert>{`[${new Date().toLocaleString()}] \n ${
-                lastMessage.data
+                result.result
               }`}</Alert>
             </div>
           ) : (
