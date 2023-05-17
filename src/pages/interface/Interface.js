@@ -39,7 +39,6 @@ const Interface = () => {
     <>
       <Navbar />
       <div className="interface-container">
-        <Sidebar />
         <WizardStateContext.Provider value={state}>
           <WizardDispatchContext.Provider value={dispatch}>
             <Switch>
