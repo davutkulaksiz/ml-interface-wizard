@@ -1,8 +1,7 @@
 import { useContext } from "react";
-import FileUploadButton from "../FileUploadButton/FileUploadButton";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import "./FilesUploadForm.css";
+import styles from "./FilesUploadForm.module.css";
+import WizardOptionalFile from "../WizardOptionalFile/WizardOptionalFile";
+import WizardUploadButton from "../WizardUploadButton/WizardUploadButton";
 import {
   WizardDispatchContext,
   WizardStateContext,
@@ -32,107 +31,61 @@ const FilesUploadForm = () => {
     dispatch(action);
   };
 
+  const modelName = state.model ? state.model[0].name : "";
+  const configName = state.config ? state.config[0].name : "";
+  const inTsfName = state.intsf ? state.intsf[0].name : "";
+  const outTsfName = state.outtsf ? state.outtsf[0].name : "";
+
   return (
     <>
-      <div className="upload-area">
-        <div className="mandatory-area">
-          <FileUploadButton
-            headerText={"Model file (as .pkl)"}
-            buttonText={"Model File"}
-            onClick={() => {}}
-            onChange={(e) => {
-              handleFileChange(e, "model");
-            }}
-          />
-          {state.model && (
-            <div className="uploaded-file-area">
-              <p>{state.model[0].name}</p>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="secondary"
-                onClick={() => {
-                  onClearFile("model");
-                }}
-              >
-                <DeleteIcon fontSize="inherit" />
-              </IconButton>
-            </div>
-          )}
-          <FileUploadButton
-            headerText={"Provide a configuration file (as .json)"}
-            buttonText={"Configuration File"}
-            onClick={() => {}}
-            onChange={(e) => {
-              handleFileChange(e, "config");
-            }}
-          />
-          {state.config && (
-            <div className="uploaded-file-area">
-              <p>{state.config[0].name}</p>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="secondary"
-                onClick={() => {
-                  onClearFile("config");
-                }}
-              >
-                <DeleteIcon fontSize="inherit" />
-              </IconButton>
-            </div>
-          )}
-        </div>
-        <div className="optional-area">
-          <FileUploadButton
-            headerText={"Input Transformer (as .pkl)"}
-            buttonText={"Input TSF file"}
-            variant={"outlined"}
-            onClick={() => {}}
-            onChange={(e) => {
-              handleFileChange(e, "intsf");
-            }}
-          />
-          {state.intsf && (
-            <div className="uploaded-file-area">
-              <p>{state.intsf[0].name}</p>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="secondary"
-                onClick={() => {
-                  onClearFile("intsf");
-                }}
-              >
-                <DeleteIcon fontSize="inherit" />
-              </IconButton>
-            </div>
-          )}
-          <FileUploadButton
-            headerText={"Output Transformer (as .pkl)"}
-            buttonText={"Output TSF file"}
-            variant={"outlined"}
-            onClick={() => {}}
-            onChange={(e) => {
-              handleFileChange(e, "outtsf");
-            }}
-          />
-          {state.outtsf && (
-            <div className="uploaded-file-area">
-              <p>{state.outtsf[0].name}</p>
-              <IconButton
-                aria-label="delete"
-                size="small"
-                color="secondary"
-                onClick={() => {
-                  onClearFile("outtsf");
-                }}
-              >
-                <DeleteIcon fontSize="inherit" />
-              </IconButton>
-            </div>
-          )}
-        </div>
+      <div className={styles.container}>
+        <WizardUploadButton
+          mainText={"Click here to upload the Model."}
+          hintText={"Mandatory. File format is pkl."}
+          fileName={modelName}
+          onClick={() => { }}
+          onChange={(e) => {
+            console.log("change invoked");
+            handleFileChange(e, "model");
+          }}
+          onClearClick={() => {
+            onClearFile("model");
+          }}
+        />
+        <WizardUploadButton
+          mainText={"Click here to upload the Configuration."}
+          hintText={"Mandatory. File format is json."}
+          fileName={configName}
+          onClick={() => { }}
+          onChange={(e) => {
+            handleFileChange(e, "config");
+          }}
+          onClearClick={() => {
+            onClearFile("config");
+          }}
+        />
+        <WizardOptionalFile
+          name={"Input Trasnformer"}
+          fileName={inTsfName}
+          onChange={(e) => {
+            handleFileChange(e, "intsf");
+          }}
+          onClick={() => { }}
+          onClearClick={() => {
+            onClearFile("intsf");
+          }}
+        />
+        <WizardOptionalFile
+          name={"Output Trasnformer"}
+          fileName={outTsfName}
+          onChange={(e) => {
+            handleFileChange(e, "outtsf");
+          }}
+          onClick={() => { }}
+          onClearClick={() => {
+            onClearFile("outtsf");
+          }}
+        />
       </div>
     </>
   );

@@ -16,6 +16,7 @@ import {
   WizardDispatchContext,
 } from "../../stores/wizardStore/wizardContext";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
+import WizardHome from "../../components/WizardHome/WizardHome";
 
 const Interface = () => {
   const [state, dispatch] = useReducer(wizardStateReducer, initialState);
@@ -52,7 +53,7 @@ const Interface = () => {
               />
               <Route
                 path="/interface-wizard/"
-                render={(props) => <WizardGuide {...props} />}
+                render={(props) => <WizardHome {...props} />}
               />
             </Switch>
           </WizardDispatchContext.Provider>

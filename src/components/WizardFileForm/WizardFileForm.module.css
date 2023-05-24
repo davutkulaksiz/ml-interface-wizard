@@ -1,20 +1,22 @@
-.guide-wrapper {
+.guideWrapper {
+  min-width: 40em;
 }
 
-.guide-container {
+.guideContainer {
   margin-top: 4.5rem;
   padding: 0rem;
   display: flex;
 }
 
-.guide-body {
+.guideBody {
   display: flex;
   flex-direction: column;
+  min-width: 40em;
   box-shadow: 0px 2px 4px -2px #1018280f, 0px 4px 8px -2px #1018281a;
   border-radius: 0.5rem;
 }
 
-.guide-upper-area {
+.guideUpperArea {
   background-color: #f3f3fe;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
@@ -24,20 +26,20 @@
   padding: 4rem;
 }
 
-.guide-header {
+.guideHeader {
   font-weight: 700;
   font-size: 48px;
   text-align: center;
   max-width: 80%;
 }
 
-.guide-divider {
+.guideDivider {
   width: 80%;
   border-top: 3px solid #979dc6;
   align-self: center;
 }
 
-.guide-lower-area {
+.guideLowerArea {
   padding-left: 10%;
   padding-right: 10%;
   padding-top: 3rem;
@@ -46,16 +48,16 @@
   justify-content: space-between;
 }
 
-.guide-step-list {
+.guideStepList {
   font-weight: bold;
   color: #6f76a7;
 }
 
-.guide-step-list li {
+.guideStepList li {
   margin: 1rem;
 }
 
-.upload-container {
+.uploadContainer {
   margin-top: 2rem;
   margin-bottom: 2rem;
   display: flex;
@@ -63,12 +65,12 @@
   align-items: center;
 }
 
-.existing-model-area {
+.existingModelArea {
   color: #2a0909;
   font-weight: 500;
 }
 
-.existing-model-area:hover {
+.existingModelArea:hover {
   cursor: pointer;
   text-decoration: underline;
 }
