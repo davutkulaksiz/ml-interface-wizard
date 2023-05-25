@@ -27,12 +27,15 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
   const onSubmitClicked = async () => {
     const values = Array.from(formDataMap.values());
     console.log(values);
+    setLoading(true);
     try {
       const result = await castPrediction(values, modelId);
       console.log(result);
       setResult(result);
+      setLoading(false);
     } catch {
       setErrorOpen(true);
+      setLoading(false);
     }
   };
 
@@ -168,9 +171,8 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
           </div>
           {result ? (
             <div className="output-area">
-              <Alert>{`[${new Date().toLocaleString()}] \n ${
-                result.result
-              }`}</Alert>
+              <Alert>{`[${new Date().toLocaleString()}] \n ${result.result
+                }`}</Alert>
             </div>
           ) : (
             <div className="output-area"></div>
