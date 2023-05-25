@@ -65,7 +65,7 @@ const FilesUploadForm = () => {
           }}
         />
         <WizardOptionalFile
-          name={"Input Trasnformer"}
+          name={"Input Transformer"}
           fileName={inTsfName}
           onChange={(e) => {
             handleFileChange(e, "intsf");
@@ -76,7 +76,7 @@ const FilesUploadForm = () => {
           }}
         />
         <WizardOptionalFile
-          name={"Output Trasnformer"}
+          name={"Output Transformer"}
           fileName={outTsfName}
           onChange={(e) => {
             handleFileChange(e, "outtsf");

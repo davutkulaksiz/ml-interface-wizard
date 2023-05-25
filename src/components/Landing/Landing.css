@@ -3,8 +3,7 @@
 }
 
 .landing-container {
-  margin-top: 3.5rem;
-  padding: 0.75rem;
+  margin-top: 4.5rem;
   display: flex;
   justify-content: center;
 }
@@ -12,9 +11,9 @@
 .landing-body {
   display: flex;
   flex-direction: column;
-  width: 60%;
-  min-height: 600px; /* this is only for the demo purposes*/
-  box-shadow: 0px 2px 4px -2px #1018280f, 0px 4px 8px -2px #1018281a;
+  width: 70%;
+  min-height: 700px; /* this is only for the demo purposes*/
+  /* box-shadow: 0px 2px 4px -2px #1018280f, 0px 4px 8px -2px #1018281a; */
   border-radius: 0.5rem;
 }
 
@@ -22,6 +21,8 @@
   background-color: #f3f3fe;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
   flex: 2;
   display: flex;
   justify-content: center;
@@ -57,6 +58,7 @@
   color: #6f76a7;
   flex-grow: 1;
   flex-basis: 0;
+  gap: 1rem;
   text-align: center;
   justify-content: space-between;
   padding-bottom: 2rem;
