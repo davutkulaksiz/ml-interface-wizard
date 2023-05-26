@@ -17,6 +17,8 @@ export const ConfigSchema = z.object({
     name: z.string(),
     description: z.string(),
     type: z.string(),
+    message_format: z.string(),
+    include_certain: z.boolean(),
   }),
   features: z.any().array().nonempty(),
 });
