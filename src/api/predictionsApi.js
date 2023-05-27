@@ -61,7 +61,7 @@ export async function castPrediction(values, modelId) {
   } catch {
     throw "invalid-json";
   }
-  console.log("prediction", body);
+
   try {
     const response = await fetch(`${baseUrl}/api/v1/predict/${modelId}`, {
       method: "POST",
