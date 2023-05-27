@@ -59,13 +59,10 @@ const WizardStepper = () => {
   );
 };
 
-const WizardGuide = ({}) => {
+const WizardGuide = ({ }) => {
   const history = useHistory();
   const [useExistingOpen, setExistingOpen] = useState(false);
-  const onOpenUploadFormClick = () => {
-    console.log("navigate to /upload clicked");
-    history.push("interface-wizard/upload");
-  };
+
   const onUseExistingClick = () => {
     console.log("Existing clicked.");
     setExistingOpen(true);
@@ -93,16 +90,6 @@ const WizardGuide = ({}) => {
                 onClick={onUseExistingClick}
               >
                 Use an existing one
-              </Button>
-              <Button
-                variant="contained"
-                size="large"
-                endIcon={<ArrowForward />}
-                onClick={() => {
-                  onOpenUploadFormClick();
-                }}
-              >
-                Open Upload Form
               </Button>
             </div>
           </div>

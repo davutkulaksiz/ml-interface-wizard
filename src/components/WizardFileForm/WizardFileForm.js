@@ -1,6 +1,5 @@
 import "../../pages/interface/Interface.css";
-import "../WizardGuide/WizardGuide.css";
-import "./WizardFileForm.css";
+import styles from "./WizardFileForm.module.css";
 import { ArrowBack } from "@mui/icons-material";
 import { Alert, Box, Button, LinearProgress, Snackbar } from "@mui/material";
 import FilesUploadForm from "../FilesUploadForm/FilesUploadForm";
@@ -13,7 +12,7 @@ import {
   WizardDispatchContext,
 } from "../../stores/wizardStore/wizardContext";
 
-const WizardFileForm = ({}) => {
+const WizardFileForm = ({ }) => {
   const history = useHistory();
   const state = useContext(WizardStateContext);
   const dispatch = useContext(WizardDispatchContext);
@@ -86,31 +85,21 @@ const WizardFileForm = ({}) => {
 
   return (
     <>
-      <div className="guide-wrapper">
+      <div className={styles.guideWrapper}>
         <Box sx={{ width: "100%" }}>{loading && <LinearProgress />}</Box>
-        <div className="guide-container">
+        <div className={styles.guideContainer}>
           {SnackbarError}
-          <div className="guide-body">
-            <div className="guide-upper-area">
+          <div className={styles.guideBody}>
+            <div className={styles.guideUpperArea}>
               {/**Head component */}
-              <p className="guide-header">File Upload Area</p>
+              <p className={styles.guideHeader}>Upload Form</p>
             </div>
-            <div className="guide-divider"></div>
-            <div className="guide-lower-area">
+            <div className={styles.guideDivider}></div>
+            <div className={styles.guideLowerArea}>
               {/**Body */}
               <FilesUploadForm />
-              <div className="upload-container">
+              <div className={styles.uploadContainer}>
                 <>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    startIcon={<ArrowBack />}
-                    onClick={() => {
-                      onBackClicked();
-                    }}
-                  >
-                    Back
-                  </Button>
                   <Button
                     variant="contained"
                     size="large"
