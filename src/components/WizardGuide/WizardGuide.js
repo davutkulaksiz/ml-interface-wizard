@@ -68,7 +68,7 @@ const WizardGuide = ({ }) => {
   };
 
   return (
-    <div className="guide-wrapper">
+    <div>
       <UseExistingModelDialog
         open={useExistingOpen}
         onCloseClicked={() => setExistingOpen(false)}
