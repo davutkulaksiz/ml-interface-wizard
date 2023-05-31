@@ -89,7 +89,7 @@ const WizardFileForm = ({ }) => {
         <Box sx={{ width: "100%" }}>{loading && <LinearProgress />}</Box>
         <div className={styles.guideContainer}>
           {SnackbarError}
-          <div className={styles.guideBody}>
+          <div className={styles.guideBody} style={{minHeight:"800px"}}>
             <div className={styles.guideUpperArea}>
               {/**Head component */}
               <p className={styles.guideHeader}>Upload Form</p>
