@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import FormAlternative from "../../components/FormAlternative/FormAlternative";
 import "./Measure.css";
 import { componentConstants as constants } from "../../constants/component-constants";
+import Private from "../../components/private/Private";
 
 //read config iterate over features, save names and type to an array
 //for every feature in the array, read the related field from data object
@@ -67,11 +68,13 @@ const Measure = () => {
       <div className="measure-container">
         <Sidebar />
         <div className="main-wrapper">
-          <FormAlternative
-            initializedConfig={initializedConfig}
-            formName={formName}
-            targetValues={targetValues}
-          />
+          <Private>
+            <FormAlternative
+              initializedConfig={initializedConfig}
+              formName={formName}
+              targetValues={targetValues}
+            />
+          </Private>
         </div>
       </div>
     </>
