@@ -9,6 +9,7 @@ import TextField from "../MUITextField/MUITextField";
 import "./PredictionForm.css";
 import { Alert, Snackbar } from "@mui/material";
 import { castPrediction } from "../../api/predictionsApi";
+import WizardPredictionOutput from "../WizardPredictionOutput/WizardPredictionOutput";
 
 //TODO: Testing form with other models.
 const PredictionForm = ({ parsedConfig, modelId }) => {
@@ -27,12 +28,15 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
   const onSubmitClicked = async () => {
     const values = Array.from(formDataMap.values());
     console.log(values);
+    setLoading(true);
     try {
       const result = await castPrediction(values, modelId);
       console.log(result);
       setResult(result);
+      setLoading(false);
     } catch {
       setErrorOpen(true);
+      setLoading(false);
     }
   };
 
@@ -168,9 +172,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
           </div>
           {result ? (
             <div className="output-area">
-              <Alert>{`[${new Date().toLocaleString()}] \n ${
-                result.result
-              }`}</Alert>
+              <WizardPredictionOutput result={result} />
             </div>
           ) : (
             <div className="output-area"></div>

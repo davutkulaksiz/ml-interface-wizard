@@ -5,7 +5,7 @@ const baseUrl = `http://${host}:${port}`;
 
 function createMetadata(config) {
   console.log(baseUrl);
-  console.log(predictionsWsUrl);
+  console.log(config);
   let metadata = {};
   metadata.name = config.model.name;
   metadata.desc = config.model.description;
@@ -14,6 +14,8 @@ function createMetadata(config) {
   metadata.out_transformer = config.model.out_transformer;
   metadata.target_name = config.target.name;
   metadata.expires = "0";
+  metadata.message_format = config.target.message_format;
+  metadata.include_certain = config.target.include_certain;
 
   metadata.feature_names = config.features.map((item) => item.name);
   console.log(metadata);
@@ -59,7 +61,7 @@ export async function castPrediction(values, modelId) {
   } catch {
     throw "invalid-json";
   }
-  console.log("prediction", body);
+
   try {
     const response = await fetch(`${baseUrl}/api/v1/predict/${modelId}`, {
       method: "POST",
