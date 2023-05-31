@@ -53,7 +53,7 @@ const Navbar = () => {
   };
 
   return (
-    <div style={{marginBottom: "3rem"}}>
+    <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="fixed"
@@ -115,7 +115,7 @@ const Navbar = () => {
           </List>
         </Box>
       </Drawer>
-    </div>
+    </>
   );
 };
 
