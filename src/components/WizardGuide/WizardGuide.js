@@ -6,7 +6,6 @@ import {
   StepContent,
   Typography,
 } from "@mui/material";
-import { ArrowForward } from "@mui/icons-material";
 import "./WizardGuide.css";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
