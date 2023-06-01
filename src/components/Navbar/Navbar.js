@@ -110,8 +110,11 @@ const Navbar = () => {
                     redirectTo(navItem.path);
                   }}
                   selected={isSelected(navItem)}
-                  /*  sx={{backgroundColor: "#c8ceed"}} */
-                  /* style={{backgroundColor: isSelected(navItem) ? "#c8ceed" : "inherit"}} */
+                  sx={{
+                    [`&.Mui-selected`]: {
+                      backgroundColor: "#c8ceed",
+                    },
+                  }}
                 >
                   <ListItemIcon>
                     {navItem.name === "Home" && <Home />}
