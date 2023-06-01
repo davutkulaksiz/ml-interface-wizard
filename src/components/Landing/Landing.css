@@ -3,7 +3,7 @@
 }
 
 .landing-container {
-  margin-top: 4.5rem;
+  margin-top: 3rem;
   display: flex;
   justify-content: center;
 }
@@ -13,7 +13,7 @@
   flex-direction: column;
   width: 70%;
   min-height: 700px; /* this is only for the demo purposes*/
-  /* box-shadow: 0px 2px 4px -2px #1018280f, 0px 4px 8px -2px #1018281a; */
+  box-shadow: 0px 2px 4px -2px #1018280f, 0px 4px 8px -2px #1018281a;
   border-radius: 0.5rem;
 }
 
@@ -21,8 +21,8 @@
   background-color: #f3f3fe;
   border-top-left-radius: 0.5rem;
   border-top-right-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+/*   border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem; */
   flex: 2;
   display: flex;
   justify-content: center;
