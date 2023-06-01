@@ -52,6 +52,10 @@ const Navbar = () => {
     history.push(path);
   };
 
+  const isSelected = (navItem) => {
+    return current === navItem.name || (navItem.name === "Wizard" && current === "ML Interface Wizard") ? true : false
+  }
+
   return (
     <div style={{marginBottom: "3rem"}}>
       <Box sx={{ flexGrow: 1 }}>
@@ -86,7 +90,8 @@ const Navbar = () => {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
-          },
+            backgroundColor: "#f3f3fe"
+          }
         }}
         variant="persistent"
         anchor="left"
@@ -101,7 +106,9 @@ const Navbar = () => {
                   onClick={() => {
                     redirectTo(navItem.path);
                   }}
-                  selected={current === navItem.name || (navItem.name === "Wizard" && current === "ML Interface Wizard") ? true : false}
+                  selected={isSelected(navItem)}
+                 /*  sx={{backgroundColor: "#c8ceed"}} */
+                  /* style={{backgroundColor: isSelected(navItem) ? "#c8ceed" : "inherit"}} */
                 >
                   <ListItemIcon>
                     {navItem.name === "Home" && <Home />}
