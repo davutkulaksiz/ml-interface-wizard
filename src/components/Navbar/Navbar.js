@@ -101,6 +101,7 @@ const Navbar = () => {
                   onClick={() => {
                     redirectTo(navItem.path);
                   }}
+                  selected={current === navItem.name || (navItem.name === "Wizard" && current === "ML Interface Wizard") ? true : false}
                 >
                   <ListItemIcon>
                     {navItem.name === "Home" && <Home />}
