@@ -37,10 +37,10 @@ const Navbar = () => {
   const current = history.location.pathname.includes("home")
     ? "Home"
     : history.location.pathname.includes("interface-wizard")
-      ? "ML Interface Wizard"
-      : history.location.pathname.includes("/measure")
-        ? "ML Measure"
-        : "ML Contribute";
+    ? "ML Interface Wizard"
+    : history.location.pathname.includes("/measure")
+    ? "ML Measure"
+    : "ML Contribute";
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const handleDrawerAction = () => {
@@ -52,8 +52,15 @@ const Navbar = () => {
     history.push(path);
   };
 
+  const isSelected = (navItem) => {
+    return current === navItem.name ||
+      (navItem.name === "Wizard" && current === "ML Interface Wizard")
+      ? true
+      : false;
+  };
+
   return (
-    <div style={{marginBottom: "3rem"}}>
+    <div style={{ marginBottom: "3rem" }}>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar
           position="fixed"
@@ -86,6 +93,7 @@ const Navbar = () => {
           [`& .MuiDrawer-paper`]: {
             width: drawerWidth,
             boxSizing: "border-box",
+            backgroundColor: "#f3f3fe",
           },
         }}
         variant="persistent"
@@ -100,6 +108,12 @@ const Navbar = () => {
                 <ListItemButton
                   onClick={() => {
                     redirectTo(navItem.path);
+                  }}
+                  selected={isSelected(navItem)}
+                  sx={{
+                    [`&.Mui-selected`]: {
+                      backgroundColor: "#c8ceed",
+                    },
                   }}
                 >
                   <ListItemIcon>
