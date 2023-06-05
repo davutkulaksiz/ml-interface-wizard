@@ -1,10 +1,8 @@
 import "../../pages/interface/Interface.css";
 import styles from "./WizardFileForm.module.css";
-import { ArrowBack } from "@mui/icons-material";
 import { Alert, Box, Button, LinearProgress, Snackbar } from "@mui/material";
 import FilesUploadForm from "../FilesUploadForm/FilesUploadForm";
 import { useContext, useState } from "react";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
 import { useHistory } from "react-router-dom";
 import { uploadModelWrapper } from "../../api/predictionsApi";
 import {
@@ -12,23 +10,18 @@ import {
   WizardDispatchContext,
 } from "../../stores/wizardStore/wizardContext";
 
-const WizardFileForm = ({ }) => {
+const WizardFileForm = ({}) => {
   const history = useHistory();
   const state = useContext(WizardStateContext);
   const dispatch = useContext(WizardDispatchContext);
-  const [parsedConfig, _] = useLocalStorage("config", null);
   const [loading, setLoading] = useState(false);
-
-  const onBackClicked = () => {
-    history.goBack();
-  };
 
   async function upload() {
     try {
       setLoading(true);
       const args = {
         model: state.model[0],
-        config: parsedConfig,
+        config: JSON.parse(localStorage.getItem("config")),
         intsf: state.intsf?.[0],
         outtsf: state.outtsf?.[0],
       };
@@ -89,7 +82,7 @@ const WizardFileForm = ({ }) => {
         <Box sx={{ width: "100%" }}>{loading && <LinearProgress />}</Box>
         <div className={styles.guideContainer}>
           {SnackbarError}
-          <div className={styles.guideBody} style={{minHeight:"800px"}}>
+          <div className={styles.guideBody} style={{ minHeight: "800px" }}>
             <div className={styles.guideUpperArea}>
               {/**Head component */}
               <p className={styles.guideHeader}>Upload Form</p>
