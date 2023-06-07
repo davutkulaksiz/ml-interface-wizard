@@ -46,7 +46,7 @@ const Private = ({ children }) => {
       }}
     />
   ) : (
-    <div>Blocked</div>
+    <div style={{ fontWeight: 500, fontSize: 25 }}>403 - Forbidden</div>
   );
 };
 

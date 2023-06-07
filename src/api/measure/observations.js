@@ -10,6 +10,7 @@ export const fetchConfig = () => {
   return axios.get(`${endpoint}/diabetes/config`);
 };
 
-export const postSingleObservationResult = (data) => {
+export const postSingleObservationResult = (data, token) => {
+  const config = { headers: { Authorization: `Bearer ${token}` } };
   return axios.post(`${endpoint}/diabetes`, data);
 };
