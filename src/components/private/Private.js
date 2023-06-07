@@ -37,11 +37,13 @@ const Private = ({ children }) => {
   }, [tokenExistsInTheUrl, tokenExistsInTheStorage]);
 
   return tokenExistsInTheStorage ? (
-    { children }
+    children
   ) : tokenExistsInTheUrl ? (
     <GetUserInfo
       urlToken={tokenExistsInTheUrl}
-      setTokenExistsInTheStorageCallback={setTokenExistsInTheStorage}
+      setTokenExistsInTheStorageCallback={() => {
+        setTokenExistsInTheStorage(true);
+      }}
     />
   ) : (
     <div>Blocked</div>

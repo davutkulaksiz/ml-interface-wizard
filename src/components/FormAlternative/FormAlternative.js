@@ -76,6 +76,10 @@ const FormAlternative = ({ formName, initializedConfig, targetValues }) => {
     false,
     false,
   ]);
+  const [userSubmitData, setUserSubmitData] = useState(
+    localStorage.getItem("ml_measure_user_info") +
+      localStorage.getItem("ml_measure_auth_token")
+  );
 
   const onSubmit = async (answerValue) => {
     //make the form disapper slowly
