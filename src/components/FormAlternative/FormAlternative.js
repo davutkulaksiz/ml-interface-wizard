@@ -76,8 +76,10 @@ const FormAlternative = ({ formName, initializedConfig, targetValues }) => {
     false,
   ]);
   const [userSubmitData, setUserSubmitData] = useState(
-    localStorage.getItem("ml_measure_user_info") +
-      localStorage.getItem("ml_measure_auth_token")
+    localStorage.getItem("ml_measure_user_info")
+  );
+  const [authToken, setAuthToken] = useState(
+    localStorage.getItem("ml_measure_auth_token")
   );
 
   const onSubmit = async (answerValue) => {
@@ -90,20 +92,18 @@ const FormAlternative = ({ formName, initializedConfig, targetValues }) => {
     }, 2500);
 
     //submit and fetch new data
-    await postSingleObservationResult({
-      prediction: answerValue,
-      userInfo: userSubmitData,
-      objectId: observationData?._id,
-    });
+    await postSingleObservationResult(
+      {
+        prediction: answerValue,
+        userInfo: userSubmitData,
+        objectId: observationData?._id,
+      },
+      authToken
+    );
 
     //show successfully submitted popup
     await getObservationData();
 
-    // await new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     resolve();
-    //   }, 5000);
-    // });
     clearTimeout(waitForDisappear);
     setIsLoading(false);
 
@@ -130,7 +130,7 @@ const FormAlternative = ({ formName, initializedConfig, targetValues }) => {
   };
 
   const getObservationData = useCallback(async () => {
-    const { data } = await fetchSingleObservation();
+    const { data } = await fetchSingleObservation(authToken);
     setObservationData(data);
     setIsLoading(false);
   });
