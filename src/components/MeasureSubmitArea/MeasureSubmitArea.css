@@ -13,5 +13,11 @@
 }
 
 .options-wrapper {
-  margin-bottom: 30px;
+  margin-top: 10px;
+  width: 90%;
+  column-gap: 20px;
+  row-gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }

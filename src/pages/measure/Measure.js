@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useCallback, useState } from "react";
-import { fetchConfig } from "../../actions/observations";
+import { fetchConfig } from "../../api/measure/observations";
 import Navbar from "../../components/Navbar/Navbar";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import FormAlternative from "../../components/FormAlternative/FormAlternative";
 import "./Measure.css";
 import { componentConstants as constants } from "../../constants/component-constants";
+import Private from "../../components/Private/Private";
 
 //read config iterate over features, save names and type to an array
 //for every feature in the array, read the related field from data object
@@ -46,10 +47,12 @@ const configInitializer = (config) => {
 const Measure = () => {
   const [formName, setFormName] = useState("Fetching Data...");
   const [initializedConfig, setInitializedConfig] = useState(null);
+  const [targetValues, setTargetValues] = useState([]);
 
   const getConfig = useCallback(async () => {
     let { data } = await fetchConfig();
     setFormName(data.presentation.title);
+    setTargetValues(data.model.values);
 
     const config = configInitializer(data);
     setInitializedConfig(config);
@@ -65,10 +68,13 @@ const Measure = () => {
       <div className="measure-container">
         <Sidebar />
         <div className="main-wrapper">
-          <FormAlternative
-            initializedConfig={initializedConfig}
-            formName={formName}
-          />
+          <Private>
+            <FormAlternative
+              initializedConfig={initializedConfig}
+              formName={formName}
+              targetValues={targetValues}
+            />
+          </Private>
         </div>
       </div>
     </>

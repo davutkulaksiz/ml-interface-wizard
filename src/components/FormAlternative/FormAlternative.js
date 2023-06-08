@@ -6,12 +6,14 @@ import MUITextField from "../MUITextField/MUITextField";
 import {
   fetchSingleObservationTest,
   fetchSingleObservation,
-} from "../../actions/observations";
-import { fetchConfig } from "../../actions/observations";
+} from "../../api/measure/observations";
 import { componentConstants as constants } from "../../constants/component-constants";
 import "./FormAlternative.css";
 import { useEffect, useState } from "react";
 import { useCallback } from "react";
+import { postSingleObservationResult } from "../../api/measure/observations";
+import LoadingComponent from "../LoadingComponent/LoadingComponent";
+import PopupMessage from "../PopupMessage/PopupMessage";
 
 const getHtmlForFeature = (feature, value, index) => {
   switch (feature.component) {
@@ -64,48 +66,105 @@ const getHtmlForFeature = (feature, value, index) => {
   }
 };
 
-const FormAlternative = ({ formName, initializedConfig }) => {
+const FormAlternative = ({ formName, initializedConfig, targetValues }) => {
   const [observationData, setObservationData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [useEffectCounter, setUseEffectCounter] = useState(0);
+  const [popupMessages, setPopupMessages] = useState([
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [userSubmitData, setUserSubmitData] = useState(
+    localStorage.getItem("ml_measure_user_info")
+  );
+  const [authToken, setAuthToken] = useState(
+    localStorage.getItem("ml_measure_auth_token")
+  );
 
-  console.log("rendered");
+  const onSubmit = async (answerValue) => {
+    //make the form disapper slowly
+    const formBody = document.getElementsByClassName("form-wrapper")[0];
+    formBody.className = "form-wrapper-disappear";
+
+    const waitForDisappear = setTimeout(() => {
+      setIsLoading(true);
+    }, 2500);
+
+    //submit and fetch new data
+    await postSingleObservationResult(
+      {
+        prediction: answerValue,
+        userInfo: userSubmitData,
+        objectId: observationData?._id,
+      },
+      authToken
+    );
+
+    //show successfully submitted popup
+    await getObservationData();
+
+    clearTimeout(waitForDisappear);
+    setIsLoading(false);
+
+    //show one success popup
+    for (let i = 0; i < 5; i++) {
+      if (!popupMessages[i]) {
+        setPopupMessages((popupMessages) => {
+          let popupCopy = [...popupMessages];
+          popupCopy[i] = true;
+          return popupCopy;
+        });
+        setTimeout(() => {
+          setPopupMessages((popupMessages) => {
+            let popupCopy = [...popupMessages];
+            popupCopy[i] = false;
+            return popupCopy;
+          });
+        }, 4000);
+        break;
+      }
+    }
+
+    formBody.className = "form-wrapper";
+  };
+
   const getObservationData = useCallback(async () => {
-    const { data } = await fetchSingleObservation();
-    console.log(data);
+    const { data } = await fetchSingleObservation(authToken);
     setObservationData(data);
     setIsLoading(false);
   });
 
   useEffect(() => {
-    setUseEffectCounter((useEffectCounter) => (useEffectCounter = 1));
-    console.log(`useEffect is called: ${useEffectCounter}`);
     getObservationData();
   }, []);
 
   return (
     <div className="form-wrapper">
+      {popupMessages.map((element, index) => {
+        return element ? (
+          <PopupMessage messageIndex={index} key={index} />
+        ) : null;
+      })}
       <div className="form-upper">{formName}</div>
       <div className="form-divider"></div>
       <div className="form-lower-wrapper">
-        <div className="form-lower">
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : (
-            initializedConfig?.map((element, index) => {
+        {isLoading ? (
+          <LoadingComponent />
+        ) : (
+          <div className="form-lower">
+            {initializedConfig?.map((element, index) => {
               return getHtmlForFeature(
                 element,
                 observationData[element.name],
                 index
               );
-            })
-          )}
-        </div>
-        <MeasureSubmitArea
-          options={["Malignant", "Benign"]}
-          type={"RadioButtons"}
-          observationId={observationData?._id}
-        />
+            })}
+          </div>
+        )}
+        {isLoading ? null : (
+          <MeasureSubmitArea options={targetValues} onSubmit={onSubmit} />
+        )}
       </div>
     </div>
   );
