@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useCallback, useState } from "react";
 import { fetchConfig } from "../../api/measure/observations";
 import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
 import FormAlternative from "../../components/FormAlternative/FormAlternative";
 import "./Measure.css";
 import { componentConstants as constants } from "../../constants/component-constants";
