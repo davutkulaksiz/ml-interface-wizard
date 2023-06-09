@@ -21,6 +21,13 @@ During the development of a data application based on a Machine Learning model, 
 - Integration with Uvicorn, Python, FastAPI, and MongoDB on the backend.
 - Deployment using Docker, AWS, Linode, and Azure.
 
+## Uploading Files to Generate the Form
+![firstgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/a8c4eb29-409b-4888-acd1-ae1a62eb38c3)
+
+## Getting a Prediction by Filling Out the Form
+![secondgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/dbca1950-df16-4f47-b8a5-f20f1a4872b7)
+
+
 ## Tech Stack
 
 | Layer    | Technology         |
@@ -97,7 +104,7 @@ npm start
 
 For any questions or inquiries, please contact the project maintainers:
 
-- Nikola Drljača - [GitHub](https://github.com/nikolaDrljaca)
+- Nikola Drljaca - [GitHub](https://github.com/nikolaDrljaca)
 - Davut Kulaksız - [GitHub](https://github.com/davutkulaksiz)
 
 Thank you for using ML Interface Wizard! We hope it simplifies your Machine Learning model development process.
