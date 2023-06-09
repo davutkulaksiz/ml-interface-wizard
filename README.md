@@ -39,6 +39,10 @@ During the development of a data application based on a Machine Learning model, 
 ## Getting a Prediction by Filling Out the Form
 ![secondgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/dbca1950-df16-4f47-b8a5-f20f1a4872b7)
 
+## Deployed Version
+
+You can also access a deployed version at [ML Interface Wizard](http://143.42.204.177/).
+
 
 ## Installation and Setup
 
