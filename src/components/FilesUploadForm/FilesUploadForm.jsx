@@ -43,7 +43,7 @@ const FilesUploadForm = () => {
           mainText={"Click here to upload the Model."}
           hintText={"Mandatory. File format is pkl."}
           fileName={modelName}
-          onClick={() => { }}
+          onClick={() => {}}
           onChange={(e) => {
             console.log("change invoked");
             handleFileChange(e, "model");
@@ -56,7 +56,7 @@ const FilesUploadForm = () => {
           mainText={"Click here to upload the Configuration."}
           hintText={"Mandatory. File format is json."}
           fileName={configName}
-          onClick={() => { }}
+          onClick={() => {}}
           onChange={(e) => {
             handleFileChange(e, "config");
           }}
@@ -65,25 +65,14 @@ const FilesUploadForm = () => {
           }}
         />
         <WizardOptionalFile
-          name={"Input Transformer"}
+          name={"Input Scaler"}
           fileName={inTsfName}
           onChange={(e) => {
             handleFileChange(e, "intsf");
           }}
-          onClick={() => { }}
+          onClick={() => {}}
           onClearClick={() => {
             onClearFile("intsf");
-          }}
-        />
-        <WizardOptionalFile
-          name={"Output Transformer"}
-          fileName={outTsfName}
-          onChange={(e) => {
-            handleFileChange(e, "outtsf");
-          }}
-          onClick={() => { }}
-          onClearClick={() => {
-            onClearFile("outtsf");
           }}
         />
       </div>
