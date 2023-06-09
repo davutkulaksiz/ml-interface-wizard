@@ -6,6 +6,10 @@
 
 During the development of a data application based on a Machine Learning model, it is often necessary to create a front-end application specifically for that model. However, when the underlying model changes, a new front-end needs to be generated based on updated metrics and metadata. ML Interface Wizard solves this problem by automatically generating a UI for any Machine Learning model.
 
+## Tech Stack
+
+![tech_stack](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/ba7f227b-b886-4683-87ff-740bddf7c8fe)
+
 ## Features
 
 - Web-based UI for interacting with Machine Learning models.
@@ -26,15 +30,6 @@ During the development of a data application based on a Machine Learning model, 
 
 ## Getting a Prediction by Filling Out the Form
 ![secondgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/dbca1950-df16-4f47-b8a5-f20f1a4872b7)
-
-
-## Tech Stack
-
-| Layer    | Technology         |
-|----------|--------------------|
-| Frontend | JavaScript, React |
-| Backend  | Uvicorn, Python, FastAPI, MongoDB |
-| Deployment | Docker, AWS, Linode, Azure |
 
 
 ## Installation and Setup
