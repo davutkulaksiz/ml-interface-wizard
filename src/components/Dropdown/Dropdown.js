@@ -10,9 +10,13 @@ const Dropdown = ({
   defaultValue,
   multiple,
   disabled = false,
+  sx = 300,
 }) => {
   const [value, setValue] = useState(defaultValue);
   const StyledTextField = styled(TextField)({
+    "& label.Mui-disabled": {
+      color: "rgba(0, 0, 0, 1)", // (default alpha is 0.38)
+    },
     "& label.Mui-focused": {
       color: "#ad1457",
     },
@@ -46,7 +50,7 @@ const Dropdown = ({
       getOptionLabel={(option) => option}
       value={value}
       sx={{
-        width: 300,
+        width: sx,
       }}
       renderInput={(params) => <StyledTextField {...params} label={label} />}
       defaultValue={defaultValue}
