@@ -111,8 +111,16 @@ const Navbar = () => {
                   }}
                   selected={isSelected(navItem)}
                   sx={{
+                    marginLeft: "10px",
+                    marginRight: "10px",
+                    borderRadius: "10px",
                     [`&.Mui-selected`]: {
                       backgroundColor: "#c8ceed",
+                      borderRadius: "10px",
+                    },
+                    [`&:hover`]: {
+                      backgroundColor: "#c8ceed",
+                      borderRadius: "10px",
                     },
                   }}
                 >
