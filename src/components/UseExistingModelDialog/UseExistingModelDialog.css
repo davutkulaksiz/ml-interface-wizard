@@ -1,0 +1,9 @@
+.uploaded-file-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 500;
+  margin: 5px;
+  color: #ab47bc;
+  font-size: 1.2rem;
+}

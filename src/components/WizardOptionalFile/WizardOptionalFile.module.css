@@ -1,0 +1,39 @@
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.labelText {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.uploadIcon {
+  height: 64px;
+  width: 100%;
+  color: black;
+}
+
+.closeIcon {
+  height: 32px;
+  widows: 32px;
+  color: #6f76a7;
+  cursor: pointer;
+}
+.uploadFile {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  outline: 1px solid;
+  outline-color: #6f76a7;
+  background-color: #f3f3fe;
+}

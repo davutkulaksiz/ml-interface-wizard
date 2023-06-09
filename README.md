@@ -1,70 +1,123 @@
-# Getting Started with Create React App
+# ML Tools
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**ML Tools** is a collection of three complementary parts: ML Interface Wizard, ML Measure, and ML Contribute. These tools are designed to simplify the development and deployment of Machine Learning models.
 
-## Available Scripts
+Please note that during the development process, this repository's name will be changed to **ML Tools** to accurately reflect the scope of the project.
+![ml_tools](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/25f8f978-ba7d-43f7-9ca5-30f1d0a426c0)
 
-In the project directory, you can run:
+---
+# ML Interface Wizard
 
-### `npm start`
+**ML Interface Wizard** is a full stack application that aims to simplify the creation of front-end interfaces for Machine Learning models. It provides a user-friendly interface to interact with models, check their correctness, and provide additional testing data. The application generates a UI for any Machine Learning model based on model metrics and provided metadata.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Problem Statement
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+During the development of a data application based on a Machine Learning model, it is often necessary to create a front-end application specifically for that model. However, when the underlying model changes, a new front-end needs to be generated based on updated metrics and metadata. ML Interface Wizard solves this problem by automatically generating a UI for any Machine Learning model.
 
-### `npm test`
+## Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![tech_stack](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/ba7f227b-b886-4683-87ff-740bddf7c8fe)
 
-### `npm run build`
+## Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Web-based UI for interacting with Machine Learning models.
+- Easy model usage and correctness checking.
+- Support for providing additional testing data.
+- Automatic UI generation based on model metrics and metadata.
+- File and state management for up to 4 possible file uploads.
+- Server-side validation for uploaded files and configuration files.
+- Context-based state management solution using the React Context API.
+- Dynamic generation of UI form elements based on configuration files.
+- Support for uploading files in the "pkl" format and configuration files in JSON format.
+- RESTful API for communication between the frontend and backend.
+- Integration with Uvicorn, Python, FastAPI, and MongoDB on the backend.
+- Deployment using Docker, AWS, Linode, and Azure.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Uploading Files to Generate the Form
+![firstgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/a8c4eb29-409b-4888-acd1-ae1a62eb38c3)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Getting a Prediction by Filling Out the Form
+![secondgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/dbca1950-df16-4f47-b8a5-f20f1a4872b7)
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Installation and Setup
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the backend repository and run it by following guide for the **Docker** version:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```shell
+git clone https://github.com/nikolaDrljaca/interface-wizard-backend.git
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
 
-## Learn More
+# 1. Create virtual environment
+python3 -m venv env
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# 2. Activate created env
+source env/bin/activate # Unix
+.\env\Scripts\activate # Windows
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# 3. Install packages
+pip install -r requirements.txt
 
-### Code Splitting
+# 5. IMPORTANT - Create `.env` file in the same directory as `docker-compose.yml`
+This will be used to setup the MongoDB instance. The following keys need to be present.
+Define values as desired or leave listed defaults.
+DB_USER=test
+DB_PASS=test1234
+DB_HOST=localhost
+DB_PORT=27017
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# 4. Setup MongoDB instance, make sure Docker is installed
+docker compose up -d
 
-### Analyzing the Bundle Size
+# Controll the docker container
+docker compose stop -> stop or shutdown the container, but DON'T tear it down, the data will not stay
+docker compose start -> If the container is stopped, start it this way
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# 5. Run the app
+uvicorn app.main:app --reload
+```
 
-### Making a Progressive Web App
+**If you are having problems with how to run backend, please check the following repository:**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+[**ML Interface Backend**](https://github.com/nikolaDrljaca/interface-wizard-backend)
 
-### Advanced Configuration
+## If You Want Run the Frontend Locally:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. Clone the frontend repository:
 
-### Deployment
+```shell
+git clone https://github.com/davutkulaksiz/ml-interface-wizard.git
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. Install the required dependencies:
+```shell
+npm install
+```
 
-### `npm run build` fails to minify
+3. Start the frontend development server:
+```shell
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. Access the application by visiting http://localhost:3000 in your web browser.
+
+## Contact
+
+For any questions or inquiries, please contact the project maintainers:
+
+- Nikola Drljaca - [GitHub](https://github.com/nikolaDrljaca)
+- Davut Kulaksız - [GitHub](https://github.com/davutkulaksiz)
+
+Thank you for using ML Interface Wizard! We hope it simplifies your Machine Learning model development process.
+
+---
+# ML Measure
+
+Will be updated...
+
+---
+# ML Contribute
+
+Will be updated...

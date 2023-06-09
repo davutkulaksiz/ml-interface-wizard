@@ -8,9 +8,9 @@
   cursor: pointer;
   transition: all 0.2s ease-in;
   font-weight: 500;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding: 1rem;
   font-size: 0.875rem;
+  text-transform: uppercase;
 }
 
 .success {
@@ -34,4 +34,10 @@
   line-height: 1.75;
   min-width: 64px;
   padding: 12px 26px;
+}
+
+.disabled {
+  cursor: auto;
+  background-color: rgb(211, 218, 229);
+  color: rgb(57, 66, 88);
 }

@@ -1,36 +1,48 @@
 import "../../pages/interface/Interface.css";
-import "../WizardGuide/WizardGuide.css";
-import "./WizardFileForm.css";
-import { ArrowBack } from "@mui/icons-material";
-import { Alert, Button, Snackbar } from "@mui/material";
+import styles from "./WizardFileForm.module.css";
+import { Alert, Box, Button, LinearProgress, Snackbar } from "@mui/material";
 import FilesUploadForm from "../FilesUploadForm/FilesUploadForm";
-import { useContext } from "react";
-
-import {
-  FilesUploadContext,
-  FilesUploadDispatchContext,
-} from "../FilesUploadForm/filesUploadContext";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { uploadModelWrapper } from "../../api/predictionsApi";
+import {
+  WizardStateContext,
+  WizardDispatchContext,
+} from "../../stores/wizardStore/wizardContext";
 
 const WizardFileForm = ({}) => {
   const history = useHistory();
-  const filesState = useContext(FilesUploadContext);
-  const dispatch = useContext(FilesUploadDispatchContext);
+  const state = useContext(WizardStateContext);
+  const dispatch = useContext(WizardDispatchContext);
+  const [loading, setLoading] = useState(false);
 
-  const onBackClicked = () => {
-    history.goBack();
-  };
+  async function upload() {
+    try {
+      setLoading(true);
+      const args = {
+        model: state.model[0],
+        config: JSON.parse(localStorage.getItem("config")),
+        intsf: state.intsf?.[0],
+        outtsf: state.outtsf?.[0],
+      };
+      const result = await uploadModelWrapper(args);
+      console.log(result);
+      setLoading(false);
+      history.push(`/interface-wizard/form/${result.model_id}`);
+    } catch (e) {
+      console.error(e);
+      setLoading(false);
+      dispatchError("Upload failed. Please try again.");
+    }
+  }
 
-  const onGenerateFormClick = () => {
-    if (!filesState.config && !filesState.model) {
-      dispatch({
-        type: "setMessage",
-        message: "Provide both mandatory files!",
-      });
+  const onGenerateFormClick = async () => {
+    if (!state.config || !state.model) {
+      dispatchError("Please provide both mandatory files.");
       return;
     }
-    console.log(filesState);
-    history.push("/interface-wizard/form");
+    console.log(state);
+    upload();
   };
 
   const handleSnackbarClose = (event, reason) => {
@@ -40,9 +52,16 @@ const WizardFileForm = ({}) => {
     dispatch({ type: "clearMessage" });
   };
 
+  const dispatchError = (message) => {
+    dispatch({
+      type: "setMessage",
+      message: message,
+    });
+  };
+
   const SnackbarError = (
     <Snackbar
-      open={filesState.message !== null}
+      open={state.message !== null}
       autoHideDuration={6000}
       onClose={handleSnackbarClose}
       anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
@@ -52,37 +71,28 @@ const WizardFileForm = ({}) => {
         severity="error"
         sx={{ width: "100%" }}
       >
-        {filesState.message}
+        {state.message}
       </Alert>
     </Snackbar>
   );
 
   return (
     <>
-      <div className="guide-wrapper">
-        <div className="guide-container">
+      <div className={styles.guideWrapper}>
+        <Box sx={{ width: "100%" }}>{loading && <LinearProgress />}</Box>
+        <div className={styles.guideContainer}>
           {SnackbarError}
-          <div className="guide-body">
-            <div className="guide-upper-area">
+          <div className={styles.guideBody} style={{ minHeight: "800px" }}>
+            <div className={styles.guideUpperArea}>
               {/**Head component */}
-              <p className="guide-header">File Upload Area</p>
+              <p className={styles.guideHeader}>Upload Form</p>
             </div>
-            <div className="guide-divider"></div>
-            <div className="guide-lower-area">
+            <div className={styles.guideDivider}></div>
+            <div className={styles.guideLowerArea}>
               {/**Body */}
               <FilesUploadForm />
-              <div className="upload-container">
+              <div className={styles.uploadContainer}>
                 <>
-                  <Button
-                    variant="outlined"
-                    size="large"
-                    startIcon={<ArrowBack />}
-                    onClick={() => {
-                      onBackClicked();
-                    }}
-                  >
-                    Back
-                  </Button>
                   <Button
                     variant="contained"
                     size="large"

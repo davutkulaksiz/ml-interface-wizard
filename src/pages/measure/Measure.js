@@ -66,7 +66,6 @@ const Measure = () => {
     <>
       <Navbar />
       <div className="measure-container">
-        <Sidebar />
         <div className="main-wrapper">
           <Private>
             <FormAlternative

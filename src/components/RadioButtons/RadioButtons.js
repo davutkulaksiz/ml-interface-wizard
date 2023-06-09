@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -7,13 +7,14 @@ import FormLabel from "@mui/material/FormLabel";
 import { pink } from "@mui/material/colors";
 
 const RadioButtons = ({
-  value,
+  defaultValue,
   handleChange,
   label,
   options,
   disabled = false,
   row = false,
 }) => {
+  const [value, setValue] = useState(defaultValue)
   return (
     <FormControl>
       <FormLabel
@@ -30,7 +31,10 @@ const RadioButtons = ({
         aria-labelledby="demo-controlled-radio-buttons-group"
         name="controlled-radio-buttons-group"
         value={value}
-        onChange={handleChange}
+        onChange={(event, newValue) => {
+          handleChange(event, newValue)
+          setValue(newValue)
+        }}
         row={row}
       >
         {options.map((element, index) => {

@@ -1,46 +1,56 @@
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Sidebar from "../../components/Sidebar/Sidebar";
-import WizardGuide from "../../components/WizardGuide/WizardGuide";
 import "./Interface.css";
 import { Switch, Route } from "react-router-dom";
 import Wizard from "../../components/Wizard/Wizard";
-import WizardFileForm from "../../components/WizardFileForm/WizardFileForm";
 import {
-  filesStateReducer,
   initialState,
-} from "../../components/FilesUploadForm/filesUploadState";
+  readAndParseConfig,
+  wizardStateReducer,
+} from "../../stores/wizardStore/wizardReducer";
 import {
-  FilesUploadContext,
-  FilesUploadDispatchContext,
-} from "../../components/FilesUploadForm/filesUploadContext";
+  WizardStateContext,
+  WizardDispatchContext,
+} from "../../stores/wizardStore/wizardContext";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import WizardHome from "../../components/WizardHome/WizardHome";
 
 const Interface = () => {
-  const [filesState, dispatch] = useReducer(filesStateReducer, initialState);
+  const [state, dispatch] = useReducer(wizardStateReducer, initialState);
+  const [_, setParsedConfig] = useLocalStorage("config", null);
+
+  //NOTE: Every time the config is parsed(validated) save it to localStorage.
+  useEffect(() => {
+    readAndParseConfig(state.config, ({ parsedConfig, message }) => {
+      if (message) {
+        dispatch({
+          type: "setMessage",
+          message: message,
+        });
+      } else {
+        setParsedConfig(parsedConfig);
+      }
+    });
+  }, [state.config]);
 
   return (
     <>
       <Navbar />
       <div className="interface-container">
-        <Sidebar />
-        <FilesUploadContext.Provider value={filesState}>
-          <FilesUploadDispatchContext.Provider value={dispatch}>
+        <WizardStateContext.Provider value={state}>
+          <WizardDispatchContext.Provider value={dispatch}>
             <Switch>
               <Route
-                path="/interface-wizard/upload"
-                render={(props) => <WizardFileForm {...props} />}
-              />
-              <Route
-                path="/interface-wizard/form"
+                path="/interface-wizard/form/:modelId"
                 render={(props) => <Wizard {...props} />}
               />
               <Route
                 path="/interface-wizard/"
-                render={(props) => <WizardGuide {...props} />}
+                render={(props) => <WizardHome {...props} />}
               />
             </Switch>
-          </FilesUploadDispatchContext.Provider>
-        </FilesUploadContext.Provider>
+          </WizardDispatchContext.Provider>
+        </WizardStateContext.Provider>
       </div>
     </>
   );

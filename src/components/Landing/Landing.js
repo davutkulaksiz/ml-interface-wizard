@@ -1,4 +1,5 @@
 import React from "react";
+import ProjectCard from "../ProjectCard/ProjectCard.jsx";
 import { useHistory } from "react-router-dom";
 import Button from "../Button/Button";
 import "./Landing.css";
@@ -14,17 +15,20 @@ const Landing = () => {
       <div className="landing-container">
         <div className="landing-body">
           <div className="landing-upper-area">
-            <p className="landing-header">Welcome Page</p>
+            <p className="landing-header">ML Tools Overview</p>
           </div>
           <div className="landing-divider"></div>
           <div className="landing-lower-area">
             <div className="project-container">
-              <h2 className="project-header">ML Interface Wizard</h2>
-              <p className="project-description">
-                An application that generates front-ends to any input machine
-                learning models.
-                {/*TODO: improve the description*/}
-              </p>
+              <ProjectCard
+                projectName={"ML Interface Wizard"}
+                description={
+                  "An application that generates input forms for any machine learning model."
+                }
+                imagePath={
+                  "https://cdn.dribbble.com/users/331265/screenshots/5415177/1015-abtestinguxcomponent-luke_dribbble.png"
+                }
+              />
               <Button
                 type="submit"
                 onClick={() => {
@@ -36,11 +40,11 @@ const Landing = () => {
               />
             </div>
             <div className="project-container">
-              <h2 className="project-header">ML Measure</h2>
-              <p>
-                Project Description
-                {/*TODO: write description for ML Measure*/}
-              </p>
+              <ProjectCard
+                projectName={"ML Measure"}
+                description={"ML measure project description."}
+                imagePath={""}
+              />
               <Button
                 type="submit"
                 onClick={() => {
@@ -52,11 +56,11 @@ const Landing = () => {
               />
             </div>
             <div className="project-container">
-              <h2 className="project-header">ML Contribute</h2>
-              <p>
-                Project Description
-                {/*TODO: write description for ML Contribute*/}
-              </p>
+              <ProjectCard
+                projectName={"ML Contribute"}
+                description={"ML contribute project description."}
+                imagePath={""}
+              />
               <Button
                 type="submit"
                 onClick={() => {
