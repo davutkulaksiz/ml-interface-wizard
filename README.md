@@ -43,10 +43,19 @@ During the development of a data application based on a Machine Learning model, 
 
 You can also access a deployed version at [ML Interface Wizard](http://143.42.204.177/).
 
-
 ## Installation and Setup
 
-1. Clone the backend repository and run it by following guide for the **Docker** version:
+1. Using `docker compose` for Backend
+
+```shell
+docker compose up -d
+```
+
+This will setup the backend application with all necessary dependencies.
+
+Alternatively, look into step 2.
+
+2. Clone the backend repository and run it by following guide for the **Docker** version:
 
 ```shell
 git clone https://github.com/nikolaDrljaca/interface-wizard-backend.git
@@ -96,11 +105,13 @@ git clone https://github.com/davutkulaksiz/ml-interface-wizard.git
 ```
 
 2. Install the required dependencies:
+
 ```shell
 npm install
 ```
 
 3. Start the frontend development server:
+
 ```shell
 npm start
 ```

@@ -1,0 +1,44 @@
+name: ml-interface-wizard
+services:
+  backend:
+    image: nikoladrljacaa/wizard-backend:latest
+    container_name: backend
+    ports:
+      - 8000:8000
+    environment:
+      DB_PASS: ${DB_PASS}
+      DB_USER: ${DB_USER}
+      DB_HOST: mongodb
+      DB_PORT: ${DB_PORT}
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - ${DB_PORT}:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASS}
+    volumes:
+      # named volumes
+      - mongodb-volume:/data/db
+      - mongoconfig:/data/configdb
+
+  mongo-express:
+    image: mongo-express
+    container_name: m-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${DB_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASS}
+      ME_CONFIG_MONGODB_URL: mongodb://${DB_USER}:${DB_PASS}@mongodb:${DB_PORT}
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+
+volumes:
+  mongodb-volume:
+  mongoconfig:
