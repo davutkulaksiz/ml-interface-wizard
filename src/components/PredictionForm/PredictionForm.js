@@ -11,6 +11,10 @@ import { Alert, Snackbar } from "@mui/material";
 import { castPrediction } from "../../api/predictionsApi";
 import WizardPredictionOutput from "../WizardPredictionOutput/WizardPredictionOutput";
 
+// Replace the TextField component with the MUITextFieldInterface component
+// if updated TextField from ML-Measure breaks anything
+import { MUITextFieldInterface } from "../MUITextField/MUITextField";
+
 //TODO: Testing form with other models.
 const PredictionForm = ({ parsedConfig, modelId }) => {
   const [errorOpen, setErrorOpen] = useState(false);
