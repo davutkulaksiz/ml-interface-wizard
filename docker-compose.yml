@@ -1,7 +1,7 @@
 name: ml-interface-wizard
 services:
   backend:
-    image: nikoladrljacaa/wizard-backend:main
+    image: nikoladrljacaa/wizard-backend:latest
     container_name: backend
     ports:
       - 8000:8000
