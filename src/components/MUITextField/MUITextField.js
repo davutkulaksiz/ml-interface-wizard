@@ -4,6 +4,9 @@ import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
 
 const StyledTextField = styled(TextField)({
+  "& label.Mui-disabled": {
+    color: "rgba(0, 0, 0, 1)", // (default alpha is 0.38)
+  },
   "& label.Mui-focused": {
     color: "#ad1457",
   },
@@ -31,6 +34,8 @@ const MUITextField = ({
   onChange,
   inputProps,
   type,
+  disabled = false,
+  width = "100%",
 }) => {
   const [value, setValue] = useState(defaultValue);
   return (
@@ -62,6 +67,8 @@ const MUITextField = ({
       }}
       value={value}
       inputProps={inputProps}
+      disabled={disabled}
+      sx={{ width: width }}
     ></StyledTextField>
   );
 };

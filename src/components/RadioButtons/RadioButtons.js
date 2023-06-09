@@ -37,35 +37,26 @@ const RadioButtons = ({
         }}
         row={row}
       >
-        <FormControlLabel
-          value={options[0]}
-          disabled={disabled}
-          control={
-            <Radio
-              sx={{
-                color: pink[800],
-                "&.Mui-checked": {
-                  color: pink[600],
-                },
-              }}
+        {options.map((element, index) => {
+          return (
+            <FormControlLabel
+              key={index}
+              value={options[index]}
+              disabled={disabled}
+              control={
+                <Radio
+                  sx={{
+                    color: pink[800],
+                    "&.Mui-checked": {
+                      color: pink[600],
+                    },
+                  }}
+                />
+              }
+              label={options[index]}
             />
-          }
-          label={options[0]}
-        />
-        <FormControlLabel
-          value={options[1]}
-          control={
-            <Radio
-              sx={{
-                color: pink[800],
-                "&.Mui-checked": {
-                  color: pink[600],
-                },
-              }}
-            />
-          }
-          label={options[1]}
-        />
+          );
+        })}
       </RadioGroup>
     </FormControl>
   );
