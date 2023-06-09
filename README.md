@@ -1,6 +1,6 @@
 # ML Tools
 
-**ML Tools** is a collection of three complementary parts: ML Interface Wizard, ML Measure, and ML Contribute. These tools are designed to simplify the development and deployment of Machine Learning models.
+**ML Tools** is a collection of three complementary parts: **ML Interface Wizard**, **ML Measure**, and **ML Contribute**. These tools are designed to simplify the development and deployment of Machine Learning models.
 
 Please note that during the development process, this repository's name will be changed to **ML Tools** to accurately reflect the scope of the project.
 ![ml_tools](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/25f8f978-ba7d-43f7-9ca5-30f1d0a426c0)
