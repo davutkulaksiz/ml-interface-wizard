@@ -1,3 +1,11 @@
+# ML Tools
+
+**ML Tools** is a collection of three complementary parts: ML Interface Wizard, ML Measure, and ML Contribute. These tools are designed to simplify the development and deployment of Machine Learning models.
+
+Please note that during the development process, this repository's name will be changed to **ML Tools** to accurately reflect the scope of the project.
+![ml_tools](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/25f8f978-ba7d-43f7-9ca5-30f1d0a426c0)
+
+---
 # ML Interface Wizard
 
 **ML Interface Wizard** is a full stack application that aims to simplify the creation of front-end interfaces for Machine Learning models. It provides a user-friendly interface to interact with models, check their correctness, and provide additional testing data. The application generates a UI for any Machine Learning model based on model metrics and provided metadata.
@@ -103,3 +111,13 @@ For any questions or inquiries, please contact the project maintainers:
 - Davut Kulaksız - [GitHub](https://github.com/davutkulaksiz)
 
 Thank you for using ML Interface Wizard! We hope it simplifies your Machine Learning model development process.
+
+---
+# ML Measure
+
+Will be updated...
+
+---
+# ML Contribute
+
+Will be updated...
