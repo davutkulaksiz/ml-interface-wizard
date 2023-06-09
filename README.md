@@ -83,7 +83,7 @@ uvicorn app.main:app --reload
 
 [**ML Interface Backend**](https://github.com/nikolaDrljaca/interface-wizard-backend)
 
-## If You Want Run the Frontend Locally:
+## If You Want to Run the Frontend Locally:
 
 1. Clone the frontend repository:
 
