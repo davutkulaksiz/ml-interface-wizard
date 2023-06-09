@@ -1,3 +1,11 @@
+# ML Tools
+
+**ML Tools** is a collection of three complementary parts: **ML Interface Wizard**, **ML Measure**, and **ML Contribute**. These tools are designed to simplify the development and deployment of Machine Learning models.
+
+Please note that during the development process, this repository's name will be changed to **ML Tools** to accurately reflect the scope of the project.
+![ml_tools](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/25f8f978-ba7d-43f7-9ca5-30f1d0a426c0)
+
+---
 # ML Interface Wizard
 
 **ML Interface Wizard** is a full stack application that aims to simplify the creation of front-end interfaces for Machine Learning models. It provides a user-friendly interface to interact with models, check their correctness, and provide additional testing data. The application generates a UI for any Machine Learning model based on model metrics and provided metadata.
@@ -5,6 +13,10 @@
 ## Problem Statement
 
 During the development of a data application based on a Machine Learning model, it is often necessary to create a front-end application specifically for that model. However, when the underlying model changes, a new front-end needs to be generated based on updated metrics and metadata. ML Interface Wizard solves this problem by automatically generating a UI for any Machine Learning model.
+
+## Tech Stack
+
+![tech_stack](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/ba7f227b-b886-4683-87ff-740bddf7c8fe)
 
 ## Features
 
@@ -21,13 +33,15 @@ During the development of a data application based on a Machine Learning model, 
 - Integration with Uvicorn, Python, FastAPI, and MongoDB on the backend.
 - Deployment using Docker, AWS, Linode, and Azure.
 
-## Tech Stack
+## Uploading Files to Generate the Form
+![firstgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/a8c4eb29-409b-4888-acd1-ae1a62eb38c3)
 
-| Layer      | Technology                        |
-| ---------- | --------------------------------- |
-| Frontend   | JavaScript, React                 |
-| Backend    | Uvicorn, Python, FastAPI, MongoDB |
-| Deployment | Docker, AWS, Linode, Azure        |
+## Getting a Prediction by Filling Out the Form
+![secondgif](https://github.com/davutkulaksiz/ml-interface-wizard/assets/58954450/dbca1950-df16-4f47-b8a5-f20f1a4872b7)
+
+## Deployed Version
+
+You can also access a deployed version at [ML Interface Wizard](http://143.42.204.177/).
 
 ## Installation and Setup
 
@@ -82,7 +96,7 @@ uvicorn app.main:app --reload
 
 [**ML Interface Backend**](https://github.com/nikolaDrljaca/interface-wizard-backend)
 
-## If You Want Run the Frontend Locally:
+## If You Want to Run the Frontend Locally:
 
 1. Clone the frontend repository:
 
@@ -108,7 +122,17 @@ npm start
 
 For any questions or inquiries, please contact the project maintainers:
 
-- Nikola Drljača - [GitHub](https://github.com/nikolaDrljaca)
+- Nikola Drljaca - [GitHub](https://github.com/nikolaDrljaca)
 - Davut Kulaksız - [GitHub](https://github.com/davutkulaksiz)
 
 Thank you for using ML Interface Wizard! We hope it simplifies your Machine Learning model development process.
+
+---
+# ML Measure
+
+Will be updated...
+
+---
+# ML Contribute
+
+Will be updated...
