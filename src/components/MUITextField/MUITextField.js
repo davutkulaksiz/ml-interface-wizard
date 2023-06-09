@@ -67,3 +67,46 @@ const MUITextField = ({
 };
 
 export default MUITextField;
+
+export const MUITextFieldInterface = ({
+  label,
+  helperText,
+  defaultValue,
+  name,
+  onChange,
+  inputProps,
+  type,
+}) => {
+  const [value, setValue] = useState(defaultValue);
+  return (
+    <StyledTextField
+      fullWidth
+      label={
+        <Tooltip
+          title={
+            <div>
+              <span>{label}</span>
+              <span style={{ display: "block" }}>
+                {type === "number" &&
+                  "Min: " + inputProps.min + " Max: " + inputProps.max}
+              </span>
+            </div>
+          }
+          placement="bottom-start"
+          arrow
+        >
+          <span>{label}</span>
+        </Tooltip>
+      }
+      helperText={helperText}
+      type={type}
+      name={name}
+      onChange={(event) => {
+        onChange(event);
+        setValue(event.target.value);
+      }}
+      value={value}
+      inputProps={inputProps}
+    ></StyledTextField>
+  );
+};
