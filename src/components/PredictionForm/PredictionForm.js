@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import WizardModelIdField from "../WizardModelIdField/WizardModelIdField";
 import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
@@ -7,19 +7,19 @@ import RadioButtons from "../RadioButtons/RadioButtons";
 import Tooltip from "@mui/material/Tooltip";
 import TextField from "../MUITextField/MUITextField";
 import "./PredictionForm.css";
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, Button as MUIButton, Snackbar } from "@mui/material";
 import { castPrediction } from "../../api/predictionsApi";
 import WizardPredictionOutput from "../WizardPredictionOutput/WizardPredictionOutput";
 
 // Replace the TextField component with the MUITextFieldInterface component
 // if updated TextField from ML-Measure breaks anything
-import { MUITextFieldInterface } from "../MUITextField/MUITextField";
 
 //TODO: Testing form with other models.
 const PredictionForm = ({ parsedConfig, modelId }) => {
   const [errorOpen, setErrorOpen] = useState(false);
-  const [formDataMap, setFormDataMap] = useState(new Map());
+  const [formDataMap, _] = useState(new Map());
   const [loading, setLoading] = useState(false);
+  const [reset, setReset] = useState(0);
   const [result, setResult] = useState(null);
 
   useEffect(() => {
@@ -28,6 +28,13 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
       formDataMap.set(feature.name, feature.default_value);
     });
   }, []);
+
+  const onClearFormClicked = () => {
+    parsedConfig.features.forEach((feature) => {
+      formDataMap.set(feature.name, feature.default_value);
+    });
+    setReset((it) => it + 1);
+  };
 
   const onSubmitClicked = async () => {
     const values = Array.from(formDataMap.values());
@@ -105,6 +112,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                     helperText={feature.description}
                     defaultValue={feature.default_value}
                     name={feature.name}
+                    reset={reset}
                     key={feature.name}
                     onChange={(event) => {
                       onTextFieldChange(event, feature.name);
@@ -119,6 +127,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                     type="number"
                     key={feature.name}
                     name={feature.name}
+                    reset={reset}
                     onChange={(event) => {
                       onNumericTextFieldChange(event, feature.name);
                     }}
@@ -131,6 +140,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                       key={feature.name}
                       options={feature.values}
                       label={feature.name}
+                      reset={reset}
                       onChange={(event, newValue) => {
                         handleDropdownChange(event, newValue, feature.name);
                       }}
@@ -142,6 +152,7 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
                       defaultValue={feature.default_value}
                       label={feature.name}
                       key={feature.name}
+                      reset={reset}
                       handleChange={(event, newValue) => {
                         handleRadioChange(event, feature.name);
                       }}
@@ -173,6 +184,14 @@ const PredictionForm = ({ parsedConfig, modelId }) => {
               text={loading ? <Loader type="tiny" /> : "Predict"}
               disabled={false}
             />
+            <MUIButton
+              variant="text"
+              onClick={() => {
+                onClearFormClicked();
+              }}
+            >
+              Clear Form
+            </MUIButton>
           </div>
           {result ? (
             <div className="output-area">

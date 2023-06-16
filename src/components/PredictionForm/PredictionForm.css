@@ -63,6 +63,12 @@
 
 .form-submit-button {
   padding-top: 3rem;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
 }
 
 .output-area {
