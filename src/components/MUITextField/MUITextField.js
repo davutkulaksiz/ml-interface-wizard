@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Tooltip from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
@@ -34,10 +34,15 @@ const MUITextField = ({
   onChange,
   inputProps,
   type,
+  reset,
   disabled = false,
   width = "100%",
 }) => {
   const [value, setValue] = useState(defaultValue);
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [reset]);
+
   return (
     <StyledTextField
       fullWidth
@@ -82,9 +87,14 @@ export const MUITextFieldInterface = ({
   name,
   onChange,
   inputProps,
+  reset,
   type,
 }) => {
   const [value, setValue] = useState(defaultValue);
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [reset]);
+
   return (
     <StyledTextField
       fullWidth
