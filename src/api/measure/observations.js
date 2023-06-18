@@ -1,17 +1,25 @@
+import { useLocation } from "react-router-dom";
+import { useMemo } from "react";
 import axios from "axios";
 
-const endpoint = "http://localhost:5000";
+const baseURL = process.env.REACT_APP_MEASURE_BASE_URL;
 
-export const fetchSingleObservation = (token) => {
+export const fetchSingleObservation = (token, datasetName) => {
   const config = { headers: { Authorization: `${token}` } };
-  return axios.get(`${endpoint}/diabetes`, config);
+  return axios.get(`${baseURL}/${datasetName}`, config);
 };
 
-export const fetchConfig = () => {
-  return axios.get(`${endpoint}/diabetes/config`);
+export const fetchConfig = (datasetName) => {
+  return axios.get(`${baseURL}/${datasetName}/config`);
 };
 
-export const postSingleObservationResult = (data, token) => {
+export const postSingleObservationResult = (data, token, datasetName) => {
   const config = { headers: { Authorization: `${token}` } };
-  return axios.post(`${endpoint}/diabetes`, data, config);
+  return axios.post(`${baseURL}/${datasetName}`, data, config);
+};
+
+export const useQuery = () => {
+  const { search } = useLocation();
+
+  return useMemo(() => new URLSearchParams(search), [search]);
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import MUITextField from "../MUITextField/MUITextField";
-import RadioButtons from "../RadioButtons/RadioButtons";
-import Button from "../Button/Button";
+import MUITextField from "../../MUITextField/MUITextField";
+import RadioButtons from "../../RadioButtons/RadioButtons";
+import Button from "../../Button/Button";
 
 export function GetUserInfo({ urlToken, setTokenExistsInTheStorageCallback }) {
   const [hospitalType, setHospitalType] = useState(undefined);

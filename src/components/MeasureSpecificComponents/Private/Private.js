@@ -46,7 +46,16 @@ const Private = ({ children }) => {
       }}
     />
   ) : (
-    <div style={{ fontWeight: 500, fontSize: 25 }}>403 - Forbidden</div>
+    <div
+      style={{
+        fontWeight: 500,
+        fontSize: 30,
+        position: "absolute",
+        top: "40%",
+      }}
+    >
+      403 - Forbidden
+    </div>
   );
 };
 

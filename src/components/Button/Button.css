@@ -29,6 +29,15 @@
   background-color: #c90909;
 }
 
+.default {
+  color: #000000;
+}
+
+.default:hover {
+  color: #ffffff;
+  background-color: #37c768;
+}
+
 .lg {
   font-size: 0.9375rem;
   line-height: 1.75;

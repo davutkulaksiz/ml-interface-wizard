@@ -1,9 +1,14 @@
 import React from "react";
 import "./Button.css";
 
-const Button = ({ text, type, buttonType, onClick }) => {
+const Button = ({ text, type, buttonType, onClick, disabled = false }) => {
   return (
-    <button type={type} onClick={onClick} className={"btn " + buttonType}>
+    <button
+      type={type}
+      onClick={onClick}
+      className={"btn " + buttonType}
+      disabled={disabled}
+    >
       {text}
     </button>
   );
