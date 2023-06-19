@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,10 +11,14 @@ const RadioButtons = ({
   handleChange,
   label,
   options,
+  reset,
   disabled = false,
   row = false,
 }) => {
-  const [value, setValue] = useState(defaultValue)
+  const [value, setValue] = useState(defaultValue);
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [reset]);
   return (
     <FormControl>
       <FormLabel
@@ -32,8 +36,8 @@ const RadioButtons = ({
         name="controlled-radio-buttons-group"
         value={value}
         onChange={(event, newValue) => {
-          handleChange(event, newValue)
-          setValue(newValue)
+          handleChange(event, newValue);
+          setValue(newValue);
         }}
         row={row}
       >
