@@ -1,78 +1,62 @@
-import React, { useEffect } from "react";
-import { useCallback, useState } from "react";
-import { fetchConfig } from "../../api/measure/observations";
 import Navbar from "../../components/Navbar/Navbar";
-import FormAlternative from "../../components/FormAlternative/FormAlternative";
+import FormAlternative from "../../components//MeasureSpecificComponents/FormAlternative/FormAlternative";
 import "./Measure.css";
-import { componentConstants as constants } from "../../constants/component-constants";
-import Private from "../../components/Private/Private";
-
-//read config iterate over features, save names and type to an array
-//for every feature in the array, read the related field from data object
-// and create read only form
-
-const configInitializer = (config) => {
-  let extractedConfigData = [];
-
-  for (let feature of config.features) {
-    let extractedFeature = {
-      name: feature.data_label,
-      label: feature.description,
-    };
-    switch (feature.type) {
-      case "numeric":
-        extractedFeature.component = constants.numericInput;
-        break;
-      case "single-select":
-        //pass the values to be used as options
-        extractedFeature.values = feature.values;
-        //check if number of options is more than 2, 3 or more
-        if (feature.values.length <= 3) {
-          extractedFeature.component = constants.radioButton;
-        } else {
-          extractedFeature.component = constants.dropdown;
-        }
-        break;
-      default:
-        extractedFeature.component = constants.textField;
-    }
-    // add extracted feature to array
-    extractedConfigData.push(extractedFeature);
-  }
-
-  return extractedConfigData;
-};
+import Private from "../../components/MeasureSpecificComponents/Private/Private";
+import { Switch, Route } from "react-router-dom";
+import MeasureHome from "../../components/MeasureSpecificComponents/MeasureHome/MeasureHome";
+import UserInviteModule from "../../components/MeasureSpecificComponents/UserInviteModule/UserInviteModule";
+import Analytics from "../../components/MeasureSpecificComponents/Analytics/Analytics";
+import PopupMessage from "../../components/MeasureSpecificComponents/PopupMessage/PopupMessage";
+import { useState } from "react";
 
 const Measure = () => {
-  const [formName, setFormName] = useState("Fetching Data...");
-  const [initializedConfig, setInitializedConfig] = useState(null);
-  const [targetValues, setTargetValues] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isErroneous, setIsErroneous] = useState(false);
 
-  const getConfig = useCallback(async () => {
-    let { data } = await fetchConfig();
-    setFormName(data.presentation.title);
-    setTargetValues(data.model.values);
-
-    const config = configInitializer(data);
-    setInitializedConfig(config);
-  });
-
-  useEffect(() => {
-    getConfig();
-  }, []);
+  const throwPopupRemoveTimeout = () => {
+    return setTimeout(() => {
+      setShowPopup(false);
+    }, 2000);
+  };
 
   return (
     <>
+      {showPopup ? (
+        <PopupMessage
+          isErroneous={isErroneous}
+          message={
+            isErroneous ? "Error while inviting." : "Successfully invited."
+          }
+        />
+      ) : null}
       <Navbar />
       <div className="measure-container">
         <div className="main-wrapper">
-          <Private>
-            <FormAlternative
-              initializedConfig={initializedConfig}
-              formName={formName}
-              targetValues={targetValues}
+          <Switch>
+            <Route
+              path="/measure/analytics"
+              render={(props) => <Analytics />}
             />
-          </Private>
+            <Route
+              path="/measure/invite"
+              render={(props) => (
+                <UserInviteModule
+                  setIsErroneousCallback={setIsErroneous}
+                  setShowPopupCallback={setShowPopup}
+                  throwPopupRemoveTimeout={throwPopupRemoveTimeout}
+                />
+              )}
+            />
+            <Route
+              path="/measure/predict"
+              render={(props) => (
+                <Private>
+                  <FormAlternative />
+                </Private>
+              )}
+            />
+            <Route Path="/measure" render={(props) => <MeasureHome />} />
+          </Switch>
         </div>
       </div>
     </>

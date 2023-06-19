@@ -42,8 +42,10 @@ const Landing = () => {
             <div className="project-container">
               <ProjectCard
                 projectName={"ML Measure"}
-                description={"ML measure project description."}
-                imagePath={""}
+                description={
+                  "Allows you to make predictions for classificaiton problems for any dataset."
+                }
+                imagePath={"https://i.hizliresim.com/93oshlf.jpg"}
               />
               <Button
                 type="submit"

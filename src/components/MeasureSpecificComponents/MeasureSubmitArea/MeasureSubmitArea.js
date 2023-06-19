@@ -1,9 +1,14 @@
-import Button from "../Button/Button";
+import Button from "../../Button/Button";
 import "./MeasureSubmitArea.css";
 
-const MeasureSubmitArea = ({ options, onSubmit }) => {
-  const handleSubmitClick = async (answerValue) => {
-    onSubmit(answerValue);
+const MeasureSubmitArea = ({
+  options,
+  onSubmit,
+  questionMessage,
+  submitButtonsDisabled,
+}) => {
+  const handleSubmitClick = async (element) => {
+    onSubmit(element.value);
   };
 
   return (
@@ -20,19 +25,20 @@ const MeasureSubmitArea = ({ options, onSubmit }) => {
           marginTop: 30,
         }}
       >
-        Pick One
+        {questionMessage}
       </div>
       <div className="options-wrapper">
         {options.map((element, index) => {
           return (
             <Button
-              text={element}
+              text={element.label}
               key={index}
               type={"submit"}
               buttonType={"success"}
               onClick={() => {
                 handleSubmitClick(element);
               }}
+              disabled={submitButtonsDisabled}
             ></Button>
           );
         })}

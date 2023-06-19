@@ -1,4 +1,4 @@
-import Button from "../Button/Button";
+import Button from "../../Button/Button";
 import CheckMark from "../Icons/CheckMark";
 import XCircle from "../Icons/XCircle";
 import "./Modal.css";
