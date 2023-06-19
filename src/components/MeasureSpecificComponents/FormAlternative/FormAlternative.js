@@ -1,23 +1,23 @@
 import MeasureSubmitArea from "../MeasureSubmitArea/MeasureSubmitArea";
 import "./FormAlternative.css";
-import { useEffect, useState } from "react";
-import { useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   fetchSingleObservation,
   postSingleObservationResult,
+  fetchConfig,
 } from "../../../api/measure/observations";
 import LoadingComponent from "../LoadingComponent/LoadingComponent";
 import PopupMessage from "../PopupMessage/PopupMessage";
 import DynamicHtmlGenerator from "../DynamicHtmlGenerator/DynamicHtmlGenerator";
+import { fetchDatasetNameForUser } from "../../../api/measure/invites";
 
-const FormAlternative = ({
-  formName,
-  configFeatures,
-  targetValues,
-  submitAreaQuestion,
-  datasetName,
-}) => {
+const FormAlternative = () => {
+  const [datasetName, setDatasetName] = useState(null);
   const [observationData, setObservationData] = useState(null);
+  const [formName, setFormName] = useState("Fetching Data...");
+  const [configFeatures, setConfigFeatures] = useState(null);
+  const [targetValues, setTargetValues] = useState([]);
+  const [submitAreaQuestion, setSubmitAreaQuestion] = useState("Pick One");
   const [isLoading, setIsLoading] = useState(true);
   const [submitButtonsDisabled, setSubmitButtonsDisabled] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -25,9 +25,47 @@ const FormAlternative = ({
   const [userSubmitData, setUserSubmitData] = useState(
     localStorage.getItem("ml_measure_user_info")
   );
-  const [authToken, setAuthToken] = useState(
-    localStorage.getItem("ml_measure_auth_token")
-  );
+  const authToken = localStorage.getItem("ml_measure_auth_token");
+
+  const initializeTokenDatasetAndConfig = useCallback(async () => {
+    try {
+      //set datasetName
+      const datasetNameForUser = (await fetchDatasetNameForUser(authToken)).data
+        ?.dataset;
+      setDatasetName(datasetNameForUser);
+
+      //set form details
+      const configData = (await fetchConfig(datasetNameForUser)).data;
+      setFormName(configData.presentation.title);
+      setTargetValues(configData.model.values);
+      setSubmitAreaQuestion(configData.model.question);
+      setConfigFeatures(configData.features);
+    } catch (error) {
+      setIsErroneous(true);
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2500);
+    }
+  });
+
+  const getSingleObservation = async () => {
+    //fetch single observation if datasetName is presented
+    if (!datasetName) {
+      return;
+    }
+    const { data } = await fetchSingleObservation(authToken, datasetName);
+    setObservationData(data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    initializeTokenDatasetAndConfig();
+  }, []);
+
+  useEffect(() => {
+    getSingleObservation();
+  }, [datasetName]);
 
   const onSubmit = async (answerValue) => {
     //set the submit buttons disabled to true, thus prevent multiple submissions
@@ -58,8 +96,14 @@ const FormAlternative = ({
         setShowPopup(false);
       }, 2500);
 
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 1000);
+      });
       //fetch new observation, the function getObservationData also sets isLoading to false
-      await getObservationData();
+      getSingleObservation();
+      setSubmitButtonsDisabled(false);
     } catch (err) {
       setIsErroneous(true);
       setShowPopup(true);
@@ -74,17 +118,6 @@ const FormAlternative = ({
 
     formBody.className = "form-wrapper";
   };
-
-  const getObservationData = useCallback(async () => {
-    //await config to be fetched to fetch an observation
-    const { data } = await fetchSingleObservation(authToken, datasetName);
-    setObservationData(data);
-    setIsLoading(false);
-  });
-
-  useEffect(() => {
-    getObservationData();
-  }, []);
 
   return (
     <div className="form-wrapper">

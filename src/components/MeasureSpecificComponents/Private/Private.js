@@ -1,48 +1,48 @@
 import { useEffect, useState, useMemo } from "react";
-import { useLocation, useHistory } from "react-router-dom";
 import { GetUserInfo } from "../GetUserInfo/GetUserInfo";
-// TODO
-// if token does not exist in browser storage, and the url does not contain a token parameter, block the access
-// if token exist in browser storage and in the url, show the pages
-// if token exist in url but does not exist in browser storage, meaning the user is clicking the invite link for the first time
-// so navigate to user info pages and save the user info to the storage
-
-function useQuery() {
-  const { search } = useLocation();
-
-  return useMemo(() => new URLSearchParams(search), [search]);
-}
+import { useQuery } from "../../../api/measure/observations";
 
 const Private = ({ children }) => {
-  const [tokenExistsInTheStorage, setTokenExistsInTheStorage] = useState(false);
-  const [tokenExistsInTheUrl, setTokenExistsInTheUrl] = useState(null);
-  const history = useHistory();
+  const [userInfoAllowed, setUserInfoAllowed] = useState(false);
+  const [formAllowed, setFormAllowed] = useState(false);
+  const [datasetNameForUser, setDatasetNameForUser] = useState(null);
   let query = useQuery();
 
   useEffect(() => {
-    //token exists in the storage -> navigate to model page
+    const authTokenUrl = query.get("authToken");
     const authTokenStorage = localStorage.getItem("ml_measure_auth_token");
-    if (authTokenStorage) {
-      setTokenExistsInTheStorage(true);
+
+    //token exists in the storage but does not in the url (not a possible case to be honest)
+
+    //token exists in the url but does not in the storage -> first time the user click to link, navigate to user info page
+    if (authTokenUrl && !authTokenStorage) {
+      setUserInfoAllowed(true);
       return;
     }
 
-    //token exists in the url bot does not exist in the storage -> set token and navigate to user info page
-    const authTokenUrl = query.get("authToken");
-    if (authTokenUrl) {
-      setTokenExistsInTheUrl(authTokenUrl);
+    //token exists in both storage and the url but they are different -> meaning same browser but different person navigate to user info page
+    if (authTokenStorage && authTokenUrl) {
+      if (authTokenStorage !== authTokenUrl) {
+        setUserInfoAllowed(true);
+        return;
+      }
     }
 
-    //token does not exists nor in the storage neither in the url block access
-  }, [tokenExistsInTheUrl, tokenExistsInTheStorage]);
+    //token exists in both storage and url and they are same -> navigate to the form page
+    if (authTokenStorage && authTokenUrl) {
+      if (authTokenStorage === authTokenUrl) {
+        setFormAllowed(true);
+      }
+      return;
+    }
+  }, [formAllowed, userInfoAllowed]);
 
-  return tokenExistsInTheStorage ? (
+  return formAllowed ? (
     children
-  ) : tokenExistsInTheUrl ? (
+  ) : userInfoAllowed ? (
     <GetUserInfo
-      urlToken={tokenExistsInTheUrl}
-      setTokenExistsInTheStorageCallback={() => {
-        setTokenExistsInTheStorage(true);
+      setFormAllowedCallback={() => {
+        setFormAllowed(true);
       }}
     />
   ) : (

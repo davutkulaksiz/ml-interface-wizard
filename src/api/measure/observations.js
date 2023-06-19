@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useMemo } from "react";
 import axios from "axios";
 
-const baseURL = process.env.REACT_APP_MEASURE_BASE_URL;
+const baseURL = `http://${process.env.REACT_APP_MEASURE_BASE_URL}`;
 
 export const fetchSingleObservation = (token, datasetName) => {
   const config = { headers: { Authorization: `${token}` } };

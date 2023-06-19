@@ -7,8 +7,8 @@ const MeasureSubmitArea = ({
   questionMessage,
   submitButtonsDisabled,
 }) => {
-  const handleSubmitClick = async (answerValue) => {
-    onSubmit(answerValue);
+  const handleSubmitClick = async (element) => {
+    onSubmit(element.value);
   };
 
   return (
@@ -31,7 +31,7 @@ const MeasureSubmitArea = ({
         {options.map((element, index) => {
           return (
             <Button
-              text={element}
+              text={element.label}
               key={index}
               type={"submit"}
               buttonType={"success"}

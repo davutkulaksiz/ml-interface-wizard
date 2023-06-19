@@ -2,13 +2,15 @@ import { useState } from "react";
 import MUITextField from "../../MUITextField/MUITextField";
 import RadioButtons from "../../RadioButtons/RadioButtons";
 import Button from "../../Button/Button";
+import { useQuery } from "../../../api/measure/observations";
 
-export function GetUserInfo({ urlToken, setTokenExistsInTheStorageCallback }) {
+export function GetUserInfo({ setFormAllowedCallback }) {
   const [hospitalType, setHospitalType] = useState(undefined);
   const [yearOfExpertise, setYearOfExpertise] = useState(1);
   const [errorExists, setErrorExists] = useState(false);
+  const query = useQuery();
 
-  const handleUserFormSubmitClick = () => {
+  const handleUserFormSubmitClick = async () => {
     //show error message if no hospital type is not provided
     if (!hospitalType) {
       setErrorExists(true);
@@ -40,9 +42,9 @@ export function GetUserInfo({ urlToken, setTokenExistsInTheStorageCallback }) {
       "ml_measure_user_info",
       yearOfExpertise.toString().concat(hospitalNominator)
     );
-    localStorage.setItem("ml_measure_auth_token", urlToken);
+    localStorage.setItem("ml_measure_auth_token", query.get("authToken"));
 
-    setTokenExistsInTheStorageCallback();
+    setFormAllowedCallback();
   };
 
   return (

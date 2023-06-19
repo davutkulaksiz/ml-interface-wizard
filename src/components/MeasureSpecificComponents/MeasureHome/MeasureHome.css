@@ -1,11 +1,13 @@
 .home-container {
   margin: 0;
-  width: 70%;
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
   min-height: 700px;
+  background-color: blue;
 }
 .card-wrapper {
   display: flex;
@@ -35,11 +37,12 @@
 .card-lower-wrapper {
   position: relative;
   min-height: 200px;
+  height: 300px;
 }
 
 .measure-home-image-style {
-  width: 100%;
   height: 100%;
+  width: 100%;
   border-bottom-left-radius: 0.5rem;
   border-bottom-right-radius: 0.5rem;
 }

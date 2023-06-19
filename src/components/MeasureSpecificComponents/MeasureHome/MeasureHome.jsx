@@ -16,7 +16,7 @@ const MeasureHome = () => {
           onCardClick("invite");
         }}
       >
-        <div className="card-upper">Invite A User</div>
+        <div className="card-upper">Invite User</div>
         <div className="card-lower-wrapper">
           <img
             src="https://i.hizliresim.com/d71i3c4.jpg"
@@ -31,11 +31,26 @@ const MeasureHome = () => {
           onCardClick("predict");
         }}
       >
-        <div className="card-upper">Make A Prediction</div>
+        <div className="card-upper">Make Prediction</div>
         <div className="card-lower-wrapper">
           <img
             src="https://i.hizliresim.com/aa5qio4.jpg"
             alt="predictionImage"
+            className="measure-home-image-style"
+          />
+        </div>
+      </div>
+      <div
+        className="card-wrapper"
+        onClick={() => {
+          onCardClick("analytics");
+        }}
+      >
+        <div className="card-upper">View Analytics</div>
+        <div className="card-lower-wrapper">
+          <img
+            src="https://i.hizliresim.com/b7bj157.jpg"
+            alt="analyticsImage"
             className="measure-home-image-style"
           />
         </div>

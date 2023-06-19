@@ -9,3 +9,7 @@ export const fetchUserInviteModuleConfig = () => {
 export const inviteUser = (mail, dataset) => {
   return axios.get(`${baseURL}/invite?dataset=${dataset}&mail=${mail}`);
 };
+
+export const fetchDatasetNameForUser = (token) => {
+  return axios.get(`${baseURL}/invite/user_dataset?authToken=${token}`);
+};
