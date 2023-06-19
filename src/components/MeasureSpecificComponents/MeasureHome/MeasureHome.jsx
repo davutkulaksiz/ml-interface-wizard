@@ -1,4 +1,4 @@
-import "./MeasureHome.css";
+import styles from "./MeasureHome.module.css";
 import { useHistory } from "react-router-dom";
 
 const MeasureHome = () => {
@@ -9,49 +9,49 @@ const MeasureHome = () => {
   };
 
   return (
-    <div className="home-container">
+    <div className={styles["home-container"]}>
       <div
-        className="card-wrapper"
+        className={styles["card-wrapper"]}
         onClick={() => {
           onCardClick("invite");
         }}
       >
-        <div className="card-upper">Invite User</div>
-        <div className="card-lower-wrapper">
+        <div className={styles["card-upper"]}>Invite User</div>
+        <div className={styles["card-lower-wrapper"]}>
           <img
             src="https://i.hizliresim.com/d71i3c4.jpg"
             alt="inviteUserImage"
-            className="measure-home-image-style"
+            className={styles["measure-home-image-style"]}
           />
         </div>
       </div>
       <div
-        className="card-wrapper"
+        className={styles["card-wrapper"]}
         onClick={() => {
           onCardClick("predict");
         }}
       >
-        <div className="card-upper">Make Prediction</div>
-        <div className="card-lower-wrapper">
+        <div className={styles["card-upper"]}>Make Prediction</div>
+        <div className={styles["card-lower-wrapper"]}>
           <img
             src="https://i.hizliresim.com/aa5qio4.jpg"
             alt="predictionImage"
-            className="measure-home-image-style"
+            className={styles["measure-home-image-style"]}
           />
         </div>
       </div>
       <div
-        className="card-wrapper"
+        className={styles["card-wrapper"]}
         onClick={() => {
           onCardClick("analytics");
         }}
       >
-        <div className="card-upper">View Analytics</div>
-        <div className="card-lower-wrapper">
+        <div className={styles["card-upper"]}>View Analytics</div>
+        <div className={styles["card-lower-wrapper"]}>
           <img
             src="https://i.hizliresim.com/b7bj157.jpg"
             alt="analyticsImage"
-            className="measure-home-image-style"
+            className={styles["measure-home-image-style"]}
           />
         </div>
       </div>
