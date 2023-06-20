@@ -1,10 +1,12 @@
 import Button from "../../Button/Button";
+import PopupMessage from "../PopupMessage/PopupMessage";
 import MUITextField from "../../MUITextField/MUITextField";
 import styles from "./UserInviteModule.module.css";
 import { useCallback, useEffect, useState } from "react";
 import {
   fetchUserInviteModuleConfig,
   inviteUser,
+  verifyAdminCredentials,
 } from "../../../api/measure/invites";
 import { useHistory } from "react-router-dom";
 
@@ -16,15 +18,39 @@ const UserInviteModule = ({
   const [mail, setMail] = useState("");
   const [selectedDataset, setSelectedDataset] = useState("");
   const [possibleDatasets, setPossibleDatasets] = useState([]);
+  const [adminToken, setAdminToken] = useState(null);
+  const [credentialsInput, setCredentialsInput] = useState("");
+  const [credentialsError, setCredentialsError] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const history = useHistory();
 
   const handleDatasetButtonClick = (datasetName) => {
     setSelectedDataset(datasetName);
   };
 
+  const handleCredentialsSubmitClick = async () => {
+    try {
+      const token = (await verifyAdminCredentials(credentialsInput)).data
+        .adminToken;
+      setCredentialsError(false);
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+      setAdminToken(token);
+      setMail("");
+    } catch (err) {
+      setCredentialsError(true);
+      setShowPopup(true);
+      setTimeout(() => {
+        setShowPopup(false);
+      }, 2000);
+    }
+  };
+
   const handleInviteClick = async () => {
     try {
-      await inviteUser(mail, selectedDataset);
+      await inviteUser(mail, selectedDataset, adminToken);
 
       //show one success popup
       setIsErroneousCallback(false);
@@ -53,55 +79,85 @@ const UserInviteModule = ({
 
   return (
     <div className={styles["form-wrapper"]}>
-      <div className={styles["form-upper"]}>User Invite Module</div>
-      <div className={styles["form-lower-wrapper"]}>
-        <MUITextField
-          label={"User's mail you want to invite"}
-          onChange={(event) => {
-            setMail(event.target.value);
-          }}
-          defaultValue={""}
+      {showPopup ? (
+        <PopupMessage
+          isErroneous={credentialsError}
+          message={
+            credentialsError
+              ? "Invalid credentials."
+              : "Successfully authenticated."
+          }
         />
-        <div style={{ width: "100%" }}>
-          <div
-            style={{
-              fontSize: "1.3em",
-              fontWeight: 500,
-              marginBottom: "1.5em",
+      ) : null}
+      <div className={styles["form-upper"]}>User Invite Module</div>
+      {!adminToken ? (
+        <div className={styles["form-lower-wrapper"]}>
+          <MUITextField
+            label={"Admin Credentials:"}
+            onChange={(event) => {
+              setCredentialsInput(event.target.value);
             }}
-          >
-            Pick one dataset below
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
-              width: "100%",
-            }}
-          >
-            {possibleDatasets.map((element, index) => (
-              <Button
-                text={element}
-                key={index}
-                onClick={() => {
-                  handleDatasetButtonClick(element);
-                }}
-                buttonType={selectedDataset === element ? "success" : "default"}
-                disabled={selectedDataset === element ? true : false}
-              />
-            ))}
-          </div>
-        </div>
-        <div>
+            defaultValue={""}
+            reset={true}
+          />
           <Button
-            text="Invite"
+            text="Submit"
             buttonType={"success"}
-            onClick={handleInviteClick}
+            onClick={handleCredentialsSubmitClick}
           />
         </div>
-      </div>
+      ) : (
+        <div className={styles["form-lower-wrapper"]}>
+          <MUITextField
+            label={"User's mail you want to invite"}
+            onChange={(event) => {
+              setMail(event.target.value);
+            }}
+            defaultValue={""}
+          />
+          <div style={{ width: "100%" }}>
+            <div
+              style={{
+                fontSize: "1.3em",
+                fontWeight: 500,
+                marginBottom: "1.5em",
+              }}
+            >
+              Pick one dataset below
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              {possibleDatasets.map((element, index) => (
+                <Button
+                  text={element}
+                  key={index}
+                  onClick={() => {
+                    handleDatasetButtonClick(element);
+                  }}
+                  buttonType={
+                    selectedDataset === element ? "success" : "default"
+                  }
+                  disabled={selectedDataset === element ? true : false}
+                />
+              ))}
+            </div>
+          </div>
+          <div>
+            <Button
+              text="Invite"
+              buttonType={"success"}
+              onClick={handleInviteClick}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
